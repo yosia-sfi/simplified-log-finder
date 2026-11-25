@@ -92,3 +92,22 @@ Warning: the committed PDFs contain what look like real CIFs, account numbers, h
 
 For working across laptops, session-handoff.md holds these prompts and responses word for word and a "resume here" note. Commit and push before switching; on the other laptop, pull and say "resume AIDLC from aidlc-docs/session-handoff.md".
 ```
+
+### Turn 3: user prompt (2026-11-25)
+
+```text
+resume AI-DLC from aidlc-docs/session-handoff.md . what should i do next
+```
+
+### Turn 3: Kiro response (2026-11-25)
+
+```text
+You are at Stage 2 Discover. No [Answer]: line in stage2-questions.md is filled yet, so the next move is yours.
+
+1. Decide SEC-06 first (sensitive data in the reference PDFs). git log shows commit ac124f7 is already on origin/main, so the recommended option ("rewrite history before pushing to any shared remote") is too late as written. The realistic choices are: rewrite history on the remote and re-clone every laptop (destructive, needs everyone's agreement), or keep history and restrict who can access the remote. Until you decide, avoid sharing the repo further. I will not rewrite history unless you ask.
+2. Answer the Blocker questions in aidlc-docs/inception/stage2-questions.md (index at the top). For each one, either write an option number, write your own answer, or write an owner and due date if someone else must answer (e.g. "Defer - Hadi Septian, 2026-12-05").
+3. Shortcut: you can tell me "use the recommendations for all" or for a group (e.g. "use recommendations except SEC-03: option 2"). Several recommended options have blanks you still need to fill: pilot project name (S-02), identity provider name (H-03), approver name (G-06), compliance contact (L-02), stack name (H-04, can defer).
+4. Can-defer and "verify in Stage 4" questions can stay empty for now.
+5. When done, say "answers filled". I will log each decision in audit.md, flag any conflicts, and ask you to approve Stage 2. Then Stage 3 (requirements) starts.
+6. Before switching laptops, commit and push.
+```
