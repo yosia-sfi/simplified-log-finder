@@ -1,7 +1,7 @@
 # Business Context: Simplified Log Finder
 
-AI-DLC Inception, Stage 1 (Context). Status: **Draft, awaiting human approval**.
-Source for every statement: `prompt-inception.md` (the brief), sections cited as `[§x.y]`. Anything not in the brief is marked **TBD – needs confirmation**.
+AI-DLC Inception, Stage 1 (Context). Status: **Approved with corrections 2026-11-25**.
+Source for every statement: `prompt-inception.md` (the brief), sections cited as `[§x.y]`, and the user's Stage 1 corrections, cited as `[User 2026-11-25]` (see `audit.md` A-006 to A-012). Anything not in either source is marked **TBD – needs confirmation**.
 
 ---
 
@@ -20,7 +20,7 @@ Source for every statement: `prompt-inception.md` (the brief), sections cited as
 | QA | Bimas Nugraha |
 | DevOps | Hadi Septian |
 
-- **Existing log sources:** Grafana/Loki, a database, and Kubernetes pod logs (read via k9s). Today engineers open these to pull logs. [§1.1, §1.4] Details are in `system-context.md`.
+- **Existing log sources:** Grafana/Loki, a database, and Kubernetes pod logs (read via k9s). Today engineers open these to pull logs. [§1.1, §1.4] Grafana is **self-hosted** and only **Developers and DevOps** use it. [User 2026-11-25] Details are in `system-context.md`.
 - **Product to be built:** a greenfield, internal, self-serve web app in front of the log sources that already exist. It is **not** a new observability platform. [§1.1]
 
 Note: these are the team members who run the project. Product user roles (personas) are defined later in Stage 3 Specify. [§3 Stage 3]
@@ -30,11 +30,12 @@ Note: these are the team members who run the project. Product user roles (person
 | Group | How they are served | Source |
 |---|---|---|
 | BA, QA and other non-technical teammates | Find and read logs themselves instead of asking an engineer | §1.1 |
-| Engineers (who can open Grafana, the database or k9s) | Fewer interruptions; step in only when a lookup cannot be resolved | §1.1 |
+| Engineers (who can open Grafana, the database or k9s; for Grafana this is Developers and DevOps only) | Fewer interruptions; step in only when a lookup cannot be resolved | §1.1; User 2026-11-25 |
 | Project Managers | Read pilot metrics (persona confirmed in Stage 3) | §1.1, §3 Stage 3 |
 | Banking clients (e.g. BCAS) | Indirect: faster issue analysis on their projects; their data must stay protected | §1.1, §1.4 |
 
-Which projects, teams and environments beyond the pilot are served: **TBD – needs confirmation** (raised in Stage 2).
+Environments served: **UAT and RC only**; production and any other environment are out of MVP scope. [User 2026-11-25]
+Which projects and teams beyond the pilot are served: **TBD – needs confirmation** (raised in Stage 2).
 
 ## 3. Why it matters: the validated problem
 
@@ -108,6 +109,8 @@ These are recorded as team decisions and are not reopened without strong reason.
 | C3 | Multi-project from day one in architecture; only the pilot project is onboarded first. | **Proposed; needs confirmation** |
 | C4 | Must NOT replace Grafana, the database or k9s for engineers. | Given |
 | C5 | Must NOT become a backdoor with broader raw access than intended. | Given |
+| C6 | Environments in scope: UAT and RC only; production excluded from MVP. | User-confirmed 2026-11-25 |
+| C7 | Hosting: "local first". Exact meaning (laptop, internal server, inside UAT/RC network) is open. | User-confirmed direction 2026-11-25; meaning TBD |
 
 ## 9. Scope [§1.4]
 
@@ -117,6 +120,7 @@ These are recorded as team decisions and are not reopened without strong reason.
 | Natural-language search on top | More input sources |
 | Formatted logs | |
 | Three sources: Grafana/Loki, database, Kubernetes pod logs | |
+| Environments: UAT and RC only (production out of MVP) [User 2026-11-25] | |
 | Applied across projects (see C3: pilot project onboarded first, pending confirmation) | |
 
 Note a tension to resolve in Stage 2: §1.4 says the MVP is "applied across projects", while §1.1 and C3 describe a one-team pilot. §4 of the brief lists this as a mandatory clarification.
