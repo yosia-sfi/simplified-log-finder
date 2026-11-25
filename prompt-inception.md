@@ -1,6 +1,6 @@
 Using AI-DLC, start the INCEPTION phase for the following project. Follow the Inception flow below exactly: Context → Discover → Specify → Design → Plan → Human Review Gate. Do not write application code. Principle: "AI proposes, humans decide."
 
-# 0. How to work (read first)
+# 0. How to work (must read first)
 
 ## 0.1 Flow and gates
 Run five stages in order. At the end of EACH stage, stop and wait for my explicit approval before the next one. After Plan, run the HUMAN REVIEW GATE: present the full inception package for approval before anything moves to Construction.
