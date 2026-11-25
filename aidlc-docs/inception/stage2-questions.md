@@ -62,7 +62,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. Single-project MVP; multi-project added after the pilot.
   3. Several projects onboarded in the MVP.
   4. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### S-02 Pilot project and team
 - **Tag:** Blocker · **Owner:** PM · **Due:** TBD (set by PM)
@@ -72,7 +72,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** The project that produced most of the 24 sampled requests and has UAT/RC activity during the pilot window. Rationale: real requests become test data; enough traffic to measure. Name: _______________
   2. The project with the next scheduled UAT/regression cycle. Name: _______________
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### S-03 UAT and RC sequencing in the pilot
 - **Tag:** Can-defer · **Owner:** PM, DevOps
@@ -82,7 +82,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** UAT first (the known log sample is from UAT), RC added within the pilot once its Loki data is confirmed (AS-05).
   2. Both at pilot start.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ---
 
@@ -97,7 +97,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. Inside the UAT/RC Kubernetes cluster (as a workload). Network route to Loki and pod logs is likely simplest; needs cluster deployment approval.
   3. A developer laptop. Suitable for the Loki spike only; cannot serve a team pilot; secrets on a personal device.
   4. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### H-02 Hosting after "local first"
 - **Tag:** Can-defer · **Owner:** DevOps, System Architect
@@ -107,7 +107,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Decide after the pilot; Stage 4 keeps configuration and secrets external to the code so the host can change.
   2. Target is known now: _______________
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### H-03 User login and identity provider
 - **Tag:** Blocker · **Owner:** DevOps, System Architect · **Due:** TBD (set by PM)
@@ -117,7 +117,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Soluix's existing identity provider via SSO, if one exists. Name: _______________. Rationale: no new passwords; leavers lose access automatically.
   2. Local accounts in the finder, managed by the Project Admin.
   3. Other: _______________
-- [Answer]:
+- [Answer]:2
 
 ### H-04 Tech stack constraints
 - **Tag:** Can-defer · **Owner:** System Architect
@@ -152,7 +152,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. Fewer than 10 users.
   3. 10 to 30 users.
   4. Other: _______________
-- [Answer]:
+- [Answer]:2
 
 ### N-02 Response-time target
 - **Tag:** Can-defer · **Owner:** PM, System Architect
@@ -162,7 +162,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Keep only the end-to-end target for the MVP; Stage 4 proposes a per-search target after the Loki spike. Rationale: Loki performance on our data is unverified.
   2. Set a per-search target now: ___ seconds.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### N-03 Availability
 - **Tag:** Can-defer · **Owner:** PM, DevOps
@@ -172,7 +172,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Working hours on working days, best effort; if the finder is down, users fall back to asking engineers. Rationale: internal pilot tool.
   2. Available whenever UAT/RC testing runs, including off-hours.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ---
 
@@ -336,7 +336,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** BA and Developers compile the pilot list starting from §2 (CIF, account number, hashcard, request ID, program ID, license ID, endpoint path), each with its log field / DB column; other projects later.
   2. Full list for all projects now.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### M-02 Identifiers as Loki labels
 - **Tag:** Can-defer (verify in Stage 4) · **Owner:** DevOps
@@ -356,7 +356,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** BA owns the terms per project; Developers confirm the mapping to services/endpoints; changes go through the Project Admin.
   2. Developers own it.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### M-04 Owner of the Project Admin role
 - **Tag:** Blocker · **Owner:** PM · **Due:** TBD (set by PM)
@@ -367,7 +367,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. A BA holds the whole role.
   3. A DevOps member holds the whole role.
   4. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### M-05 Timezone rules for input and display
 - **Tag:** Blocker · **Owner:** BA, System Architect · **Due:** TBD (set by PM)
@@ -377,7 +377,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Users enter and see times in WIB (+0700); the finder converts to UTC for queries; the raw view keeps original timestamps unchanged.
   2. Show both WIB and UTC everywhere.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### M-06 Default time window and maximum result size
 - **Tag:** Can-defer (verify in Stage 4) · **Owner:** System Architect, BA
@@ -407,7 +407,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Add the 24 requests (identifiers replaced by placeholders) and one masked log sample before Stage 3.
   2. Proceed with the 10 requests in the brief.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ---
 
@@ -422,7 +422,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. User sentence only, with identifiers replaced by placeholders before sending, to an approved external LLM; no log content.
   3. External LLM allowed for sentences and log content.
   4. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### L-02 Client contract or regulatory limits
 - **Tag:** Blocker · **Owner:** PM · **Due:** TBD (set by PM)
@@ -433,7 +433,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. Known: no limits for UAT/RC data.
   3. Known limits: ___.
   4. Other: _______________
-- [Answer]:
+- [Answer]:2
 
 ### L-03 Confirm C2: structured filters only (P-002)
 - **Tag:** Blocker · **Owner:** System Architect · **Due:** TBD (set by PM)
@@ -464,7 +464,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Default set from the known payload: time (WIB), environment, `project_name`, `project_module`, `module_version`, `correlation_id`, and the parsed `log_data` (masked); Project Admin can adjust per project.
   2. Fixed set, same for all projects.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### O-02 Sharing and Grafana deeplinks
 - **Tag:** Can-defer · **Owner:** BA, System Architect
@@ -484,7 +484,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** An "Ask an engineer" action that records the escalation in the finder and produces a link with the search filters to paste in the team chat (tool: ___).
   2. Direct message to the team chat from the finder.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ---
 
@@ -543,7 +543,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Chat export for the last 3 months, keyword tagging, then manual review by a BA; same method during the pilot.
   2. Engineers log each ping manually from now on.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### MET-02 Measuring time to a readable log
 - **Tag:** Blocker · **Owner:** PM, QA · **Due:** TBD (set by PM)
@@ -553,7 +553,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Finder instrumentation: time from the first search to the first simplified-view open in a session.
   2. User self-report after each lookup.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### MET-03 Self-served vs escalated
 - **Tag:** Blocker · **Owner:** PM · **Due:** TBD (set by PM)
@@ -563,7 +563,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Self-served = user opened a result and did not escalate within the same session; escalated = "Ask an engineer" used or a chat ping about the same request; record search mode (filters / natural language) per search.
   2. Users mark each lookup as resolved or not.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### MET-04 Decision thresholds after the pilot
 - **Tag:** Can-defer · **Owner:** PM
@@ -590,7 +590,7 @@ Source: `reference-docs-review.md` (Ideation PDF, Presenter PDF, Workshop PPTX, 
   2. No; MVP is for BA/QA only; FE/Mobile developers keep asking engineers.
   3. Yes, but with a separate role that may see more detail (define: ___).
   4. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### M-08 Environment-to-label mapping
 - **Tag:** Can-defer (verify in Stage 4) · **Owner:** DevOps, System Architect
@@ -624,7 +624,7 @@ Source: `reference-docs-review.md` (Ideation PDF, Presenter PDF, Workshop PPTX, 
   3. Offer "Ask an engineer" escalation immediately (`O-03`).
   4. Reject with guidance only.
   5. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### SEC-05 "Copy raw" when the log is forwarded to the client
 - **Tag:** Blocker · **Owner:** System Architect, PM · **Due:** TBD (set by PM) · **Linked to:** `SEC-03`
@@ -645,7 +645,7 @@ Source: `reference-docs-review.md` (Ideation PDF, Presenter PDF, Workshop PPTX, 
   1. **(Recommended)** Yes, same deck (its cover reads "Simplified Log Finder, Built with AIDLC, AIDLC – The Investor's Team").
   2. No; the AIDLC deck is a different file and will be added.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### SEC-06 Sensitive data in the committed reference PDFs
 - **Tag:** Blocker · **Owner:** PM, System Architect · **Due:** TBD (set by PM)
@@ -666,4 +666,4 @@ Source: `reference-docs-review.md` (Ideation PDF, Presenter PDF, Workshop PPTX, 
   1. **(Recommended)** Out of MVP scope, unless the response is visible in a log line found by a normal search. Rationale: the finder reads logs; API examples belong to API documentation.
   2. In scope: show a logged response for an endpoint as an example.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
