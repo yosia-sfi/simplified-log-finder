@@ -3,15 +3,15 @@
 AI-DLC Inception, Stage 1 (Context). Status: **Approved with corrections 2026-11-25** (see `audit.md` A-006 to A-012).
 Items marked **Resolved** or **Partly resolved** use the user's answer of 2026-11-25. Items marked **Deferred to Stage 4** are verified by the technical team during Design. All other items are **unchanged and carried into Stage 2** (`stage2-questions.md`). Nothing unresolved is used as fact in later stages.
 
-## A. Source documents not available in the workspace
-Only `prompt-inception.md` exists. The following are referenced as authoritative [§1.5] but were not provided as files. Status: unchanged, carried into Stage 2.
-1. Idea sheet
-2. "Investor's Team – Simplified Log Finder (AIDLC)" deck
-3. Presenter deck
-4. AI-DLC workshop deck
-5. The real Grafana/Loki UAT log sample (only its description is in the brief)
-6. The full 24 sampled chat requests (only 10 representative ones are in the brief)
-7. The intermediate steps of the 5-Whys analysis
+## A. Source documents
+Originally only `prompt-inception.md` existed. **Updated 2026-11-25:** the user committed three reference files (commit `ac124f7`). Review and evidence: `reference-docs-review.md`.
+1. Idea sheet. **Resolved 2026-11-25:** `Ideation - Simple Log Finder.pdf`.
+2. "Investor's Team – Simplified Log Finder (AIDLC)" deck. **Unclear 2026-11-25:** may be the Presenter's Deck (cover reads "Simplified Log Finder, Built with AIDLC, AIDLC – The Investor's Team"). Asked in Stage 2 (`SRC-02`, owner PM).
+3. Presenter deck. **Resolved 2026-11-25:** `Presenter's Deck - Investor's Team - Simplified Log Finder.pdf`.
+4. AI-DLC workshop deck. **Resolved 2026-11-25:** `Reference AI DLC Workshop v3.pptx`. Matches the brief; metric wording differs for Speed and Human effort, and the brief [§5] governs.
+5. The real Grafana/Loki UAT log sample. **Partly resolved 2026-11-25:** one Grafana Explore screenshot [Ideation p.17]. Still needed: a masked text export of a few raw lines and the full common-label list (owner DevOps or a Developer).
+6. The full 24 sampled chat requests. **Resolved 2026-11-25:** [Ideation p.4–11], also [Presenter p.4–5].
+7. The intermediate steps of the 5-Whys analysis. **Resolved 2026-11-25:** [Presenter p.6].
 
 ## B. Infrastructure and access
 8. Grafana is Grafana Cloud or self-hosted.
@@ -36,11 +36,11 @@ Only `prompt-inception.md` exists. The following are referenced as authoritative
 20. OpenObserve capability, cost and performance claims (vendor blog source). Unchanged.
 
 ## D. Log data
-Status: unchanged, carried into Stage 2.
-21. Whether any identifier (CIF, account number, hashcard, etc.) exists as a Loki label or only inside log lines
-22. Exact timestamp formats and which one is authoritative (UTC vs +0700)
-23. How often `correlation_id` is empty, and how requests spanning services can be linked
-24. The full list of sensitive field types and where they appear in payloads
+Status: carried into Stage 2. **Updated 2026-11-25** with partial evidence from the log screenshot [Ideation p.17] (see `reference-docs-review.md` §3). Screenshot evidence is re-verified in Stage 4.
+21. Whether any identifier (CIF, account number, hashcard, etc.) exists as a Loki label or only inside log lines. **Partial evidence:** visible labels are `cluster`, `job`, `kubernetes_container_name` (+3 hidden); no identifier label visible. Still open until the full label list is provided.
+22. Exact timestamp formats and which one is authoritative (UTC vs +0700). **Partial evidence:** each line carries a Loki/CRI UTC timestamp (`Z`) and an app timestamp with `+0700`; Grafana displays local time. Which is authoritative: still open (`M-05`).
+23. How often `correlation_id` is empty, and how requests spanning services can be linked. **Partial evidence:** empty in every visible line; some payloads carry `X-Request-Id` and `traceparent` headers as a possible link (`M-09`). Frequency still unknown.
+24. The full list of sensitive field types and where they appear in payloads. **Partial evidence:** base64 document body (`BodyRaw`), document numbers, document template IDs, S3 bucket and object keys, ETag seen in `log_data`. Full list still open (`SEC-02`).
 
 ## E. Business numbers and pilot
 Status: unchanged, carried into Stage 2.

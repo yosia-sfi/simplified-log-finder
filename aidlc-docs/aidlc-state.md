@@ -7,6 +7,14 @@
 - **Existing Stack**: Not applicable (greenfield). Existing log sources the finder will read: self-hosted Grafana / Loki, a database (engine TBD), Kubernetes pod logs. Environments UAT and RC only.
 - **Target Architecture**: TBD (Stage 4 Design). Hosting direction "local first", meaning TBD.
 - **Active Spec**: simplified-log-finder
+- **Session handoff**: `aidlc-docs/session-handoff.md` (verbatim prompts/responses and "Resume here"; commit and push before switching laptops)
+
+## Reference Documents (available since 2026-11-25, commit `ac124f7`)
+- `Ideation - Simple Log Finder.pdf` (19 pages; idea sheet, 24 chat requests, log screenshot)
+- `Presenter's Deck - Investor's Team - Simplified Log Finder.pdf` (11 pages; whether it is the "AIDLC deck": `SRC-02`)
+- `Reference AI DLC Workshop v3.pptx` (32 slides)
+- Review and remaining gaps: `aidlc-docs/inception/reference-docs-review.md`
+- Risk RK-001: PDFs appear to contain real identifiers; decision pending (`SEC-06`)
 
 ## Inception Stage Mapping (brief §0.1 → AI-DLC workflow)
 
@@ -25,6 +33,7 @@
 - [ ] Stage 2: Discover
   - [x] 2a. Actors, constraints, assumptions drafted (`inception/stage2-actors-constraints-assumptions.md`)
   - [x] 2b. Question file drafted (`inception/stage2-questions.md`)
+  - [x] 2b+. Reference docs reviewed; questions added in section 11 (2026-11-25)
   - [ ] 2c. Questions answered by user / owners
   - [ ] 2d. Stage 2 approved
 - [ ] Phase 1 / Stage 3: Requirements (Specify)
@@ -44,5 +53,5 @@
 
 ## Current Status
 **Phase**: Stage 2 Discover
-**Status**: Awaiting Approval (answers to `inception/stage2-questions.md`)
-**Last Updated**: 2026-11-25
+**Status**: Awaiting Approval (answers to `inception/stage2-questions.md`, including new Blockers U-01, M-10, SEC-05, SEC-06)
+**Last Updated**: 2026-11-25 (after reference docs review and session handoff setup)

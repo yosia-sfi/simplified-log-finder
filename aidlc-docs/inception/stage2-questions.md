@@ -44,6 +44,10 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
 | MET-01 | How log-request pings are counted | PM |
 | MET-02 | How time to a readable log is measured | PM, QA |
 | MET-03 | What counts as self-served vs escalated | PM |
+| U-01 | FE and Mobile developers as searchers (added 2026-11-25) | PM, BA |
+| M-10 | Requests without identifier or time (added 2026-11-25) | BA, PM |
+| SEC-05 | "Copy raw" when the log is forwarded to the client (added 2026-11-25; linked to SEC-03) | System Architect, PM |
+| SEC-06 | Sensitive data in the committed reference PDFs (added 2026-11-25) | PM, System Architect |
 
 ---
 
@@ -568,5 +572,98 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
 - **Options:**
   1. **(Recommended)** Set before the pilot starts, after the baseline is counted: "met" ≥ 65% reduction and under 2 minutes; "partly met" and "no change" thresholds: ___.
   2. Decide after the pilot.
+  3. Other: _______________
+- [Answer]:
+
+---
+
+## 11. Added 2026-11-25 after reference review
+
+Source: `reference-docs-review.md` (Ideation PDF, Presenter PDF, Workshop PPTX, commit `ac124f7`). Existing questions are not renumbered. `SRC-01` is now largely answered by the committed files; what remains is in `reference-docs-review.md` §6.
+
+### U-01 FE and Mobile developers as searchers
+- **Tag:** Blocker · **Owner:** PM, BA · **Due:** TBD (set by PM)
+- **Question:** The chat captures show an FE developer and a Mobile developer asking for logs, not only BAs and QAs [Ideation p.4–11]. Are they in scope as searchers in the MVP?
+- **Why this matters:** Personas drive Stage 3 user stories and who gets access per project (`SEC-01`).
+- **Options:**
+  1. **(Recommended)** Yes, as searchers with the same rights as BA/QA (masked views, project membership required). Rationale: they send the same kind of requests to engineers. Whether FE/Mobile developers count as "Developers" with Grafana access today is unknown; please confirm.
+  2. No; MVP is for BA/QA only; FE/Mobile developers keep asking engineers.
+  3. Yes, but with a separate role that may see more detail (define: ___).
+  4. Other: _______________
+- [Answer]:
+
+### M-08 Environment-to-label mapping
+- **Tag:** Can-defer (verify in Stage 4) · **Owner:** DevOps, System Architect
+- **Question:** The screenshot shows payload `project_name` = `bcas-uat-1b` while the `cluster` label = `xip-development` [Ideation p.17]. How does the finder know which logs belong to UAT vs RC?
+- **Why this matters:** A wrong mapping returns logs from the wrong environment or nothing at all.
+- **Options:**
+  1. **(Recommended)** Mapping configured per project and per environment in the source binding (label selectors plus, if needed, a payload filter such as `project_name`); DevOps confirms the real labels in Stage 4.
+  2. Use the `cluster` label only.
+  3. Use the payload `project_name` only.
+  4. Other: _______________
+- [Answer]:
+
+### M-09 Linking requests by X-Request-Id or traceparent
+- **Tag:** Can-defer (verify in Stage 4) · **Owner:** System Architect, Developers
+- **Question:** `correlation_id` is empty in all visible lines, but some `log_data` payloads carry `X-Request-Id` and `traceparent` headers [Ideation p.17]. May the finder use them to link lines across services?
+- **Why this matters:** Without a link, users see only part of a flow (`M-07`).
+- **Options:**
+  1. **(Recommended)** Yes, as a fallback when `correlation_id` is empty, once Developers confirm these headers are propagated between the services; links shown as "linked by X-Request-Id/traceparent".
+  2. No; link only by `correlation_id` or a shared business identifier.
+  3. Developers fix `correlation_id` population instead (outside the finder's scope).
+  4. Other: _______________
+- [Answer]:
+
+### M-10 Requests without identifier or time
+- **Tag:** Blocker · **Owner:** BA, PM · **Due:** TBD (set by PM)
+- **Question:** By the orchestrator's count, 12 of 24 sampled requests give no identifier and no time ("minta log lagi", "log untuk trx ini") and rely on an earlier photo or message. What should the finder do with such a search?
+- **Why this matters:** About half of real requests look like this; the "Must" rule asks for a clear result or a clear "nothing found" [Ideation p.14].
+- **Options:**
+  1. **(Recommended)** Ask for the missing filters with guidance (e.g. "add a CIF or a time"), and offer to reopen one of the user's previous searches from search history. Rationale: keeps queries bounded (C5, A4) and covers "the same as before" requests.
+  2. Search history / reopen previous search only.
+  3. Offer "Ask an engineer" escalation immediately (`O-03`).
+  4. Reject with guidance only.
+  5. Other: _______________
+- [Answer]:
+
+### SEC-05 "Copy raw" when the log is forwarded to the client
+- **Tag:** Blocker · **Owner:** System Architect, PM · **Due:** TBD (set by PM) · **Linked to:** `SEC-03`
+- **Question:** Several requests ask for the log in order to forward it to the client (BCA/BCAS) [Ideation p.4–11, p.16]. For copies that leave Soluix, is "Copy raw" masked by default, and does sending need approval?
+- **Why this matters:** Masking of "Copy raw" is client-facing: an unmasked copy can send other customers' data or tokens to the client (C1, C5). Answer together with `SEC-03`.
+- **Options:**
+  1. **(Recommended)** Masked by default for all roles; the copy keeps the searched identifier only if `SEC-02` allows it; every copy is audited (`SEC-04`); no approval step in the MVP.
+  2. Masked by default, plus a "client copy" action that needs approval by a Developer or the System Architect before unmasking.
+  3. Unmasked copy allowed for named roles, with audit.
+  4. Other: _______________
+- [Answer]:
+
+### SRC-02 Is the Presenter's Deck the "AIDLC deck"?
+- **Tag:** Can-defer · **Owner:** PM
+- **Question:** Is `Presenter's Deck - Investor's Team - Simplified Log Finder.pdf` the "Investor's Team – Simplified Log Finder (AIDLC)" deck named in the brief [§1.5]?
+- **Why this matters:** Closes item 2 of `stage1-unverified.md`; otherwise a source is still missing.
+- **Options:**
+  1. **(Recommended)** Yes, same deck (its cover reads "Simplified Log Finder, Built with AIDLC, AIDLC – The Investor's Team").
+  2. No; the AIDLC deck is a different file and will be added.
+  3. Other: _______________
+- [Answer]:
+
+### SEC-06 Sensitive data in the committed reference PDFs
+- **Tag:** Blocker · **Owner:** PM, System Architect · **Due:** TBD (set by PM)
+- **Question:** The committed PDFs (commit `ac124f7`) contain what appear to be real CIFs, account numbers, hashcards, a phone number, request IDs, S3 bucket names and base64 document content. How should they be handled? (Risk RK-001.)
+- **Why this matters:** The repository is used on several laptops and may be pushed to a shared remote; the data is in git history. Replacing files does not remove history.
+- **Options:**
+  1. **(Recommended)** Replace the PDFs with masked copies and rewrite git history to remove the originals before pushing to any shared remote; every laptop re-clones afterwards. Rationale: only a history rewrite removes the values.
+  2. Replace with masked copies going forward; keep history as is (accept the risk; remote must be restricted).
+  3. Keep as is; the repository stays private to the team.
+  4. Other: _______________
+- [Answer]:
+
+### O-04 "Example endpoint response" requests
+- **Tag:** Can-defer · **Owner:** PM, BA
+- **Question:** One sampled request asks for an example endpoint response, not a log [Ideation p.4–11]. Is that in MVP scope?
+- **Why this matters:** Sets the MVP boundary between log lookup and API documentation.
+- **Options:**
+  1. **(Recommended)** Out of MVP scope, unless the response is visible in a log line found by a normal search. Rationale: the finder reads logs; API examples belong to API documentation.
+  2. In scope: show a logged response for an endpoint as an example.
   3. Other: _______________
 - [Answer]:

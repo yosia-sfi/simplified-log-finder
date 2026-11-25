@@ -1,7 +1,7 @@
 # Stage 2 (Discover): Actors, Constraints and Assumptions
 
 AI-DLC Inception, Stage 2 (Discover). Status: **Draft, awaiting human approval**.
-Sources: `prompt-inception.md` (the brief), cited `[§x.y]`; the user's Stage 1 corrections, cited `[User 2026-11-25]`; Stage 1 artifacts in this folder. Anything not in these sources is marked **TBD – needs confirmation**. Everything labelled "AI proposal" or "AI observation" is a proposal for the team to accept or reject ("AI proposes, humans decide").
+Sources: `prompt-inception.md` (the brief), cited `[§x.y]`; the user's Stage 1 corrections, cited `[User 2026-11-25]`; Stage 1 artifacts in this folder; from 2026-11-25 the committed reference files, cited `[Ideation p.N]` / `[Presenter p.N]` (see `reference-docs-review.md`). Anything not in these sources is marked **TBD – needs confirmation**. Everything labelled "AI proposal" or "AI observation" is a proposal for the team to accept or reject ("AI proposes, humans decide").
 Questions raised here are in `stage2-questions.md` and referenced by ID (e.g. `H-01`).
 
 ---
@@ -19,6 +19,8 @@ These are roles inside the product, not project-team roles [§3 Stage 3]. Full u
 | R3 | Developer / Engineer | Receives escalations when the finder cannot resolve a lookup. Keeps using Grafana, the database and k9s directly (C4). Today only Developers and DevOps use Grafana | §1.1, §1.4, User 2026-11-25 | Escalation channel: `O-03`; unmasked raw access: `SEC-03` |
 | R4 | Project Admin | Configures the finder per project: business-term dictionary, identifier-to-field mapping, environments, who can access which project | §3 Stage 3 | Who holds this role in practice (BA or DevOps): `M-04` |
 | R5 | Project Manager | Reads pilot metrics (pings, time to readable log, self-served vs escalated) | §1.1, §3 Stage 3 | Metric definitions: `MET-01` to `MET-04` |
+
+**Observed requesters (added 2026-11-25):** the 24 chat captures also show an **FE developer** and a **Mobile developer** asking for logs [Ideation p.4–11]. Whether they are in scope as searchers (same rights as R1/R2, or a separate role) is pending question `U-01`. Engineers pinged include the System Architect and backend developers (R3).
 
 AI observation: the brief does not name a security/compliance reviewer who reads the audit log. Whether such a role exists: **TBD – needs confirmation** (`SEC-04`).
 
@@ -96,6 +98,14 @@ The DevOps owner was unavailable; these are never treated as facts.
 | AS-07 | Users state times in WIB (+0700) [§4] | Timezone conversion rules | `M-05` |
 | AS-08 | Pilot users can reach the finder host over the internal network | Depends on the meaning of "local first" | `H-01` |
 | AS-09 | One repository holds the finder (single-repo, provisional) | Workflow state; affects Stage 5 plan only | `R-01` |
+| AS-10 | (Added 2026-11-25) An environment does not map to a single Loki label: the screenshot shows payload `project_name` = `bcas-uat-1b` with label `cluster` = `xip-development` [Ideation p.17]. Environment-to-label mapping is configured per project and environment in the source binding | Wrong mapping returns the wrong environment or nothing | `M-08`, Stage 4 |
+| AS-11 | (Added 2026-11-25) `X-Request-Id` / `traceparent` headers inside `log_data` can link lines across services when `correlation_id` is empty [Ideation p.17] | Cross-service view (`M-07`) | `M-09`, Stage 4 |
+
+### 3.3 Risks (added 2026-11-25)
+
+| ID | Risk | Status | Question |
+|---|---|---|---|
+| RK-001 | The committed reference PDFs (commit `ac124f7`) contain what appear to be real CIFs, account numbers, hashcards, a phone number, request IDs, S3 bucket names and base64 document content, now in git history. Relevant to C1 because the repository is used on several laptops and may be pushed to a remote | **Flagged; no action taken; decision pending user** | `SEC-06` |
 
 ---
 
@@ -110,7 +120,9 @@ The DevOps owner was unavailable; these are never treated as facts.
 | Masking and "Copy raw" behavior undefined | C1, C5 | `SEC-02`, `SEC-03` |
 | Simplified view by parser or LLM | Risk of wrong content forwarded to clients | `L-04` |
 | Ping counting and "self-served" not defined | Pilot hypothesis cannot be measured | `MET-01` to `MET-03` |
-| Source documents (decks, full 24 samples, log sample) not in workspace | Stage 3 traceability limited to 10 requests | `SRC-01` |
+| Source documents (decks, full 24 samples, log sample) not in workspace | **Mostly closed 2026-11-25** (`reference-docs-review.md`): all 24 requests available. Still missing: masked raw-log text and full label list; confirmation of the AIDLC deck | `SRC-01`, `SRC-02` |
+| About half of sampled requests carry no identifier or time (added 2026-11-25) | Unbounded or failed searches | `M-10` |
+| Logs forwarded to the client (added 2026-11-25) | "Copy raw" masking is client-facing | `SEC-05`, `SEC-03` |
 
 ---
 
@@ -150,8 +162,8 @@ Also record: the Loki version (for checking API behavior, item 17), whether RC l
 | # | Check | Result | Evidence |
 |---|---|---|---|
 | 1 | Every acceptance criterion is testable | **N/A at Stage 2** | No acceptance criteria yet; Stage 3 writes them. Questions that feed testable ACs (time windows `M-06`, timezone `M-05`, masking `SEC-02`, metrics `MET-01`–`MET-03`) are raised |
-| 2 | Every rule traces to a source | **Pass** | Actors, constraints and assumptions cite `[§x.y]` or `[User 2026-11-25]`. Items without a source are labelled "AI proposal", "AI observation" or "TBD – needs confirmation". No numbers for limits, timeouts or windows are stated as facts |
+| 2 | Every rule traces to a source | **Pass** | Actors, constraints and assumptions cite `[§x.y]`, `[User 2026-11-25]` or (from 2026-11-25) `[Ideation p.N]` / `[Presenter p.N]`. Screenshot facts (AS-10, AS-11) are marked for Stage 4 verification. Items without a source are labelled "AI proposal", "AI observation" or "TBD – needs confirmation". No numbers for limits, timeouts or windows are stated as facts. No real identifiers are copied from the reference PDFs |
 | 3 | Design respects stack, security and scope limits | **Pass (direction level)** | Options in §5 are checked against C1–C9; O1, O3 and O4 are flagged as conflicting. Production excluded (C6). Robust-design proposals in §3.1 keep credentials server-side and enforce project bindings (C1, C5) |
 | 4 | Reuses existing systems, roles and data where possible | **Pass** | Recommended O2 reuses Loki, Fluent Bit ingestion, Grafana (optional), DB and Kubernetes; no new log store. Existing roles mapped to product roles R1–R5 |
 | 5 | Evidence of the check is shown | **Pass** | This table; assumption-by-assumption true/false analysis (§3.1); options table (§5); gap-to-question map (§4) |
-| 6 | Open questions flagged, not silently decided | **Pass** | All open items are in `stage2-questions.md` with Blocker/Can-defer tags and owners. P-001, P-002, P-003 remain Pending; A2–A4 remain unconfirmed; the build-vs-reuse recommendation is a proposal only |
+| 6 | Open questions flagged, not silently decided | **Pass** | All open items are in `stage2-questions.md` with Blocker/Can-defer tags and owners. P-001, P-002, P-003 remain Pending; A2–A4 remain unconfirmed; the build-vs-reuse recommendation is a proposal only. Reference-review findings (2026-11-25) added as questions `U-01`, `M-08`, `M-09`, `M-10`, `SEC-05`, `SRC-02`, `SEC-06`, `O-04`; risk RK-001 flagged with no action taken |

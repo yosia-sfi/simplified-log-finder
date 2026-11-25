@@ -67,3 +67,45 @@ Rules: every decision records rationale, who decided, and date. AI entries are p
 | X-002 | 2026-11-25 | P-004 assumption (1) "Grafana Cloud" vs user answer "Grafana is self-hosted" | **Resolved in favor of self-hosted** (user answer, A-007) |
 | X-003 | 2026-11-25 | Brief §1.3 lists Grafana Assistant (Cloud-only per the brief) as a candidate vs self-hosted Grafana | Open; likely not applicable; verify in Stage 4 (question G-03 in `stage2-questions.md`) |
 | X-001 | 2026-11-25 | (Update, original row unchanged) MVP "applied across projects" vs one-team pilot | Still open; asked as question S-01 in `stage2-questions.md` |
+
+---
+
+## Entry 2026-11-25: Reference documents review; session handoff added
+
+**User input (verbatim):** "I just committed new files for stage 1 references docs. please read from them and tell me if there's still need reference docs. also, i want to work on several laptops altogether, so make sure my last prompt and your last response can be carried over if i switch laptop."
+
+**AI response:** Read the three committed reference files (commit `ac124f7`): `Ideation - Simple Log Finder.pdf` (19 pages), `Presenter's Deck - Investor's Team - Simplified Log Finder.pdf` (11 pages), `Reference AI DLC Workshop v3.pptx` (32 slides), including the chat and log screenshots. Created `inception/reference-docs-review.md`; updated `inception/stage1-unverified.md` (section A statuses; partial evidence for D items 21–24); appended section 11 to `inception/stage2-questions.md` and extended its Blocker index; updated `inception/stage2-actors-constraints-assumptions.md` (FE/Mobile requesters, AS-10, AS-11, RK-001, self-check); created `session-handoff.md`; updated `aidlc-state.md`. No real identifiers were copied into `aidlc-docs/`. Earlier rows are not changed.
+
+**Findings summary:**
+- Section A of `stage1-unverified.md`: items 1, 3, 4, 6, 7 resolved; item 5 partly resolved (screenshot only); item 2 unclear (Presenter's Deck may be the AIDLC deck).
+- Log screenshot [Ideation p.17]: environment does not map to a single label (`project_name` vs `cluster`); `correlation_id` empty; `X-Request-Id` / `traceparent` present in some payloads; line format mixes UTC and +0700; sensitive content includes base64 documents, document numbers, bucket/object keys. All to be re-verified in Stage 4.
+- Chat captures [Ideation p.4–11]: FE and Mobile developers also request logs; about half of requests have no identifier or time; several logs are forwarded to the client; new feature terms and identifier types.
+- Reference docs still needed: masked raw-log text export and full label list (DevOps / Developer); confirmation that the Presenter's Deck is the AIDLC deck (PM); later, 3-month chat export (PM) and database schema/table list (DevOps / System Architect).
+
+### Decision log (additions)
+
+| ID | Date | Decision | Rationale | Who decided | Status |
+|---|---|---|---|---|---|
+| A-013 | 2026-11-25 | Reference review done; committed files used as sources for Stage 2 onward, cited by file and page. The brief governs where the workshop deck's metric wording differs (Speed, Human effort) | User request; brief §5 adapts metrics for Inception | User (request), AI (review) | Done |
+| A-014 | 2026-11-25 | Add `aidlc-docs/session-handoff.md` holding the user's prompts and Kiro's responses verbatim plus a "Resume here" note; append on every future turn | Kiro chat history is local to each machine; git carries the context between laptops. User must commit and push before switching | User (request), AI (approach) | Decided |
+| P-005 | 2026-11-25 | New questions U-01, M-08, M-09, M-10, SEC-05, SRC-02, SEC-06, O-04 added to `stage2-questions.md` (new Blockers: U-01, M-10, SEC-05, SEC-06) | Reference review findings | Pending user | **Pending** |
+
+### Risks flagged
+
+| ID | Date | Risk | Status |
+|---|---|---|---|
+| RK-001 | 2026-11-25 | Committed PDFs contain what appear to be real CIFs, account numbers, hashcards, a phone number, request IDs, S3 bucket names and base64 document content; now in git history (`ac124f7`) | **Flagged; no action taken; decision pending user** (`SEC-06`, owners PM and System Architect) |
+
+### Flagged contradictions (additions)
+
+| ID | Date | Item | Status |
+|---|---|---|---|
+| X-001 | 2026-11-25 | (Update, original rows unchanged) Confirmed by the reference files: [Presenter p.2] MVP "Applied to all projects" vs [Presenter p.10] one team pilots | Still open (`S-01`) |
+
+No new contradictions were found between the reference files, the brief and the user's corrections.
+
+### Stage log (additions)
+
+| Date | Stage | Event | Artifacts |
+|---|---|---|---|
+| 2026-11-25 | 2 Discover | Reference review; Stage 2 questions extended; still awaiting answers | `inception/reference-docs-review.md`, `inception/stage1-unverified.md`, `inception/stage2-questions.md`, `inception/stage2-actors-constraints-assumptions.md`, `session-handoff.md`, `aidlc-state.md` |
