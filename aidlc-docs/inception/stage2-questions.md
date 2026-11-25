@@ -1,6 +1,6 @@
 # Stage 2 (Discover): Clarification Questions
 
-AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the requirements decision file for spec `simplified-log-finder`; Stage 3 (Specify) uses the answers.
+AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in commit `5806546`, System Architect after it); due dates and some names still open; 14 Can-defer questions open; awaiting Stage 2 approval**. Decisions are logged in `audit.md` (entry "Stage 2 answers recorded"). This file is the requirements decision file for spec `simplified-log-finder`; Stage 3 (Specify) uses the answers.
 
 > **How to answer:** fill in each `[Answer]:` line with an option number, or write your own answer under "Other". Recommended options are AI proposals; nothing is decided until you answer. You can answer "use the recommendations" for any group.
 >
@@ -127,7 +127,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Use the team's existing standard stack. Name: _______________. Rationale: Developers can maintain it without new skills.
   2. No constraint; Stage 4 proposes options.
   3. Other: _______________
-- [Answer]:
+- [Answer]: Yes, for the backend, use go lang with echo, for the frontend, use typescript react with vite, tanstack router, tailwind, tanstack query, tanstack virtual, shadcn for UI, lucide react for icons, and use pactflow for contract testing on all sides, in the backend, frontend, and in the ci/cd pipeline. We should also confirm this with the developers later on, and confirm if there are any other libraries/frameworks needed
 
 ### R-01 Repository model
 - **Tag:** Can-defer · **Owner:** System Architect
@@ -137,7 +137,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Single repository (provisional in `aidlc-state.md`). Rationale: small team, one product.
   2. Separate repositories (e.g. UI and backend). 
   3. Other: _______________
-- [Answer]:
+- [Answer]: It should live in a single repository for now, but in different directories as to ease context-switching while still enabling the repositories to split easily later on if the project's grown to a sufficient size
 
 ---
 
@@ -187,7 +187,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. O2b Hybrid with query execution through the Grafana MCP server.
   3. O3 Replace stack, or O4 build from scratch (both conflict with C4 / "not a new observability platform").
   4. Other: _______________
-- [Answer]:
+- [Answer]: the simplified log finder we're building should be an input-output-agnostic tool/engine that can work with all sorts of input, and it shouldn't do anything to break or majorly modify the existing tooling in each source other than connecting them to the engine, so yes, the hybrid approach would be the best choice, but we need to keep in mind that each input source would need its own discussion session to determine which approach is best
 
 ### G-02 Grafana MCP server usage
 - **Tag:** Can-defer (verify in Stage 4) · **Owner:** System Architect, DevOps
@@ -198,7 +198,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. Not used in the MVP.
   3. Also used for query execution.
   4. Other: _______________
-- [Answer]:
+- [Answer]: we don't know whether or not the source has the mcp enabled or not, and whether or not it is capable of doing so, so we should consider it optional
 
 ### G-03 Grafana Assistant
 - **Tag:** Can-defer (verify in Stage 4) · **Owner:** DevOps
@@ -208,7 +208,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Not used in the MVP; DevOps confirms availability in Stage 4; revisit after the pilot.
   2. Check availability now before Stage 3.
   3. Other: _______________
-- [Answer]:
+- [Answer]: we don't know whether or not the source has the grafana assistant enabled or not, and whether or not it is capable of doing so, so we should consider it optional
 
 ### G-04 Loki access path (gateway/proxy and auth)
 - **Tag:** Can-defer (verify in Stage 4); **blocks the Loki connector spike/build** · **Owner:** DevOps (Hadi Septian); backup System Architect (William Tanardi)
@@ -243,7 +243,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. One shared read-only service identity for all projects.
   3. Users' own credentials passed through (not possible for BA/QA under T-002).
   4. Other: _______________
-- [Answer]:
+- [Answer]: 1, each project has different leads
 
 ### G-07 Project isolation with a service identity
 - **Tag:** Blocker · **Owner:** System Architect · **Due:** TBD (set by PM)
@@ -253,7 +253,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Both layers: per-project credentials/tenants at the source where available, plus server-side project bindings injected into every template and checked against the user's project membership; every query audited.
   2. Finder-side checks only (one identity for all projects).
   3. Other: _______________
-- [Answer]:
+- [Answer]: 1
 
 ### G-08 Who uses the database and k9s today
 - **Tag:** Can-defer · **Owner:** DevOps
@@ -386,8 +386,8 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
 - **Options:**
   1. **(Recommended)** Stage 3 requires a mandatory, bounded window and a result cap, with defaults shown as editable chips; Stage 4 proposes values after the Loki spike; vague times always ask the user to confirm the window.
   2. Set values now: exact ±___ min, approximate ±___ min, max range ___, max results ___.
-  3. Other: _______________
-- [Answer]:
+  3. Other: it should be parameterizable
+- [Answer]: 3
 
 ### M-07 Empty correlation_id across services
 - **Tag:** Can-defer (verify in Stage 4) · **Owner:** System Architect, Developers
@@ -443,7 +443,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   1. **(Recommended)** Confirm C2 as written.
   2. Allow LLM-generated LogQL, validated against an allow-list.
   3. Other: _______________
-- [Answer]:
+- [Answer]: 1
 
 ### L-04 How the simplified view is produced
 - **Tag:** Blocker · **Owner:** System Architect, BA · **Due:** TBD (set by PM)
@@ -454,7 +454,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. Deterministic view plus an optional LLM summary, clearly labelled, never in copied/shared output.
   3. LLM-produced view.
   4. Other: _______________
-- [Answer]:
+- [Answer]: 1
 
 ### O-01 Fields in the simplified view
 - **Tag:** Can-defer · **Owner:** BA
@@ -497,8 +497,8 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
 - **Options:**
   1. **(Recommended)** Only members of a project, per environment, granted by the Project Admin; default no access.
   2. All Soluix staff for all projects.
-  3. Other: _______________
-- [Answer]:
+  3. Other: access controls and privileges should be parameterizable but done by enforcing principle of least privilege, because some member can be part of multiple projects
+- [Answer]: 3
 
 ### SEC-02 Masking rules
 - **Tag:** Blocker · **Owner:** System Architect, PM · **Due:** TBD (set by PM)
@@ -509,7 +509,7 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
   2. Mask everything fully.
   3. No masking for UAT/RC (only if the data is confirmed synthetic).
   4. Other: _______________
-- [Answer]:
+- [Answer]: 1, but again it should be parameterizable and may be toggle-able if the user has the rights
 
 ### SEC-03 "Copy raw": masked or unmasked, per role
 - **Tag:** Blocker · **Owner:** System Architect, PM · **Due:** TBD (set by PM)
@@ -518,8 +518,8 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
 - **Options:**
   1. **(Recommended)** Always masked for all roles; engineers who need unmasked data use Grafana / database / k9s as today (C4).
   2. Unmasked for Developer/DevOps roles only, with audit.
-  3. Other: _______________
-- [Answer]:
+  3. Other: either or, based on the rights the user has and whether they want true raw data or not
+- [Answer]: 3
 
 ### SEC-04 Audit logging
 - **Tag:** Blocker · **Owner:** System Architect, PM · **Due:** TBD (set by PM)
@@ -528,8 +528,8 @@ AI-DLC Inception, Stage 2. Status: **Open, awaiting answers**. This file is the 
 - **Options:**
   1. **(Recommended)** Audit user, time, project, environment, filters or sentence (masked), result count, raw-view opens, copy and share actions, escalations; readable by PM and System Architect; retention set by compliance (period TBD).
   2. Audit searches only.
-  3. Other: _______________
-- [Answer]:
+  3. Other: no need for audit logging for now
+- [Answer]: 1
 
 ---
 
@@ -634,8 +634,8 @@ Source: `reference-docs-review.md` (Ideation PDF, Presenter PDF, Workshop PPTX, 
   1. **(Recommended)** Masked by default for all roles; the copy keeps the searched identifier only if `SEC-02` allows it; every copy is audited (`SEC-04`); no approval step in the MVP.
   2. Masked by default, plus a "client copy" action that needs approval by a Developer or the System Architect before unmasking.
   3. Unmasked copy allowed for named roles, with audit.
-  4. Other: _______________
-- [Answer]:
+  4. Other: again, masking should be togglable based on the users' rights, but should be on by default, regarding the copies that leave soluix, it is out of scope, as there is no easy way to detect that
+- [Answer]: 4
 
 ### SRC-02 Is the Presenter's Deck the "AIDLC deck"?
 - **Tag:** Can-defer · **Owner:** PM
@@ -656,7 +656,7 @@ Source: `reference-docs-review.md` (Ideation PDF, Presenter PDF, Workshop PPTX, 
   2. Replace with masked copies going forward; keep history as is (accept the risk; remote must be restricted).
   3. Keep as is; the repository stays private to the team.
   4. Other: _______________
-- [Answer]:
+- [Answer]: 3
 
 ### O-04 "Example endpoint response" requests
 - **Tag:** Can-defer · **Owner:** PM, BA

@@ -14,9 +14,11 @@ Security: like every file in `aidlc-docs/`, this file uses placeholders (`<CIF>`
 
 ## Resume here
 
-- **Current stage:** Stage 2 Discover, awaiting answers in `aidlc-docs/inception/stage2-questions.md` (Blockers listed at the top of that file, including the new U-01, M-10, SEC-05, SEC-06).
-- **Next step:** user answers the questions (or says "use the recommendations") → Stage 2 approval → Stage 3 Specify (`.kiro/specs/simplified-log-finder/requirements.md`).
-- **Open risk:** RK-001, sensitive data in the committed reference PDFs; decision pending (`SEC-06`).
+- **Current stage:** Stage 2 Discover. All Blockers in `aidlc-docs/inception/stage2-questions.md` are answered (PM/BA in commit `5806546`, System Architect after it). Decisions A-015 to A-055 are in `audit.md`. **Stage 2 is not approved yet.**
+- **Next step:** user says "approve Stage 2" → Stage 3 Specify (`.kiro/specs/simplified-log-finder/requirements.md`).
+- **Open before approval:** PM sets due dates for every Blocker and the pilot project name (S-02); leftover "no need for audit logging" text in SEC-04 (answer recorded as option 1, note N-001).
+- **Open for Stage 3:** notes N-002 (default unmask rights), N-003 (removing local accounts). 14 Can-defer questions open; G-04 blocks the Loki spike.
+- **Risk:** RK-001 accepted (SEC-06 option 3): repository must stay private to the team.
 - **Key files:** `aidlc-docs/aidlc-state.md`, `aidlc-docs/audit.md`, `aidlc-docs/inception/reference-docs-review.md`, `aidlc-docs/inception/stage2-actors-constraints-assumptions.md`, `aidlc-docs/inception/stage2-questions.md`.
 
 ## Conversation log
@@ -110,4 +112,74 @@ You are at Stage 2 Discover. No [Answer]: line in stage2-questions.md is filled 
 4. Can-defer and "verify in Stage 4" questions can stay empty for now.
 5. When done, say "answers filled". I will log each decision in audit.md, flag any conflicts, and ask you to approve Stage 2. Then Stage 3 (requirements) starts.
 6. Before switching laptops, commit and push.
+```
+
+### Turn 4: user prompt (2026-11-25)
+
+```text
+as system architect, I've just answered questions in #[[file:/Users/soluix/code/simplified-log-finder/aidlc-docs/inception/stage2-questions.md]] , did I miss any questions pointed to me which are blockers?
+```
+
+### Turn 4: Kiro response (2026-11-25)
+
+```text
+You didn't miss any. All 16 Blockers that list System Architect as an owner have an answer: S-01, H-01, H-03, G-01, G-06, G-07, L-01, L-03, L-04, M-05, SEC-01 to SEC-06.
+
+Some of those answers still have gaps or conflicts that could hold up Stage 3 approval.
+
+**Conflicts in your answers**
+
+- **SEC-04 ("no audit logging for now") conflicts with G-07.** You chose G-07 option 1, which includes "every query audited." Those two answers can't both stand.
+- **SEC-04 also weakens SEC-02, SEC-03 and SEC-05.** Those answers let users with the right permissions turn masking off and copy truly raw data. With no audit, nothing records who saw or copied unmasked banking data. You may want at least a minimal audit of unmasking and raw copies, or an explicit statement that the risk is accepted.
+- **SEC-04 also affects O-03 and the metrics questions.** O-03 says escalations are recorded, and MET-02/MET-03 rely on recording usage events. That isn't an audit log, but Stage 3 needs to say which events are recorded and why.
+
+**Blanks inside answered Blockers**
+
+- **G-06:** option 1 has a blank for the project lead who approves read-only access. You share ownership with DevOps.
+- **Due dates:** every Blocker still shows "TBD (set by PM)." Brief §1.7 requires an owner and a due date for each Blocker, so the PM needs to fill these in before Stage 3 approval.
+
+**Unanswered questions where you're an owner (not Blockers)**
+
+- **G-04 Loki access path:** you're the backup owner, and it blocks the Loki connector spike.
+- **M-07 Empty correlation_id across services:** shared with Developers.
+- **M-08 Environment-to-label mapping:** shared with DevOps.
+- **M-09 Linking by X-Request-Id or traceparent:** shared with Developers.
+- **O-02 Sharing and Grafana deeplinks:** shared with BA.
+
+These can wait until Stage 4. G-04 can't wait past the start of the Loki spike, though.
+
+**Not yours, but noticed**
+
+- S-02 was answered with option 1, but the pilot project name is still blank. That's the PM's to fill in.
+```
+
+### Turn 5: user prompt (2026-11-25)
+
+```text
+alright now im about to push the progress I've made, go ahead and update the project state
+```
+
+### Turn 5: Kiro response (2026-11-25)
+
+```text
+I updated the project state. Nothing is committed or pushed yet.
+
+Since my last review you changed SEC-04 to option 1 (full audit) and added "each project has different leads" to G-06. I recorded those current values.
+
+**Files changed**
+- `aidlc-docs/aidlc-state.md`: step 2c is checked; repo model, stack, hosting and architecture decisions are filled in; RK-001 is marked as an accepted risk; status is "awaiting Stage 2 approval".
+- `aidlc-docs/audit.md`: a new entry logs all 41 answers as decisions A-015 to A-055 (25 from commit `5806546`, 16 from your staged changes). P-001, P-002, P-003 and X-001 are marked resolved, and notes N-001 to N-004 carry open points into Stage 3.
+- `aidlc-docs/inception/stage2-questions.md`: status line only.
+- `aidlc-docs/session-handoff.md`: "Resume here" is updated, and turns 4 and 5 are added.
+
+**Still open before Stage 2 approval**
+- SEC-04 still has "no need for audit logging for now" written under option 3. I recorded option 1 as the answer. Delete that text if you no longer mean it.
+- The PM still has to set a due date for every Blocker and fill in the pilot project name (S-02).
+
+**To push**
+git add aidlc-docs
+git commit -m "Stage 2: System Architect answers and project state"
+git push
+
+When you're ready, say "approve Stage 2" and I'll start Stage 3 (requirements).
 ```
