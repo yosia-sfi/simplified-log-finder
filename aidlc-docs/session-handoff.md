@@ -640,3 +640,25 @@ What changed since the last version:
 
 Still open in the deck: presenter names and date (slide 1), the confidence score (slide 4, team vote at the gate), unit owners and dates (slide 8), baseline numbers and chart (slide 9), and the screenshots.
 ```
+
+
+### Turn 23: user prompt (2026-11-26)
+
+```text
+can you update the info in slide deck as follows:
+
+1. Slide 4: instead of "team corrected / re-prompt AI", please count the occasion where we decide not to use "Option 1 (the recommendation)". Adjust the info text also accordingly.
+2. Slide 4: Part "confidence to construction" change to simulation / estimation of brief to inception package (How many days it will takes) if done by legacy SDLC ways.
+3.
+```
+
+### Turn 23: Kiro response (2026-11-26)
+
+```text
+Slide 4 is updated in Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.pptx, including its speaker note. Your message ended at "3.", so there is nothing for item 3 yet.
+
+1. Option 1 count: the second stat now reads 26, "decisions where we did not take Option 1", and the bullet reads "Did not take the AI's Option 1 in 26 of 96 decisions". I recounted from the three decision files by script: 19 of 57 in Discover, 1 of 26 in Design, 6 of 13 in Plan; the other 70 took Option 1. Five Discover questions had no recommended option, so they are outside the 96 (G-04 was answered with option 2).
+2. Legacy SDLC estimate: the fourth stat now reads "~30 days", "if done with legacy SDLC (est. simulation)". It is my simulation, not a measurement: about 36 working days if every phase is sequential (clarification 6, requirements 9 plus 2 review, design 9 plus 2 review, plan 3 plus 2, context 3), about 30 with phase overlap, range 25 to 36. The assumptions are in deck-update-inputs.md so the BA and PM can correct them. The actual run took about 2 calendar days, but effort hours are not recorded yet, so the two figures measure different things.
+
+Please tell me item 3. Also say if the "Confidence" metric should stay in the gate document: the brief lists it, so I kept it there as "TBD by the team".
+```

@@ -280,3 +280,27 @@ Refill the deck when the user asks (previous fill A-120 is now out of date for s
 ## Update 2026-11-26: Deck refreshed (A-139)
 
 Newest deck: `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.pptx` (the older `_filled.pptx` was open in PowerPoint, so it could not be overwritten). Values used: 5 of 5 stages done, gate in review; clarity 101; rework 1; overrides 26 of 96; speed ~2 days (gate pending); wave order U1, U2, U3, U6, then U4 + U5. Still open: presenter names and date, confidence score (gate vote), unit owners and dates (task execution), baseline numbers and chart, screenshots.
+
+## Update 2026-11-26: Slide 4 changes (A-140, A-141)
+
+Slide 4 now shows: 101 gaps raised; 26 decisions where we did not take Option 1 (26 of 96); ~2 days actual (gate pending); ~30 days if done with a legacy SDLC (simulation). Bullet: "Did not take the AI's Option 1 in 26 of 96 decisions".
+
+### Legacy SDLC estimate (simulation, working days)
+
+Assumed legacy way: sequential document-driven phases; one BA, one System Architect, one PM, with DevOps and QA consulted; clarification by meetings and email in rounds; a formal review and sign-off after each document. Scope taken from this project: 3 reference documents read; 24 real requests analysed; 101 questions and decisions (62 + 26 + 13); 31 requirements with EARS criteria and a traceability matrix; a design with component, sequence and ER diagrams, about 20 API endpoints and a security model; a plan with 6 units and 15 tasks.
+
+| Step | Assumption | Days |
+|---|---|---|
+| Context gathering and reading the reference material, analysing the 24 requests | BA | 3 |
+| Clarifying 62 open questions | About 3 rounds of meetings and email across PM, BA, Architect, DevOps, QA, with waiting time between rounds | 6 |
+| Requirements document: 31 requirements with criteria and traceability matrix | About 0.3 day per requirement | 9 |
+| Requirements review and sign-off | One cycle | 2 |
+| Design document: components, API, data model, security, 26 decisions | Architect, with decision meetings | 9 |
+| Design review and sign-off | One cycle | 2 |
+| Implementation plan: units, tasks, dependencies | PM and Architect | 3 |
+| Plan review, sign-off and the gate | One cycle | 2 |
+| **Sequential total** | | **36** |
+| Overlap between phases (design starts during requirement review, planning during design review) | Subtract about 4 to 6 days | **about 30** |
+| Range | 25 (more parallel work) to 36 (fully sequential) | |
+
+Caveats: this is an AI simulation from assumed effort, not a measured figure; the actual AI-DLC run took about 2 calendar days with the team answering questions in between, and the team's human-effort hours are not yet recorded, so the two numbers measure different things (elapsed time versus effort). Ask the BA and PM to adjust the assumptions if they have real numbers from past projects.

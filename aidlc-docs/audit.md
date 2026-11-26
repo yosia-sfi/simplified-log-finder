@@ -574,3 +574,15 @@ N-012 closed: requirements.md status line updated to Approved 2026-11-25.
 |---|---|---|---|---|---|
 | A-139 | 2026-11-26 | Deck refreshed (supersedes A-120 content). Changes: slide 1 "5 of 5 stages done · gate pending"; slide 3 title and statuses (Design and Plan Done · 26 Nov, gate In review) plus a plan change; slide 4 overrides 26 of 96, speed ~2 days, clarity 101, rework 1; slide 8 wave order and gates, unit boxes unchanged; slide 10 lessons, risks (auto-deploy risk added, parser/LLM risk moved to notes) and asks; notes refreshed on all slides | User request; `deck-update-inputs.md` | User | Done |
 | N-023 | 2026-11-26 | The newest deck is `..._filled_v2.pptx`. After closing PowerPoint, the user can delete the older `..._filled.pptx` or rename v2 over it. Still open in the deck: presenter names and date (slide 1), confidence score (slide 4), unit owners and dates (slide 8), baseline numbers and chart (slide 9), screenshots (slides 4, 6, 9). Not checked visually in PowerPoint (N-017) | File locked at write time | Open |
+
+## Entry 2026-11-26: Slide 4 changes (option counts, legacy SDLC estimate)
+
+**User Input**: "can you update the info in slide deck as follows: 1. Slide 4: instead of "team corrected / re-prompt AI", please count the occasion where we decide not to use "Option 1 (the recommendation)". Adjust the info text also accordingly. 2. Slide 4: Part "confidence to construction" change to simulation / estimation of brief to inception package (How many days it will takes) if done by legacy SDLC ways. 3."
+**AI Response**: Updated slide 4 of `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.pptx` and its speaker notes. Item 3 was empty in the message; asked the user what it should say.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-140 | 2026-11-26 | Slide 4 second stat now counts decisions where Option 1 (the recommendation) was not taken: **26 of 96** (19 of 57 in Discover, 1 of 26 in Design, 6 of 13 in Plan). Recount by script over the three decision files gave the same numbers; every recommended option was option 1. G-04 answered 2 but had no recommended option, so it is outside the 96 (27 answers differ from option 1 out of 101 answered) | User request item 1 | User | Done |
+| A-141 | 2026-11-26 | Slide 4 fourth stat (confidence) replaced by "~30 days": AI simulation of brief to inception package with a legacy SDLC, range 25 to 36 working days. Assumptions in `deck-update-inputs.md` ("Legacy SDLC estimate"). The "Rework" count (1 correction turn) is no longer on the slide but stays in the tracker and the gate retrospective | User request item 2 | User | Done; estimate is an assumption, not a measurement |
+| N-024 | 2026-11-26 | Brief section 5 still lists Confidence (1 to 5) as a retrospective metric; it stays in `human-review-gate.md` section 6 as "TBD by the team" even though it left the slide | Brief §5 | AI | Open: tell me if it should go from the gate document too |
+| N-025 | 2026-11-26 | Message item 3 was empty ("3.") | User message | AI | Open: waiting for the user's item 3 |
