@@ -1,4 +1,4 @@
-# Session Handoff: Simplified Log Finder (AI-DLC Inception)
+﻿# Session Handoff: Simplified Log Finder (AI-DLC Inception)
 
 > **Rule:** On every future turn, append the user's prompt and Kiro's response verbatim here.
 
@@ -14,13 +14,11 @@ Security: like every file in `aidlc-docs/`, this file uses placeholders (`<CIF>`
 
 ## Resume here
 
-- **Current stage:** Stage 4 Design. Stage 3 was approved 2026-11-25 (A-085); the six A-084 behaviors were accepted by approval (A-086). The Stage 4 decision file `.kiro/specs/simplified-log-finder/_decisions-design.md` has **20 of 26 decisions answered** (A-088 to A-107; all System Architect decisions done). No `design.md`, `tasks.md` or application code exists yet.
-- **Next step:** DevOps answers DD-20 and DD-21, QA/Developers answer DD-24 (Blockers). DD-14, DD-22, DD-23 are Can-defer. Then the user says **"decisions filled"** → Kiro logs the remaining answers in `audit.md` and generates `.kiro/specs/simplified-log-finder/design.md`. DD-01 = 1: V-01..V-11 are explicit assumptions in `design.md`; the Loki spike amends it later.
-- **For design.md:** apply N-013 (DD-11 rules-registry constraints and proposed editor role) and N-014 (30-minute idle timeout is a proposal).
-- **Carried to Stage 4 (now in the decision file):** `requirements.md` section "Open Items Carried to Stage 4" (OI-01..OI-13): Loki access unverified (C-08/G-04, **blocks the Loki spike**, RK-002), Loki retention (K-02), default windows and caps (M-06), per-search target (N-02), audit retention (SEC-04), MET-04 gaps (N-008), FE/Mobile Grafana access (U-01), DB table list (D-01), masked raw-log text sample before the parser is built (C-03).
-- **Deck:** `Simplified_Log_Finder_Inception_Update_Nov_2026.pptx` (repository root) is completed at the Human Review Gate. All inputs, sources, owners and retrospective counts are in `aidlc-docs/inception/deck-update-inputs.md`; **update that tracker at the end of each stage** (A-077).
-- **Risks:** RK-001 accepted and lowered (data synthetic; repository stays private). RK-002 open (Loki reachable without authentication; unverified working assumption per C-08 = 2). No DB read-replica confirmed (A4).
-- **Key files:** `aidlc-docs/aidlc-state.md`, `aidlc-docs/audit.md`, `aidlc-docs/inception/deck-update-inputs.md`, `aidlc-docs/inception/reference-docs-review.md`, `aidlc-docs/inception/stage2-actors-constraints-assumptions.md`, `aidlc-docs/inception/stage2-questions.md`.
+- **Current stage:** Stage 5 Plan. Stage 4 approved 2026-11-26 (A-116; D4-01..D4-07 accepted, A-117). `.kiro/specs/simplified-log-finder/_decisions-tasks.md` (TD-01..TD-13, proposed units U1–U6) is **awaiting answers**.
+- **Next step:** owners answer the Blockers TD-01, TD-02, TD-06, TD-07, TD-08, TD-12, TD-13 (mostly PM: owners per unit, dates, due dates for open items). Then the user says **"task decisions filled"** → Kiro writes `tasks.md` (waves of parallel groups) → "approve Stage 5" → Human Review Gate.
+- **Deck:** filled 2026-11-26 (A-120) as `Simplified_Log_Finder_Inception_Update_Nov_2026_filled.pptx`; the original is unchanged. Open in the deck: presenter names/date, days and confidence (slide 4), unit owners and dates (slide 8), baseline numbers and chart (slide 9), screenshots. Not yet checked in PowerPoint (N-017). Re-run after Stage 5 approval.
+- **Still open:** V-01 Loki access (gates U2, RK-002); V-10 masked log sample (gates U3); stack confirmation (H-04, gates U1); retention values.
+- **Key files:** `aidlc-docs/aidlc-state.md`, `aidlc-docs/audit.md`, `.kiro/specs/simplified-log-finder/requirements.md`, `design.md`, `_decisions-tasks.md`, `aidlc-docs/inception/deck-update-inputs.md`.
 
 ## Conversation log
 
@@ -436,4 +434,130 @@ To push:
 git add aidlc-docs .kiro/specs/simplified-log-finder/_decisions-design.md
 git commit -m "Stage 4: System Architect design decisions and project state"
 git push
+```
+
+### Turn 15: user prompt (2026-11-26)
+
+```text
+continue AIDLC from #[[file:c:\Project\simplified-log-finder\aidlc-docs\session-handoff.md]]. check if all design decision already answered. is there anything else need to do before approving?
+```
+
+### Turn 15: Kiro response (2026-11-26)
+
+```text
+All 26 design decisions are answered. DD-24 came in with commit cd09c79. DD-14, DD-20, DD-21, DD-22 and DD-23 are answered on this laptop but not committed yet. Every answer is the recommended option except DD-11 (option 2, per-project rules registry).
+
+There is nothing to approve yet. Stage 4 approval is for design.md, which doesn't exist. The order is:
+1. Commit and push _decisions-design.md so the others see the final answers.
+2. Say "decisions filled". I log DD-14 and DD-20 to DD-24 in audit.md and generate design.md.
+3. You review design.md and say "approve Stage 4". Then Stage 5 (Plan) starts.
+
+Nothing blocks step 2. Points design.md will settle unless you object:
+- DD-21 opens outbound rules only to each project's Loki and database. The inference server sits on its own host (DD-10), so it needs a rule too. I'll add it.
+- DD-20 keeps secrets in files or environment variables on the server. With Docker Compose (DD-21), the deploy/ directory in the repo will hold only an example env file with no real values.
+- DD-22 adds a Prometheus-format metrics endpoint, but nothing scrapes it yet. design.md will mark the consumer as open.
+
+Still open, but not blocking design.md (DD-01 option 1 makes them explicit assumptions):
+- V-01 to V-11, the technical checks. V-01 (Loki access path, DevOps) still blocks the Loki spike; V-10 (masked log sample) blocks the parser build.
+- The stack (H-04) is still "to confirm with Developers".
+- Unset values: Loki retention, audit retention, and the per-search time target.
+```
+
+
+### Turn 16: user prompt (2026-11-26)
+
+```text
+decisions filled. please continue.
+```
+
+### Turn 16: Kiro response (2026-11-26)
+
+```text
+design.md is written and waits for your approval. I logged the last six answers (DD-14, DD-20 to DD-24) as A-108 to A-113.
+
+What design.md contains:
+- One Go service built in modules, a PostgreSQL database and a reverse proxy, run with Docker Compose on the internal server. The language model runs on its own internal VM.
+- How a search works, shown for the RQ-01 request: sentence, chips, confirm, Loki query, parsing, masking, result. Also the escalation-link flow.
+- The finder's own data model, the API endpoint list with status codes, the security model, and how Loki, Grafana and the database are used.
+- The checks V-01 to V-11 listed as open assumptions, the starting values for windows and limits (all proposals), six correctness properties, the test layers, and the risks.
+
+Please review these proposals before approving (design.md, section "Open Items and AI Proposals"):
+- D4-01: parser rules are edited by the DevOps half of the Project Admin and reviewed by a Developer before they go live.
+- D4-02: a firewall rule from the finder to the model VM, which DD-21 didn't mention.
+- D4-03: the deploy/ folder holds only an example settings file with no real values.
+- D4-04: nothing collects the finder's metrics endpoint yet.
+- D4-05: search history stores identifiers masked for display, plus an encrypted full value only its owner can re-run.
+- D4-06: new starting values: language-model timeout 10 s, a growing delay after 5 failed sign-ins, newest log lines first.
+- D4-07: how to search several CIFs at once is decided in the Loki spike.
+
+Next: review design.md, then say "approve Stage 4". Stage 5 (Plan) starts with a task decisions file.
+```
+
+### Turn 17: user prompt (2026-11-26)
+
+```text
+just wondering, are you be able to update the deck #[[file:c:\Project\simplified-log-finder\Simplified_Log_Finder_Inception_Update_Nov_2026.pptx]] also using the actual data that you have here?
+```
+
+### Turn 17: Kiro response (2026-11-26)
+
+```text
+Yes, for the text. I can edit the slide text and speaker notes directly in the .pptx using the values in deck-update-inputs.md, keeping the template's layout, fonts and colors. I'd write a copy (..._filled.pptx) and leave the original untouched.
+
+Can fill now: slide 1 status, slide 2 recap (unchanged numbers), slide 3 stage statuses and real changes, slide 4 counts so far (88 gaps raised, 1 correction turn, 19 + 1 overrides; days and confidence stay placeholders), slide 5 six decision rows with owner and date, slide 6 personas, story counts and the example story, slide 7 component text and corrected assumptions, slide 10 risks and asks.
+
+Can't fill yet: slide 8 units, owners and dates (Stage 5 not done), slide 9 baseline numbers and chart (needs the 3-month chat count), lessons on slide 10 (team input), and the screenshots. I can't take screenshots or redraw the diagram as a picture; those placeholder boxes stay for you to paste into.
+
+Limits: I can't open PowerPoint to check how it looks, so longer text may overflow a box; please review in PowerPoint. Stage 4 isn't approved yet, so slides 3 and 7 would say "awaiting approval".
+
+Tell me "fill the deck now" or "fill it after Stage 4 approval".
+```
+
+
+### Turn 18: user prompt (2026-11-26)
+
+```text
+Approve Stage 4. fill the deck later.
+```
+
+### Turn 18: Kiro response (2026-11-26)
+
+```text
+Stage 4 is approved. design.md is now version 1.0, and the seven review items (D4-01 to D4-07) are accepted as written. The deck stays as it is until you ask; then I'll write a filled copy and leave the original alone.
+
+Stage 5 (Plan) starts with _decisions-tasks.md. It proposes six units of work, in the order the brief and the team set:
+- U1 Foundation and access (accounts, grants, audit, deployment, CI).
+- U2 Loki spike and manual filters, ending with a real request (RQ-01) run end to end.
+- U3 Simplified and raw view, with masking and the unmask right.
+- U4 Natural-language search.
+- U5 Database and Kubernetes sources.
+- U6 Pilot instrumentation and escalation.
+
+There are 13 decisions. The 7 Blockers:
+- TD-01 accept the six units.
+- TD-02 which units must be done before pilot users start (recommended: U1, U2, U3 and U6).
+- TD-06 how many people work in parallel.
+- TD-07 a named owner per unit.
+- TD-08 Construction start date and a target date per unit. I don't estimate dates; the PM fills them in.
+- TD-12 the Definition of Done per unit.
+- TD-13 owners and due dates for the open items that gate units, such as V-01 Loki access before U2 and the masked log sample before U3.
+
+Most Blockers are for the PM. When they're answered, say "task decisions filled" and I'll write tasks.md.
+```
+
+
+### Turn 19: user prompt (2026-11-26)
+
+```text
+if you can complete the deck now, please fill the deck now.
+```
+
+### Turn 19: Kiro response (2026-11-26)
+
+```text
+The deck is filled. I wrote a copy, Simplified_Log_Finder_Inception_Update_Nov_2026_filled.pptx, and left your original untouched. I edited slide text and speaker notes only, so the layout, fonts and colors are the template's. I checked the file as text; I did not open it in PowerPoint, so please check for text overflow.
+
+Filled: slide 1 status; slide 2 mechanism line; slide 3 stage statuses (4 of 5 done) and five real changes; slide 4 numbers (101 gaps raised, 1 correction turn, 20 of 83 recommendations overridden); slide 5 all six decisions with owners; slide 6 story counts (31, 28 traced) and the example story; slide 7 corrected assumptions (local accounts, self-hosted Grafana, unverified Loki access); slide 8 dependencies and gates; slide 9 measurement methods and thresholds; slide 10 lessons, risks and asks; speaker notes on all slides.
+
+Still open: presenter names and date (slide 1); days to approval and confidence (slide 4); unit owners and dates (slide 8, PM answers TD-07 and TD-08); baseline numbers, time-to-log baseline and chart (slide 9); the screenshots; the slide 10 lessons are drafts for the team to confirm. Re-run me after Stage 5 and the baseline count.
 ```

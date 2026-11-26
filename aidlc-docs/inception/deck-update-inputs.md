@@ -222,3 +222,31 @@ Recompute at the end of each stage. **Update 2026-11-25 (Stage 3 approved; Stage
 | 6 | `.kiro/specs/simplified-log-finder/requirements.md` (Stage 3) | "Requirement 10: Natural-language search producing structured filters" (the "ganti rek sumber" story, RQ-01, with acceptance criteria and Given/When/Then) | Identifiers must appear only as placeholders (`<CIF>`, `<ACCOUNT_NO>`) |
 | 7 | `.kiro/specs/simplified-log-finder/design.md` (Stage 4) | Component diagram | No internal hostnames, URLs or credentials |
 | 9 | Chat export summary (pilot baseline) | Weekly ping chart | No names, chat text or identifiers |
+
+## Update 2026-11-26: Stage 4 design.md drafted
+
+| Slide | Placeholder | Value now | Source | Status |
+|---|---|---|---|---|
+| 1 | Inception status | "Stages 1–3 approved; Stage 4 design drafted, awaiting approval" | A-114 | Ready (update after approval) |
+| 3 | Stage 4 status | Design drafted 2026-11-26, awaiting approval (26 decisions answered) | A-108..A-114 | Ready |
+| 5 | Build vs reuse / NL scope rows | Confirmed by design.md (hybrid over Loki API; Filter_Set schema has no query field) | design.md Overview, NL layer | Ready |
+| 7 | Final diagram | Use the component diagram in `design.md` → Architecture. Replace "SSO and role-based access" with "Local accounts and role-based access"; replace the DevOps assumptions placeholder with: self-hosted Grafana; Loki direct without auth (unverified, V-01); one Loki per project; no DB read-replica; K8s logs via Loki. Gold pill = Loki API and existing DB (reused). Add the separate inference VM | design.md Architecture, Deployment, Assumptions | Ready (after Stage 4 approval) |
+| 10 | Risks | Replace drafts with design.md Risks table top items: Loki label-index cost; RK-002 Loki without auth; no read-replica (DB limits); LLM accuracy on Indonesian wording; parser default from screenshot (V-10) | design.md Risks | Ready |
+| 10 | Asks | Run V-01 (Loki access) before the spike; provide V-10 masked log sample; inference VM (DD-10); Developers confirm stack (H-04) | design.md Assumptions | Ready |
+
+Retrospective tracker update: Clarity stays 88 (no new questions). Rework unchanged. Overridden AI proposals in design decisions: 1 of 26 (DD-11 option 2). Screenshot for slide 7: `design.md` → "Architecture → Component view" diagram (no identifiers to blur).
+
+## Update 2026-11-26: Stage 4 approved, Stage 5 started
+
+| Slide | Placeholder | Value now | Source | Status |
+|---|---|---|---|---|
+| 1 | Inception status | "4 of 5 stages approved; Plan in progress" | A-116 | Ready |
+| 3 | Title / statuses | "Inception progress: 4 of 5 stages done"; Stage 4 Done; Stage 5 In progress; review gate Not started | A-116, A-119 | Ready |
+| 7 | Final diagram | Approved (design.md v1.0) | A-116 | Ready |
+| 8 | Units U1–U6 | Proposed in `_decisions-tasks.md`; owners, dates and dependencies after TD-01, TD-07, TD-08 | A-119 | Waiting for Stage 5 |
+
+Deck filling deferred (A-118): produce `Simplified_Log_Finder_Inception_Update_Nov_2026_filled.pptx` when the user asks. Retrospective tracker: Clarity 88 + 13 task decisions = 101 (method: count `### TD-xx` headings). Rework unchanged.
+
+## Update 2026-11-26: Deck filled (A-120)
+
+File: `Simplified_Log_Finder_Inception_Update_Nov_2026_filled.pptx` (original unchanged). Still open in the filled deck: slide 1 presenter names and date; slide 4 days to approval and confidence, plus the screenshot; slide 6 screenshot; slide 7 optional diagram picture; slide 8 unit owners and target dates (PM, TD-07/TD-08) and Construction start; slide 9 baseline values, time-to-log baseline method and weekly chart; slide 10 lessons need team confirmation and risk due dates (TD-13). Re-run after Stage 5 approval and after the baseline count. Slide 4 numbers used: Clarity 101, Rework 1, overrides 20 of 83.

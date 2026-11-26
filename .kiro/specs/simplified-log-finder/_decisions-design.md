@@ -1,8 +1,8 @@
-# Decisions: Design (Stage 4)
+﻿# Decisions: Design (Stage 4)
 
 > **Instructions:** Review each decision point below. AI recommendations are provided for guidance. Fill in your decisions in the "Answer" sections, then confirm when ready to proceed.
 
-AI-DLC Inception, Stage 4 (Design). Created 2026-11-25, after Stage 3 approval (audit A-085). Status: **partly answered (2026-11-25): 20 of 26 answered (DD-01..DD-09 in commit `ec616d7`, DD-10..DD-13, DD-15..DD-19, DD-25, DD-26 by the System Architect after it); open: Blockers DD-20, DD-21 (DevOps), DD-24 (QA, Developers); Can-defer DD-14, DD-22, DD-23**. `design.md` is generated only after the Blocker decisions below are answered.
+AI-DLC Inception, Stage 4 (Design). Created 2026-11-25, after Stage 3 approval (audit A-085). Status: **all 26 answered (2026-11-26): DD-01..DD-09 in commit `ec616d7`; DD-10..DD-13, DD-15..DD-19, DD-25, DD-26 by the System Architect; DD-24 in commit `cd09c79`; DD-14, DD-20..DD-23 on 2026-11-26. `design.md` generated 2026-11-26 (audit A-114)**. `design.md` is generated only after the Blocker decisions below are answered.
 
 **How to answer.** On each `**Answer:**` line write an option number (for example `1`), your own text, or an owner and due date if someone else must answer (for example `Defer - DevOps, 2026-12-05`). For a whole group you can write once, in chat or here, "use recommendations for section N" or "use recommendations for all except DD-xx: option 2". When done, say **"decisions filled"** and `design.md` is generated from these answers.
 
@@ -314,7 +314,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Keep it partially masked but highlighted:** strictest; Searchers cannot verify the full value.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ---
 
@@ -428,7 +428,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Secrets encrypted in the finder database with a master key from the environment:** editable in the admin UI; the master key becomes the single secret to protect.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ---
 
@@ -449,7 +449,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Deploy into an existing Kubernetes cluster:** reuses platform tooling; ties the finder to the cluster it reads logs from.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ---
 
@@ -470,7 +470,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Plain logs and health endpoints only:** least effort; no latency data for Req 28.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ---
 
@@ -491,7 +491,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Export only, analysis outside the finder:** least code; does not meet Req 27.4 as written.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ---
 

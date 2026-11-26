@@ -440,3 +440,64 @@ N-012 closed: requirements.md status line updated to Approved 2026-11-25.
 | Date | Stage | Event | Artifacts |
 |---|---|---|---|
 | 2026-11-25 | 4 Design | 20 of 26 design decisions answered; all System Architect decisions done; waiting for DD-20, DD-21, DD-24 | `_decisions-design.md`, `aidlc-state.md`, `audit.md`, `inception/deck-update-inputs.md`, `session-handoff.md` |
+
+## Entry 2026-11-26: Design decisions complete; design.md drafted
+
+**User Input**: "decisions filled. please continue."
+**AI Response**: Read `_decisions-design.md` (all 26 answered), logged the remaining six answers, generated `.kiro/specs/simplified-log-finder/design.md` (v0.1) and updated state, tracker and handoff.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-108 | 2026-11-26 | Searched identifier shown in full only for exact matches typed by the Searcher, in that Searcher's response only; masked in copies unless the copy type is unmasked | DD-14 opt 1 | PM, BA (local change on 2026-11-26) | Decided |
+| A-109 | 2026-11-26 | Non-secret Source_Binding data in the finder database; secrets in root-readable files or environment variables on the server, referenced by name; manual rotation with a runbook | DD-20 opt 1 | DevOps | Decided |
+| A-110 | 2026-11-26 | Docker Compose on the internal server: finder (Go binary serving the SPA same-origin), PostgreSQL, reverse proxy with TLS from an internal CA; inference server on its own host; `deploy/` directory; outbound rules only to each Project's Loki and DB | DD-21 opt 1 | DevOps | Decided; inference-host rule added as D4-02 |
+| A-111 | 2026-11-26 | Finder observability: slog JSON logs without sensitive values, `/healthz`, `/readyz`, Prometheus-format metrics endpoint | DD-22 opt 1 | DevOps, Developers | Decided; metrics consumer open (D4-04) |
+| A-112 | 2026-11-26 | Pilot metrics: events table, weekly aggregates on read, PM page plus CSV export, ping counts entered by the PM | DD-23 opt 1 | PM, Developers | Decided |
+| A-113 | 2026-11-26 | Test layers: Pact consumer/provider via PactFlow, Playwright E2E (candidate), unit tests for pure logic, Loki integration against a local Loki with masked fixtures | DD-24 opt 1 | QA, Developers (commit `cd09c79`) | Decided |
+| A-114 | 2026-11-26 | `design.md` v0.1 drafted from DD-01..DD-26 with V-01..V-11 as explicit assumptions (DD-01) | User "decisions filled" | AI proposal | Awaiting approval |
+| A-115 | 2026-11-26 | AI proposals inside design.md to confirm at Stage 4 review: D4-01 parser rules edited by access_admin with Developer review (N-013 f); D4-02 outbound rule to the inference VM; D4-03 `deploy/finder.env.example` with names only; D4-04 `/metrics` consumer open; D4-05 Search_History keeps identifiers masked for display plus encrypted full value for the owner; D4-06 new parameter proposals `nl_timeout` 10 s, `signin_failure_delay`, `loki_direction` backward; D4-07 Loki multi-value form decided in the spike | design.md "Open Items and AI Proposals" | AI proposal | **Pending user** |
+| P-008b | 2026-11-26 | P-008 resolved: 26 of 26 design decisions answered | `_decisions-design.md` | Owners | Resolved |
+
+### Notes (additions)
+
+| ID | Date | Note | Status |
+|---|---|---|---|
+| N-013 | 2026-11-26 | Applied in design.md (Parser section); editor role is review item D4-01 | Carried to Stage 4 review |
+| N-014 | 2026-11-26 | Applied in design.md (Access, Parameters) | Closed |
+| N-015 | 2026-11-26 | Retrospective: design decisions with a non-recommended answer = 1 (DD-11 option 2); all other 25 took the recommendation | Recorded in deck tracker |
+
+### Stage log (additions)
+
+| Date | Stage | Event | Artifacts |
+|---|---|---|---|
+| 2026-11-26 | 4 Design | All 26 design decisions answered; design.md v0.1 drafted; awaiting approval | `design.md`, `_decisions-design.md`, `aidlc-state.md`, `audit.md`, `inception/deck-update-inputs.md`, `session-handoff.md` |
+
+## Entry 2026-11-26: Stage 4 approved; Stage 5 decision file drafted
+
+**User Input**: "Approve Stage 4. fill the deck later."
+**AI Response**: Marked `design.md` v1.0 Approved; created `.kiro/specs/simplified-log-finder/_decisions-tasks.md` (TD-01..TD-13, proposed units U1–U6); deck filling deferred.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-116 | 2026-11-26 | Stage 4 Design approved (`design.md` v1.0) | User approval | User | Decided |
+| A-117 | 2026-11-26 | Review items D4-01..D4-07 accepted as written because the user approved without changes (parser rules by access_admin with Developer review; outbound rule to the inference VM; env example without values; no metrics collector yet; Search_History masked + encrypted owner value; new parameter proposals; Loki multi-value form decided in the spike). D4-08 items stay open as parameters | Approval without objection | User | Decided (can be revisited) |
+| A-118 | 2026-11-26 | Filling the deck is deferred; the user will ask later. Plan: write a copy `..._filled.pptx` from `deck-update-inputs.md`, leave the original untouched | User "fill the deck later" | User | Deferred |
+| A-119 | 2026-11-26 | Stage 5 decision file drafted: 13 decisions (7 Blockers, 6 Can-defer) with proposed units U1–U6 | Brief §3 Stage 5 | AI proposal | Awaiting answers |
+
+### Stage log (additions)
+
+| Date | Stage | Event | Artifacts |
+|---|---|---|---|
+| 2026-11-26 | 4 Design | Stage 4 approved | `design.md` v1.0 |
+| 2026-11-26 | 5 Plan | `_decisions-tasks.md` drafted; awaiting answers | `_decisions-tasks.md` |
+
+## Entry 2026-11-26: Deck filled
+
+**User Input**: "if you can complete the deck now, please fill the deck now."
+**AI Response**: Wrote `Simplified_Log_Finder_Inception_Update_Nov_2026_filled.pptx` (copy; the original is unchanged) from `aidlc-docs/inception/deck-update-inputs.md`, `design.md` and the audit log. Edited slide text and speaker notes only; layout, fonts and colors are the template's.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-120 | 2026-11-26 | Deck filled now instead of later (supersedes A-118). Filled: slides 1–7 and 10 text, slide 8 gates, slide 9 target/measurement cells and thresholds, speaker notes for all slides. Left open: presenter names and date (slide 1), days to approval and confidence (slide 4), unit owners and dates (slide 8), baseline numbers and chart (slide 9), screenshots (slides 4, 6, 8 box, 9 chart) and slide 10 lessons need team confirmation | User request | User | Done; re-run when Stage 5 and the baseline are available |
+| N-016 | 2026-11-26 | Deck figures used: Clarity 101 (62 Discover + 26 Design + 13 Plan decisions); Rework 1 correction turn; overrides 20 of 83 recommendations (19 of 57 in Stage 2, 1 of 26 in Design); stories 31, 28 traced to real chats | `deck-update-inputs.md` tracker | AI | Recorded; recompute after Stage 5 answers |
+| N-017 | 2026-11-26 | Not verified visually: the deck was edited as XML and re-read as text; it was not opened in PowerPoint, so text overflow is unchecked | Tool limit | AI | Open: user to review in PowerPoint |
