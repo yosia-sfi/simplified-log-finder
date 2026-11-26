@@ -54,7 +54,7 @@ This file holds the data needed to complete the deck `Simplified_Log_Finder_Ince
 | Stage 1 Context | Approved with corrections 2026-11-25 | A-006 to A-012 | Ready | — |
 | Stage 2 Discover | Approved 2026-11-25; all questions answered (C-05 = 1, C-07 = 1, C-08 = 2) | A-078 to A-082 | Ready | — |
 | Stage 3 Specify | Approved 2026-11-25: 31 requirements with EARS acceptance criteria; six AI-proposed behaviors accepted by approval | `requirements.md`; A-083, A-085, A-086 | Ready | — |
-| Stage 4 Design | In progress: `_decisions-design.md` drafted 2026-11-25 (26 decisions, 17 Blockers; verification checklist V-01..V-11); awaiting answers | `_decisions-design.md`; P-008, P-009 | Partly | System Architect, DevOps |
+| Stage 4 Design | In progress: `_decisions-design.md` drafted 2026-11-25 (26 decisions, 17 Blockers; verification checklist V-01..V-11); 20 of 26 answered (A-088 to A-107); waiting for DD-20, DD-21 (DevOps), DD-24 (QA, Developers) | `_decisions-design.md`; P-008, P-009, P-008a | Partly | DevOps, QA, Developers |
 | Stage 5 Plan | Not started | — | Waiting for Stage 5 | — |
 | Human review gate | Pending | — | Waiting for gate | PM |
 

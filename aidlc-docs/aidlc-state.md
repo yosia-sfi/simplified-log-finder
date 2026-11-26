@@ -47,7 +47,11 @@
   - [x] 1b. requirements.md generated (2026-11-25: 31 requirements, 31 stories, 28 traced to real chats; validator: no format issues) and approved 2026-11-25 (A-085)
 - [ ] Phase 2 / Stage 4: Design
   - [x] 2a. _decisions-design.md created (2026-11-25: DD-01..DD-26, 17 Blockers, 9 Can-defer; verification checklist V-01..V-11)
-  - [ ] 2b. _decisions-design.md completed by user (**in progress: awaiting answers**)
+  - [ ] 2b. _decisions-design.md completed by user (**in progress: 20 of 26 answered**, audit A-088 to A-107)
+    - Answered: DD-01..DD-09 (commit `ec616d7`); DD-10..DD-13, DD-15..DD-19, DD-25, DD-26 (System Architect, 2026-11-25). All System Architect decisions are answered
+    - Still blocking design.md: DD-20 secrets and Source_Binding storage (DevOps), DD-21 runtime/TLS/network (DevOps), DD-24 test layers (QA, Developers)
+    - Can-defer open (recommended option used as an open working assumption if left empty): DD-14 (PM, BA), DD-22 (DevOps, Developers), DD-23 (PM, Developers)
+    - Follow-ups carried into design.md: N-013 (DD-11 rules registry constraints and editor role), N-014 (DD-18 idle timeout 30 min is a proposal)
   - [ ] 2c. design.md generated and approved
   - [ ] 2d. Stage 4 technical verifications done: checklist V-01..V-11 in `_decisions-design.md` section 1 (Loki access path, Loki version/API, identifiers in lines, env-to-label mapping, X-Request-Id/traceparent, pod logs in Loki, Loki retention, DB engine/tables, FE/Mobile Grafana access, masked raw-log sample, Grafana MCP/Assistant). DB read-replica already confirmed absent (D-02); timing per DD-01
 - [ ] Phase 3 / Stage 5: Tasks (Plan)
@@ -59,5 +63,5 @@
 
 ## Current Status
 **Phase**: Stage 4 Design
-**Status**: In progress. `.kiro/specs/simplified-log-finder/_decisions-design.md` created; awaiting answers (Blockers first). Next: user fills the decisions and says "decisions filled" → `design.md` generated. No `design.md`, `tasks.md` or application code yet
-**Last Updated**: 2026-11-25 (Stage 3 approved; Stage 4 decision file drafted)
+**Status**: In progress. `_decisions-design.md` has 20 of 26 decisions answered; waiting for DevOps (DD-20, DD-21) and QA/Developers (DD-24). Next: those owners answer, then the user says "decisions filled" → `design.md` generated. No `design.md`, `tasks.md` or application code yet
+**Last Updated**: 2026-11-25 (System Architect design decisions recorded)

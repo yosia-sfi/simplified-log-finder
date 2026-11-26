@@ -2,7 +2,7 @@
 
 > **Instructions:** Review each decision point below. AI recommendations are provided for guidance. Fill in your decisions in the "Answer" sections, then confirm when ready to proceed.
 
-AI-DLC Inception, Stage 4 (Design). Created 2026-11-25, after Stage 3 approval (audit A-085). Status: **awaiting answers**. `design.md` is generated only after the Blocker decisions below are answered.
+AI-DLC Inception, Stage 4 (Design). Created 2026-11-25, after Stage 3 approval (audit A-085). Status: **partly answered (2026-11-25): 20 of 26 answered (DD-01..DD-09 in commit `ec616d7`, DD-10..DD-13, DD-15..DD-19, DD-25, DD-26 by the System Architect after it); open: Blockers DD-20, DD-21 (DevOps), DD-24 (QA, Developers); Can-defer DD-14, DD-22, DD-23**. `design.md` is generated only after the Blocker decisions below are answered.
 
 **How to answer.** On each `**Answer:**` line write an option number (for example `1`), your own text, or an owner and due date if someone else must answer (for example `Defer - DevOps, 2026-12-05`). For a whole group you can write once, in chat or here, "use recommendations for section N" or "use recommendations for all except DD-xx: option 2". When done, say **"decisions filled"** and `design.md` is generated from these answers.
 
@@ -238,7 +238,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **An existing internal inference service, if Soluix has one:** reuse; availability unknown.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ---
 
@@ -259,7 +259,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Option 1, plus a "partly simplified" state that shows the stripped message when JSON unwrap fails:** more readable for odd lines; one more state to test.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 2
 
 ---
 
@@ -280,7 +280,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Server-side at both points (after fetch for audit/metrics paths, at response for views):** belt and braces; two code paths to keep in sync.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ### DD-13 Masking pattern format and default partial pattern
 
@@ -297,7 +297,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Key rules only:** misses identifiers inside free message text.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ### DD-14 How the searched identifier is shown
 
@@ -335,7 +335,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **New schema on an existing Soluix database server:** reuses operations; couples the finder to a server it does not own.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ### DD-16 Audit log tamper evidence
 
@@ -352,7 +352,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Option 1 plus a periodic export to write-once storage:** strongest; needs storage that is not known yet.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ---
 
@@ -373,7 +373,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **scrypt:** acceptable; less common in Go web code.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ### DD-18 Session mechanism and idle timeout default
 
@@ -390,7 +390,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Stateless JWT only:** cannot meet Req 2.2 without waiting for expiry.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ### DD-19 Grants model
 
@@ -407,7 +407,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Policy engine (candidates such as Casbin or OPA, to evaluate):** expressive; more moving parts than the pilot needs.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ---
 
@@ -529,7 +529,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Comprehensive: option 1 plus multi-value labelling (6.2), grouping by correlation (24), metrics classification (27.6–27.7):** widest coverage; more test code in the pilot.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ---
 
@@ -550,7 +550,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Architecture and security only; data model and API in Stage 5:** fastest; less to review at the gate.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ---
 

@@ -14,8 +14,9 @@ Security: like every file in `aidlc-docs/`, this file uses placeholders (`<CIF>`
 
 ## Resume here
 
-- **Current stage:** Stage 4 Design. Stage 3 was approved 2026-11-25 (A-085); the six A-084 behaviors were accepted by approval (A-086). The Stage 4 decision file `.kiro/specs/simplified-log-finder/_decisions-design.md` is drafted (DD-01..DD-26: 17 Blockers, 9 Can-defer; verification checklist V-01..V-11 with owners). **It is awaiting answers.** No `design.md`, `tasks.md` or application code exists yet.
-- **Next step:** owners answer `_decisions-design.md` (Blockers first; "use recommendations for section N" is allowed), then the user says **"decisions filled"** → Kiro logs the answers in `audit.md` and generates `.kiro/specs/simplified-log-finder/design.md`. DD-01 decides whether `design.md` waits for the Loki spike or treats V-01..V-11 as explicit assumptions.
+- **Current stage:** Stage 4 Design. Stage 3 was approved 2026-11-25 (A-085); the six A-084 behaviors were accepted by approval (A-086). The Stage 4 decision file `.kiro/specs/simplified-log-finder/_decisions-design.md` has **20 of 26 decisions answered** (A-088 to A-107; all System Architect decisions done). No `design.md`, `tasks.md` or application code exists yet.
+- **Next step:** DevOps answers DD-20 and DD-21, QA/Developers answer DD-24 (Blockers). DD-14, DD-22, DD-23 are Can-defer. Then the user says **"decisions filled"** → Kiro logs the remaining answers in `audit.md` and generates `.kiro/specs/simplified-log-finder/design.md`. DD-01 = 1: V-01..V-11 are explicit assumptions in `design.md`; the Loki spike amends it later.
+- **For design.md:** apply N-013 (DD-11 rules-registry constraints and proposed editor role) and N-014 (30-minute idle timeout is a proposal).
 - **Carried to Stage 4 (now in the decision file):** `requirements.md` section "Open Items Carried to Stage 4" (OI-01..OI-13): Loki access unverified (C-08/G-04, **blocks the Loki spike**, RK-002), Loki retention (K-02), default windows and caps (M-06), per-search target (N-02), audit retention (SEC-04), MET-04 gaps (N-008), FE/Mobile Grafana access (U-01), DB table list (D-01), masked raw-log text sample before the parser is built (C-03).
 - **Deck:** `Simplified_Log_Finder_Inception_Update_Nov_2026.pptx` (repository root) is completed at the Human Review Gate. All inputs, sources, owners and retrospective counts are in `aidlc-docs/inception/deck-update-inputs.md`; **update that tracker at the end of each stage** (A-077).
 - **Risks:** RK-001 accepted and lowered (data synthetic; repository stays private). RK-002 open (Loki reachable without authentication; unverified working assumption per C-08 = 2). No DB read-replica confirmed (A4).
@@ -321,4 +322,118 @@ Blockers grouped by topic:
 - Quality: DD-24 test layers, DD-25 correctness properties, DD-26 what design.md contains.
 
 Next: the owners answer the Blockers (option number, own text, or "use recommendations" for a group). Then say "decisions filled" and I'll generate design.md.
+```
+
+### Turn 11: user prompt (2026-11-25)
+
+```text
+I was just told to answer some questions in #[[file:/Users/soluix/code/simplified-log-finder/.kiro/specs/simplified-log-finder/_decisions-design.md]] to continue, lets answer the questions that needs my confirmation as system architect
+```
+
+### Turn 11: Kiro response (2026-11-25)
+
+```text
+DD-01 to DD-09 are already answered, all with the recommended option. Eleven questions with System Architect as an owner are still empty: eight Blockers and three Can-defer. Below is my view on each. Tell me your choices and I'll write them into the file.
+
+**Blockers**
+
+- **DD-11 Parser rules.** I'd pick option 1 or 3. Option 1 hard-codes the pipeline for the one known format (CRI prefix, ANSI, nested JSON). Your G-01 answer asks for an input-agnostic engine, so a project with a different log format would need code. A middle path: the steps live in code, and each project's configuration picks which steps run and in what order. Option 3 adds a "partly simplified" state for lines where JSON unwrap fails, which helps BA/QA read odd lines.
+- **DD-12 Where masking runs.** Option 1. Every response passes through one masking point, which is the easiest way to test the masking invariant (Req 19.5).
+- **DD-15 Finder data store.** Option 1, PostgreSQL. Shared with DevOps, who runs it.
+- **DD-16 Audit tamper evidence.** Option 1. Database permissions alone (option 2) can't detect edits by a database admin. Option 3 needs write-once storage that nobody has identified yet.
+- **DD-18 Sessions.** Option 1. The 30-minute idle timeout is a proposal and stays a parameter. JWT-only (option 3) can't end sessions on account removal (Req 2.2).
+- **DD-19 Grants model.** Check this one against your SEC-01 answer ("parameterizable, least privilege"). Option 1 fixes the role names in code (business_admin, access_admin, pm, system_architect). What can be configured is who holds which role per project and environment, not which roles exist. If that's enough, choose 1. If admins must define new roles, choose 2 or 3.
+- **DD-25 Correctness properties.** Option 1 covers the six properties tied to security and correctness. QA co-owns this one.
+- **DD-26 Scope of design.md.** Option 1. Option 2 removes the reviewed API contract that the Pact work depends on.
+
+**Can-defer**
+
+- **DD-10 Inference server host.** Option 1, a separate VM sized after the model evaluation. Shared with DevOps.
+- **DD-13 Masking pattern format.** Option 1. Key rules catch tokens and base64 bodies, and value rules catch identifiers in free text. "Keep the last 4 characters" is a proposal to check with the PM.
+- **DD-17 Password hashing.** Option 1, argon2id. bcrypt truncates input beyond 72 bytes.
+
+**Not yours:** DD-14 (PM, BA), DD-20 and DD-21 (DevOps), DD-22 (DevOps, Developers), DD-23 (PM, Developers), DD-24 (QA, Developers).
+
+You can reply with something like "recommendations for all mine, DD-11: option 3". If you choose the DD-11 middle path or a different DD-19 model, I'll write it up as an "Other" answer.
+```
+
+### Turn 12: user prompt (2026-11-25)
+
+```text
+i've finished answering the questions addressed to me, did i miss any? or are there anything else that I need to look at?
+```
+
+### Turn 12: Kiro response (2026-11-25)
+
+```text
+You didn't miss any. All 20 questions with System Architect as an owner are answered: DD-01 to DD-13, DD-15 to DD-19, DD-25 and DD-26.
+
+Two answers need a closer look before design.md is written.
+
+**DD-18 option 2 (JWT + refresh token + revocation list)** leaves three things undecided:
+- **Idle timeout default.** Req 1.4 needs a value. The 30-minute proposal belonged to option 1. Pick a default, and lifetimes for the access and refresh tokens.
+- **Token storage.** HttpOnly cookies still need CSRF protection. Tokens held in JavaScript (an Authorization header) are exposed to XSS. I'd suggest HttpOnly, Secure, SameSite cookies with a CSRF token.
+- **Revocation cost.** Req 2.2 (sessions end on account removal) and Req 3.6 (revoked grants apply on the next request) mean every request checks the revocation list and re-reads grants from the database. Grants must not be carried inside the token. That removes most of the stateless benefit of JWT. It still works, but option 1 does the same with less code. Keep option 2 if you have another reason for it, such as a later split into services.
+
+**DD-11 option 1** means a project with a different log format needs a code change before onboarding, not configuration only. That is a known limit against your G-01 "input-agnostic" answer. design.md will record it as a limit unless you change the answer.
+
+**Still blocking design.md, owned by others:**
+- DD-20 Secrets and Source_Binding storage: DevOps
+- DD-21 Runtime, TLS and network path: DevOps
+- DD-24 Test layers: QA, Developers
+
+**Can-defer, owned by others:** DD-14 (PM, BA), DD-22 (DevOps, Developers), DD-23 (PM, Developers). design.md uses the recommended option for these, marked open, if they stay empty.
+
+**Other things for you:**
+- V-01 (Loki access path): you're the backup owner. With DD-01 option 1 it no longer blocks design.md, but it still blocks the Loki spike (U2).
+- V-11 (Grafana MCP / Assistant): co-owner with DevOps; nothing in the MVP depends on it.
+- Your answers in `_decisions-design.md` and this handoff are uncommitted. Commit and push so DevOps and QA see the current file.
+
+Once DD-20, DD-21 and DD-24 are filled, say "decisions filled" and design.md is generated.
+```
+
+### Turn 13: user prompt (2026-11-25)
+
+```text
+i've updated my answers for dd-18 and dd-11
+```
+
+### Turn 13: Kiro response (2026-11-25)
+
+```text
+I read both. DD-18 is now option 1 (server-side sessions), so the open points I raised on it are closed. The 30-minute idle timeout goes into design.md as a proposal and stays a parameter.
+
+DD-11 is now option 2, a per-project rules registry. That fits your G-01 answer: a new log format needs configuration, not code. It leaves three things that design.md will settle as follows unless you say otherwise:
+
+- **Partly parsed lines.** Option 2 doesn't answer the second half of the question. design.md will use Req 15.4: a line that fails any configured step is shown raw, labelled "could not be simplified".
+- **Keeping it deterministic and testable.** Rules are an ordered list of steps chosen from a fixed set of step types built in code (strip prefix, strip ANSI, unwrap JSON field, regex extract, select fields). Configuration can't contain arbitrary code. A rule set is validated before it is saved. The known BCAS format ships as the default rule set. Regexes use Go's standard `regexp` package, which runs in linear time, so a bad pattern can't hang the parser. The DD-25 parser property (determinism, no field dropped) runs against every saved rule set.
+- **Who edits the rules.** M-04 splits the Project Admin into a BA half (dictionary, identifier mapping) and a DevOps half (environments, bindings, access). Parser rules fit neither cleanly. I'd suggest the DevOps half edits them with a Developer reviewing, and every change is audited. Tell me if you want a different owner.
+
+Nothing else from you is open in _decisions-design.md. DD-20, DD-21 (DevOps) and DD-24 (QA, Developers) still block design.md. Commit and push your changes so they see the current file.
+```
+
+### Turn 14: user prompt (2026-11-25)
+
+```text
+cool, now update the state
+```
+
+### Turn 14: Kiro response (2026-11-25)
+
+```text
+I updated the state. Nothing is committed or pushed.
+
+Files changed:
+- `aidlc-docs/audit.md`: a new entry logs the 20 answered design decisions as A-088 to A-107. DD-01..DD-09 are credited to commit `ec616d7` and the other 11 to you. It also records that DD-11 and DD-18 changed after review, plus two notes: N-013 (the rules-registry constraints and editor role I proposed for DD-11) and N-014 (the 30-minute idle timeout is a proposal).
+- `aidlc-docs/aidlc-state.md`: step 2b shows 20 of 26 answered and names the open decisions and their owners.
+- `.kiro/specs/simplified-log-finder/_decisions-design.md`: status line only.
+- `aidlc-docs/inception/deck-update-inputs.md`: Stage 4 row updated.
+- `aidlc-docs/session-handoff.md`: "Resume here" updated. Another session had already added turns 6–10, so my last three turns were numbered 6–8 a second time. I renumbered them 11–13 and added this turn as 14.
+
+Still open: DD-20 and DD-21 (DevOps) and DD-24 (QA, Developers) block design.md. DD-14, DD-22 and DD-23 can wait.
+
+To push:
+git add aidlc-docs .kiro/specs/simplified-log-finder/_decisions-design.md
+git commit -m "Stage 4: System Architect design decisions and project state"
+git push
 ```

@@ -393,3 +393,50 @@ Answers by System Architect (staged after `5806546`):
 | 2026-11-25 | 3 Specify | Stage 3 approved (A-085); A-084 behaviors accepted by approval (A-086) | `.kiro/specs/simplified-log-finder/requirements.md` (unchanged) |
 | 2026-11-25 | 4 Design | Stage 4 decision file drafted; awaiting answers | `.kiro/specs/simplified-log-finder/_decisions-design.md`, `aidlc-state.md`, `inception/deck-update-inputs.md`, `session-handoff.md` |
 N-012 closed: requirements.md status line updated to Approved 2026-11-25.
+
+---
+
+## Entry 2026-11-25: Stage 4 design decisions, System Architect answers recorded
+
+**User input (verbatim):** "I was just told to answer some questions in #[[file:/Users/soluix/code/simplified-log-finder/.kiro/specs/simplified-log-finder/_decisions-design.md]] to continue, lets answer the questions that needs my confirmation as system architect", then "i've finished answering the questions addressed to me, did i miss any? or are there anything else that I need to look at?", then "i've updated my answers for dd-18 and dd-11", then "cool, now update the state".
+
+**AI response:** Reviewed the System Architect decisions and raised follow-ups on DD-18 (first answered option 2) and DD-11 (first answered option 1); the user changed DD-18 to option 1 and DD-11 to option 2. Recorded all 20 answered decisions below. DD-01..DD-09 were answered in commit `ec616d7` (author YAA); the other 11 by the System Architect after it. Updated `aidlc-state.md`, the status line of `_decisions-design.md`, `inception/deck-update-inputs.md` and `session-handoff.md` (duplicate turn numbers 6–8 from a parallel session renumbered 11–13). `design.md` is **not** generated: DD-20, DD-21 and DD-24 are still open. Earlier rows are not changed.
+
+### Decision log (additions)
+
+| ID | Date | Decision | Source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-088 | 2026-11-25 | design.md is approved with V-01..V-11 as explicit assumptions; the Loki spike (U2) amends design.md through a versioned change entry | DD-01 opt 1 | System Architect, DevOps (commit `ec616d7`) | Decided |
+| A-089 | 2026-11-25 | Modular monolith: one Go (Echo) service with internal packages per component; LLM inference server as a separate process | DD-02 opt 1 | System Architect (commit `ec616d7`) | Decided |
+| A-090 | 2026-11-25 | REST/JSON with an OpenAPI file in the repository; Pact consumer (frontend) and provider (backend) tests via PactFlow | DD-03 opt 1 | System Architect, Developers (commit `ec616d7`) | Decided |
+| A-091 | 2026-11-25 | Loki queries: server-injected stream selector from the Source_Binding plus escaped line filters; parsing in the finder | DD-04 opt 1 | System Architect, Developers (commit `ec616d7`) | Decided |
+| A-092 | 2026-11-25 | One `query_range` call with `limit = Result_Cap + 1`; "narrow your search" when exceeded (proposal, validate in the Loki spike) | DD-05 opt 1 | Developers, System Architect (commit `ec616d7`) | Decided (proposal) |
+| A-093 | 2026-11-25 | Starting defaults as labelled proposals, all per-Project parameters (exact ± 5 min, approximate ± 30 min, Max_Range 24 h, Result_Cap 500, Loki timeout 30 s, 2 concurrent searches per Source; DB 5 s, 200 rows, 7 days, concurrency 1 once approved by DevOps / Hadi Septian) | DD-06 opt 1 | System Architect, BA (commit `ec616d7`) | Decided (proposal values) |
+| A-094 | 2026-11-25 | NL_Translator: deterministic pre-processing plus a self-hosted open-weights LLM; inference server and model evaluated against the RQ-01..RQ-24 test set, not chosen yet | DD-07 opt 1 | System Architect (commit `ec616d7`) | Decided; model open |
+| A-095 | 2026-11-25 | NL output: JSON Schema for the Filter_Set, constrained output where supported, always validated server-side against the schema and the Project vocabulary | DD-08 opt 1 | System Architect, Developers (commit `ec616d7`) | Decided |
+| A-096 | 2026-11-25 | LLM unavailable: manual filters keep working; "natural-language search unavailable" message; NL timeout is a parameter | DD-09 opt 1 | System Architect, BA (commit `ec616d7`) | Decided |
+| A-097 | 2026-11-25 | Inference server on a separate internal VM, sized after the DD-07 evaluation | DD-10 opt 1 | System Architect (DevOps co-owner) | Decided; host open |
+| A-098 | 2026-11-25 | Parser: per-project rules registry (ordered steps in configuration), so a new log format needs configuration, not code. Changed from option 1 after the AI noted the conflict with G-01 (A-042). Constraints proposed in N-013 | DD-11 opt 2 | System Architect, Developers | Decided; see N-013 |
+| A-099 | 2026-11-25 | Masking server-side in one module applied to every response DTO; True_Raw only through a separate grant-checked, audited endpoint; unmasked data in memory for the request only | DD-12 opt 1 | System Architect | Decided |
+| A-100 | 2026-11-25 | Masking_Rules: key rules (full mask) and value rules (named regex, partial mask); default partial pattern keeps the last 4 characters (proposal) | DD-13 opt 1 | System Architect (PM co-owner) | Decided; pattern is a proposal |
+| A-101 | 2026-11-25 | Finder data in PostgreSQL on the internal server, one schema; JSONB for per-project configuration | DD-15 opt 1 | System Architect (DevOps co-owner) | Decided |
+| A-102 | 2026-11-25 | Audit append-only via database permissions (INSERT/SELECT only for the app role) plus a hash chain with a verification check | DD-16 opt 1 | System Architect | Decided |
+| A-103 | 2026-11-25 | Password hashing argon2id, parameters in configuration, set from current OWASP guidance at build time | DD-17 opt 1 | System Architect, Developers | Decided |
+| A-104 | 2026-11-25 | Server-side sessions in the finder database; opaque ID in an HttpOnly, Secure, SameSite cookie; CSRF token on state-changing calls; idle timeout parameter, default 30 minutes (proposal). Changed from option 2 (JWT + refresh + revocation list) after the AI noted it needed per-request revocation checks anyway | DD-18 opt 1 | System Architect | Decided; see N-014 |
+| A-105 | 2026-11-25 | RBAC tables: `membership`, `project_role` (business_admin, access_admin), `unmask_grant`, `global_role` (pm, system_architect); one authorization function on every request. Role names are fixed in code; who holds them is configurable per project and environment | DD-19 opt 1 | System Architect | Decided |
+| A-106 | 2026-11-25 | Essential correctness properties (a)–(f) for property-based tests; libraries `pgregory.net/rapid` and `fast-check` are candidates to confirm with Developers; at least 100 iterations each | DD-25 opt 1 | System Architect (QA co-owner) | Decided |
+| A-107 | 2026-11-25 | design.md full scope per DD-26 option 1, including the API contract | DD-26 opt 1 | System Architect | Decided |
+| P-008a | 2026-11-25 | P-008 partly resolved: 20 of 26 answered. Open: Blockers DD-20, DD-21 (DevOps), DD-24 (QA, Developers); Can-defer DD-14 (PM, BA), DD-22 (DevOps, Developers), DD-23 (PM, Developers) | `_decisions-design.md` | Pending owners | **Pending** |
+
+### Notes (additions)
+
+| ID | Date | Note | Status |
+|---|---|---|---|
+| N-013 | 2026-11-25 | DD-11 option 2 leaves points that design.md will settle as AI proposals unless the user objects: (a) a line failing any configured step is shown raw with "could not be simplified" (Req 15.4); (b) rules are ordered steps chosen from a fixed set of step types built in code (strip prefix, strip ANSI, unwrap JSON field, regex extract, select fields), no arbitrary code in configuration; (c) a rule set is validated before saving; the known BCAS format ships as the default rule set; (d) regexes use Go's standard `regexp` (linear time); (e) the DD-25 parser property runs against every saved rule set; (f) proposed editor: Project Admin DevOps half, with Developer review, every change audited (M-04 does not cover parser rules) | Open; confirm in design.md review |
+| N-014 | 2026-11-25 | DD-18: 30-minute idle timeout is a proposal and stays a parameter (Req 1.4) | Recorded |
+
+### Stage log (additions)
+
+| Date | Stage | Event | Artifacts |
+|---|---|---|---|
+| 2026-11-25 | 4 Design | 20 of 26 design decisions answered; all System Architect decisions done; waiting for DD-20, DD-21, DD-24 | `_decisions-design.md`, `aidlc-state.md`, `audit.md`, `inception/deck-update-inputs.md`, `session-handoff.md` |
