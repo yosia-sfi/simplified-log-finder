@@ -16,7 +16,7 @@ Security: like every file in `aidlc-docs/`, this file uses placeholders (`<CIF>`
 
 - **Current stage:** **Human Review Gate**, awaiting approval. All five stages are approved (Stage 5 on 2026-11-26, A-136; D5-01..D5-06 accepted, A-137). The gate package is `aidlc-docs/inception/human-review-gate.md` (deliverables, §1.7 check, self-check, unconfirmed assumptions, open blockers, retrospective).
 - **Next step:** the user says **"approve the gate"** (with the team's human-effort hours and confidence 1–5 if available), "approve the gate, but …", or "not yet: …". Approval accepts the deferred due dates (TD-13, N-018). After approval: Construction Wave 1 (U1) once Developers confirm the stack (H-04).
-- **Deck:** newest version is `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.pptx` (A-139, built 2026-11-26 after Stage 5 approval). The older `_filled.pptx` is stale and was locked by PowerPoint; delete or replace it after closing PowerPoint. Do not commit the `~$` lock file. Open in the deck: presenter names/date, confidence, unit owners/dates, baseline numbers and chart, screenshots. Refresh after gate approval.
+- **Deck:** the working deck is `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v3.pptx` (the user edits it in PowerPoint; a tech stack slide was added 2026-11-26, A-142). Edit v3 for any further deck changes. Do not commit the `~$` lock file. Open in the deck: presenter names/date, unit owners/dates, screenshots; slide 4 confidence was replaced by the legacy SDLC estimate.
 - **Still open:** V-01 Loki access (gates Wave 2, RK-002); V-10 masked log sample (gates Wave 3); H-04 stack (gates Wave 1); retention values; inference VM; D5-02 deploy controls.
 - **Key files:** `aidlc-docs/inception/human-review-gate.md`, `aidlc-docs/aidlc-state.md`, `aidlc-docs/audit.md`, `.kiro/specs/simplified-log-finder/requirements.md`, `design.md`, `tasks.md`.
 
@@ -661,4 +661,40 @@ Slide 4 is updated in Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.
 2. Legacy SDLC estimate: the fourth stat now reads "~30 days", "if done with legacy SDLC (est. simulation)". It is my simulation, not a measurement: about 36 working days if every phase is sequential (clarification 6, requirements 9 plus 2 review, design 9 plus 2 review, plan 3 plus 2, context 3), about 30 with phase overlap, range 25 to 36. The assumptions are in deck-update-inputs.md so the BA and PM can correct them. The actual run took about 2 calendar days, but effort hours are not recorded yet, so the two figures measure different things.
 
 Please tell me item 3. Also say if the "Confidence" metric should stay in the gate document: the brief lists it, so I kept it there as "TBD by the team".
+```
+
+
+### Turn 24: user prompt (2026-11-26)
+
+```text
+add tech stack slide. but i already update in the Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v3.pptx . update there please.
+```
+
+### Turn 24: Kiro response (2026-11-26)
+
+```text
+The tech stack slide is added to Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v3.pptx. It is slide 9 of 11, titled "Technology stack at a glance", right after the architecture slide. It uses the same table style as the "Six decisions" slide and has a speaker note.
+
+Rows (Layer, Technology, Why, Status): Backend (Go with Echo, REST/JSON with OpenAPI, argon2id) and Frontend (TypeScript, React, Vite, TanStack, Tailwind, shadcn/ui, lucide-react), both marked "To confirm with Developers"; Data (PostgreSQL with JSONB, audit with a hash chain), Decided; Quality (PactFlow, Playwright, rapid and fast-check), with the last three as candidates; Deploy and CI/CD (Docker Compose, internal reverse proxy with TLS, auto-deploy on main), CI system and proxy product still open; AI and sources (self-hosted LLM plus rules pre-processor, Loki, pod logs via Loki, read-only database), model, inference server and DB engine still open.
+
+I left your other changes alone. Your v3 has a new slide "Our experience with AI-DLC Inception", and the baseline slide is gone; I did not touch either. I checked the file structure and the new slide's text by script but have not opened it in PowerPoint, so please check the table for text overflow.
+```
+
+
+### Turn 25: user prompt (2026-11-26)
+
+```text
+can you add also the screenshot required, please
+```
+
+### Turn 25: Kiro response (2026-11-26)
+
+```text
+The two screenshot boxes in Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v3.pptx now hold pictures. I can't capture your screen, so I rendered each picture from the source file text, in the same size and position as the box:
+- "AI proposes, humans decide": an excerpt of stage2-questions.md with questions C-01 and C-04. The recommended option is highlighted green and the human answer yellow, so the slide shows where the team chose a different option.
+- "Every requirement traces back to a real chat": an excerpt of requirements.md, Requirement 10, with the user story, three acceptance criteria and the Given/When/Then example.
+
+Masking: the client name and the approver's name are replaced by black blocks; identifiers were already placeholders. The pictures are not real screenshots; if you want real captures, paste them over these. I checked the file structure by script but have not opened it in PowerPoint, so please look at both slides.
+
+The pilot ping chart box is gone because the baseline slide is no longer in your v3, so there is nothing to fill there until the 3-month chat count exists. The architecture slide already has its diagram as native shapes, so I left it as is.
 ```

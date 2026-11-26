@@ -304,3 +304,11 @@ Assumed legacy way: sequential document-driven phases; one BA, one System Archit
 | Range | 25 (more parallel work) to 36 (fully sequential) | |
 
 Caveats: this is an AI simulation from assumed effort, not a measured figure; the actual AI-DLC run took about 2 calendar days with the team answering questions in between, and the team's human-effort hours are not yet recorded, so the two numbers measure different things (elapsed time versus effort). Ask the BA and PM to adjust the assumptions if they have real numbers from past projects.
+
+## Update 2026-11-26: Deck v3 is the working deck (A-142)
+
+Working deck: `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v3.pptx` (edited by the user in PowerPoint). New slide 9 "Technology stack at a glance" (table: Backend, Frontend, Data, Quality, Deploy and CI/CD, AI and sources; source `design.md`, H-04, TD-11). Note that the user removed the baseline slide and added "Our experience with AI-DLC Inception"; slide numbers in earlier entries of this file refer to the older layout.
+
+## Update 2026-11-26: Screenshots added (A-143)
+
+Slide "AI proposes, humans decide": image of `stage2-questions.md` C-01 and C-04 (recommended option vs the human answer). Slide "Every requirement traces back to a real chat": image of `requirements.md` Requirement 10. Both are rendered excerpts with the client name and the approver name masked. The pilot ping chart is not in v3 (slide removed); add it when the baseline count exists.

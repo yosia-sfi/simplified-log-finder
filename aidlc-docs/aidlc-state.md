@@ -8,7 +8,7 @@
 - **Target Architecture**: `design.md` drafted 2026-11-26: Go modular monolith + separate inference VM, PostgreSQL, Docker Compose on the internal server, REST/JSON + OpenAPI + Pact. Decided in Stage 2: hybrid thin layer over existing sources, input/output-agnostic, approach decided per source (G-01); hosted on an internal Soluix server/VM on the UAT/RC network (H-01); internal/local LLM producing structured filters only (L-01, L-03); deterministic simplified view (L-04); local accounts (H-03).
 - **Tech Stack (H-04, to confirm with Developers)**: Backend Go + Echo. Frontend TypeScript, React, Vite, TanStack Router, TanStack Query, TanStack Virtual, Tailwind, shadcn/ui, lucide-react. Contract testing with PactFlow in backend, frontend and CI/CD.
 - **Active Spec**: simplified-log-finder
-- **Deck**: template `Simplified_Log_Finder_Inception_Update_Nov_2026.pptx` (unchanged); newest filled copy `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.pptx` (A-139, 2026-11-26; older `_filled.pptx` is stale); inputs in `aidlc-docs/inception/deck-update-inputs.md`; refresh after gate approval
+- **Deck**: template `Simplified_Log_Finder_Inception_Update_Nov_2026.pptx` (unchanged); working deck `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v3.pptx` (edited by the user; tech stack slide added 2026-11-26, A-142); inputs in `aidlc-docs/inception/deck-update-inputs.md`
 - **Session handoff**: `aidlc-docs/session-handoff.md` (verbatim prompts/responses and "Resume here"; commit and push before switching laptops)
 
 ## Reference Documents (available since 2026-11-25, commit `ac124f7`)

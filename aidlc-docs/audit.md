@@ -586,3 +586,23 @@ N-012 closed: requirements.md status line updated to Approved 2026-11-25.
 | A-141 | 2026-11-26 | Slide 4 fourth stat (confidence) replaced by "~30 days": AI simulation of brief to inception package with a legacy SDLC, range 25 to 36 working days. Assumptions in `deck-update-inputs.md` ("Legacy SDLC estimate"). The "Rework" count (1 correction turn) is no longer on the slide but stays in the tracker and the gate retrospective | User request item 2 | User | Done; estimate is an assumption, not a measurement |
 | N-024 | 2026-11-26 | Brief section 5 still lists Confidence (1 to 5) as a retrospective metric; it stays in `human-review-gate.md` section 6 as "TBD by the team" even though it left the slide | Brief §5 | AI | Open: tell me if it should go from the gate document too |
 | N-025 | 2026-11-26 | Message item 3 was empty ("3.") | User message | AI | Open: waiting for the user's item 3 |
+
+## Entry 2026-11-26: Tech stack slide added to deck v3
+
+**User Input**: "add tech stack slide. but i already update in the Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v3.pptx . update there please."
+**AI Response**: Added a slide "Technology stack at a glance" to `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v3.pptx` (the user's edited copy), placed after "The finder sits in front of existing sources" (now slide 9 of 11), with a table (layer, technology, why, status) and a speaker note. No other slide of the user's v3 was changed.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-142 | 2026-11-26 | Tech stack slide added to deck v3: backend, frontend, data, quality, deploy and CI/CD, AI and sources. Statuses: backend and frontend "To confirm with Developers" (H-04); data decided (DD-15, DD-16); Playwright, rapid and fast-check candidates; CI system, reverse proxy product, LLM model and inference server, source DB engine open | User request; `design.md`; H-04, SC-1, DD-02..DD-22, TD-11 | User | Done |
+| N-026 | 2026-11-26 | The user's v3 has changes made in PowerPoint (a new slide "Our experience with AI-DLC Inception"; the baseline slide was removed). v3 is now the working deck; the earlier `_filled.pptx` and `_v2.pptx` are no longer in the folder. Future edits go to v3 | Observed in the file | Recorded |
+
+## Entry 2026-11-26: Screenshot images added to deck v3
+
+**User Input**: "can you add also the screenshot required, please"
+**AI Response**: Replaced the two screenshot placeholders in `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v3.pptx` with images rendered from the source files: (1) slide "AI proposes, humans decide": excerpt of `stage2-questions.md` (C-01 and C-04 with the recommended option highlighted and the human answer highlighted); (2) slide "Every requirement traces back to a real chat": excerpt of `requirements.md`, Requirement 10 (user story, acceptance criteria 1 to 3, Given/When/Then). Client name and person name are masked with solid blocks. These are rendered excerpts, not screen captures.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-143 | 2026-11-26 | Screenshot placeholders on two slides filled with rendered excerpts (masking: client name and the approver name replaced by blocks; identifiers were already placeholders). The weekly-ping chart placeholder no longer exists in v3 (the baseline slide was removed); no diagram image added to the architecture slide (its diagram is native shapes) | `deck-update-inputs.md` screenshot needs | User | Done |
+| N-027 | 2026-11-26 | Images are not real screenshots; the user may replace them with real captures. Not checked visually in PowerPoint | Tool limit | Open |
