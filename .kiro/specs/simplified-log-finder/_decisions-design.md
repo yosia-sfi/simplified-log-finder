@@ -73,7 +73,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Generate design.md now, but hold approval of the Loki connector and DB connector sections until V-01, V-02 and V-08 are done:** the rest is approved now.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ---
 
@@ -94,7 +94,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Service per component:** highest operational cost for a pilot of this size.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### DD-03 Frontend–backend interface
 
@@ -111,7 +111,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **RPC style (for example gRPC-web or Connect) with generated clients:** stronger typing; adds tooling outside the chosen stack.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ---
 
@@ -132,7 +132,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Hybrid: option 1 by default; a template may add query-time parsing for a named field when the spike shows it is needed:** flexible; two template styles to test.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### DD-05 Pagination and Result_Cap strategy
 
@@ -149,7 +149,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Split the window into fixed chunks run sequentially, stopping at Result_Cap:** smoother load on wide windows; most complex.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### DD-06 Default values for time windows, caps and limits
 
@@ -166,7 +166,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **BA proposes windows from the 24 requests; System Architect sets caps; no AI values:** owner-driven; needs a meeting.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ---
 
@@ -187,7 +187,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **LLM only (sentence in, Filter_Set out):** least code; most dependent on model quality and hardware.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### DD-08 Validation of NL output
 
@@ -204,7 +204,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Tool/function-calling interface of the inference server, validated server-side:** depends on server support.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### DD-09 Behavior when the LLM is unavailable
 
@@ -221,7 +221,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Queue the sentence and notify when filters are ready:** adds state for little benefit with fewer than 10 users.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### DD-10 Where the inference server runs
 
