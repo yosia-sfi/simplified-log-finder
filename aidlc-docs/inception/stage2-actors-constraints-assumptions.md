@@ -1,6 +1,6 @@
 # Stage 2 (Discover): Actors, Constraints and Assumptions
 
-AI-DLC Inception, Stage 2 (Discover). Status: **Draft, awaiting human approval**.
+AI-DLC Inception, Stage 2 (Discover). Status: **Approved 2026-11-25**.
 Sources: `prompt-inception.md` (the brief), cited `[§x.y]`; the user's Stage 1 corrections, cited `[User 2026-11-25]`; Stage 1 artifacts in this folder; from 2026-11-25 the committed reference files, cited `[Ideation p.N]` / `[Presenter p.N]` (see `reference-docs-review.md`). Anything not in these sources is marked **TBD – needs confirmation**. Everything labelled "AI proposal" or "AI observation" is a proposal for the team to accept or reject ("AI proposes, humans decide").
 Questions raised here are in `stage2-questions.md` and referenced by ID (e.g. `H-01`).
 
@@ -52,7 +52,7 @@ AI observation: the brief does not name a security/compliance reviewer who reads
 | C8 | No direct Grafana / database / k9s access for BA/QA | Decided by team (T-002) | §1.2 |
 | C9 | Next phase (images, more input sources) must not be blocked by the MVP design | Given | §1.4 |
 
-AI observation on C6: limiting scope to UAT and RC lowers exposure compared with production, but UAT/RC logs can still contain sensitive values [§1.5], so C1 and C5 apply in full. Whether UAT/RC data is real client data or synthetic test data: **TBD – needs confirmation** (`SEC-02`).
+AI observation on C6: limiting scope to UAT and RC lowers exposure compared with production, but UAT/RC logs can still contain sensitive values [§1.5], so C1 and C5 apply in full. Whether UAT/RC data is real client data or synthetic test data: **TBD – needs confirmation** (`SEC-02`). Update 2026-11-25: **synthetic**, confirmed by Yosia Alvin (`C-04`, A-062); masking stays on by default (A-051, A-054).
 
 ---
 
@@ -72,19 +72,22 @@ The DevOps owner was unavailable; these are never treated as facts.
 - **Robust design (AI proposal):** the finder does not depend on Grafana to run queries. Grafana is optional (discovery and engineer deeplinks only), so its availability or licensing does not block the MVP.
 
 #### A2. Loki is accessed through a gateway
-- **Status:** Unknown. **Deferred to Stage 4 technical verification** [User 2026-11-25]. Owner DevOps (Hadi Septian), backup System Architect (William Tanardi). Can-defer, but **blocks the Loki connector spike/build**. Checklist in §6 (`G-04`).
+- **Status (update 2026-11-25):** **Answered FALSE** in `G-04` (option 2: directly to Loki without authentication, network-restricted only; audit A-063, P-004c). The answer came before the planned verification; its source is asked in `C-08`, so it stays a working assumption until C-08 is answered. See risk RK-002. The "If false" case below applies.
+- **Original status:** Unknown. **Deferred to Stage 4 technical verification** [User 2026-11-25]. Owner DevOps (Hadi Septian), backup System Architect (William Tanardi). Can-defer, but **blocks the Loki connector spike/build**. Checklist in §6 (`G-04`).
 - **If true:** the finder calls the gateway URL with the gateway's credential type (TBD); the gateway may set or require the tenant header. Network route from the finder host to the gateway is needed.
 - **If false (direct Loki):** per the brief, Loki does not handle authentication, so anyone with a network route can query it. The finder's connector becomes the main control point, and the Loki endpoint must not be reachable from user browsers. DevOps may need to add a proxy or network restriction (TBD).
 - **Robust design (AI proposal):** per-project connector configuration with base URL, auth type (none / basic / bearer, as found), optional custom headers (e.g. `X-Scope-OrgID`), and secrets held server-side only. All Loki calls happen server-side; the browser never receives Loki credentials or URLs.
 
 #### A3. There is one Loki per project
-- **Status:** Unconfirmed working assumption; verify in Stage 4 (`G-05`).
+- **Status (update 2026-11-25):** **Confirmed TRUE** in `G-05` (option 1; audit A-064). With no authentication at Loki (A2), project isolation for Loki relies on separate Loki endpoints plus the finder's server-side checks (RK-002).
+- **Original status:** Unconfirmed working assumption; verify in Stage 4 (`G-05`).
 - **If true:** project isolation comes from separate endpoints/credentials. Onboarding a project means adding an endpoint and credential.
 - **If false (shared Loki):** isolation relies either on tenants (`X-Scope-OrgID`, when multi-tenancy is enabled) or on label selectors in every query. Label-only isolation fails if a template omits the project selector, which would breach C5.
 - **Robust design (AI proposal):** a per-project "source binding" holding endpoint, credential, optional tenant ID and mandatory label selectors. Templates always inject the binding server-side; users cannot edit or remove it. The same model works for both answers. A test per template checks that the project selector is present (Stage 3/4).
 
 #### A4. The database has no read-replica
-- **Status:** Unconfirmed working assumption; **treated as a risk**; verify in Stage 4 (`D-02`).
+- **Status (update 2026-11-25):** **Confirmed TRUE** in `D-02` (option 1; audit A-067). Risk stays high. Limits are proposed in Stage 4 and approved by DevOps and the database owner Hadi Septian before the database source is enabled (`D-03`, A-068).
+- **Original status:** Unconfirmed working assumption; **treated as a risk**; verify in Stage 4 (`D-02`).
 - **If true (no replica):** finder queries hit the primary UAT/RC database. Risk: slow queries affect testers during UAT/regression. Needs query timeout, row cap, mandatory time range, concurrency limit, and explicit approval from the database owner before the connector is enabled (`D-03`). Values: **TBD** (proposed in Stage 4, approved by DevOps).
 - **If false (replica exists):** connector points to the replica; the same limits still apply, with values possibly relaxed.
 - **Robust design (AI proposal):** limits are mandatory in both cases; the connector target is configuration; the database source is switched on per project only after recorded approval; queries come only from predefined, parameterized templates (C2).
@@ -105,7 +108,8 @@ The DevOps owner was unavailable; these are never treated as facts.
 
 | ID | Risk | Status | Question |
 |---|---|---|---|
-| RK-001 | The committed reference PDFs (commit `ac124f7`) contain what appear to be real CIFs, account numbers, hashcards, a phone number, request IDs, S3 bucket names and base64 document content, now in git history. Relevant to C1 because the repository is used on several laptops and may be pushed to a remote | **Flagged; no action taken; decision pending user** | `SEC-06` |
+| RK-001 | The committed reference PDFs (commit `ac124f7`) contain what appear to be real CIFs, account numbers, hashcards, a phone number, request IDs, S3 bucket names and base64 document content, now in git history. Relevant to C1 because the repository is used on several laptops and may be pushed to a remote | **Flagged; no action taken; decision pending user**. Update 2026-11-25: accepted (SEC-06 opt 3, repository stays private); severity lowered because UAT/RC data is confirmed synthetic (`C-04`, A-062) | `SEC-06`, `C-04` |
+| RK-002 | (Added 2026-11-25) Loki is reachable without authentication (`G-04`): anyone with a network route can query it; no per-project credential at Loki, so isolation relies on one Loki per project (`G-05`) plus the finder's server-side checks (`G-07`) | **Open; source of the G-04 answer pending** | `C-08` |
 
 ---
 

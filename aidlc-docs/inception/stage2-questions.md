@@ -1,12 +1,12 @@
 # Stage 2 (Discover): Clarification Questions
 
-AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in commit `5806546`, System Architect after it); due dates and some names still open; 14 Can-defer questions open; awaiting Stage 2 approval**. Decisions are logged in `audit.md` (entry "Stage 2 answers recorded"). This file is the requirements decision file for spec `simplified-log-finder`; Stage 3 (Specify) uses the answers.
+AI-DLC Inception, Stage 2. Status: **Approved 2026-11-25** (all questions answered, including section 13: C-05 = 1, C-07 = 1, C-08 = 2; see `audit.md` entry "Stage 2 approved"). Decisions are logged in `audit.md` (entry "Stage 2 answers recorded"). This file is the requirements decision file for spec `simplified-log-finder`; Stage 3 (Specify) uses the answers.
 
 > **How to answer:** fill in each `[Answer]:` line with an option number, or write your own answer under "Other". Recommended options are AI proposals; nothing is decided until you answer. You can answer "use the recommendations" for any group.
 >
 > **Tags:** **Blocker** = must be answered (or have an owner and due date) before Stage 3 is approved. **Can-defer** = may be answered later. **Can-defer (verify in Stage 4)** = verified by the technical team during Design; some of these block a specific build unit, as noted.
 >
-> **Due dates:** "TBD (set by PM)" for every Blocker. The brief [§1.7] requires each Blocker to have an owner and a due date.
+> **Due dates:** all original Blockers are answered, so brief §1.7 no longer requires due dates for them. Due dates apply only to Blockers that are still unanswered (as of 2026-11-25: C-05 in section 13).
 
 ## Already answered (not re-asked)
 
@@ -48,6 +48,9 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
 | M-10 | Requests without identifier or time (added 2026-11-25) | BA, PM |
 | SEC-05 | "Copy raw" when the log is forwarded to the client (added 2026-11-25; linked to SEC-03) | System Architect, PM |
 | SEC-06 | Sensitive data in the committed reference PDFs (added 2026-11-25) | PM, System Architect |
+| C-01 | Default unmask and "true raw" rights (added 2026-11-25, section 12) | System Architect, PM |
+| C-03 | Masked raw-log text sample timing (added 2026-11-25, section 12) | PM, DevOps |
+| C-05 | Unmask / true-raw rights for BA/QA vs T-002 (added 2026-11-25, section 13) | PM, System Architect |
 
 ---
 
@@ -69,7 +72,7 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
 - **Question:** Which real project and team run the pilot?
 - **Why this matters:** Identifiers, dictionary terms, Loki/DB bindings and the ping baseline all come from this project.
 - **Options:**
-  1. **(Recommended)** The project that produced most of the 24 sampled requests and has UAT/RC activity during the pilot window. Rationale: real requests become test data; enough traffic to measure. Name: _______________
+  1. **(Recommended)** The project that produced most of the 24 sampled requests and has UAT/RC activity during the pilot window. Rationale: real requests become test data; enough traffic to measure. Name: BCAS
   2. The project with the next scheduled UAT/regression cycle. Name: _______________
   3. Other: _______________
 - [Answer]:1
@@ -220,7 +223,7 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   3. Only reachable via Grafana.
   4. Other: _______________
 - **Recommended action:** run checks (a)–(d) and record results here.
-- [Answer]:
+- [Answer]:2
 
 ### G-05 Loki topology
 - **Tag:** Can-defer (verify in Stage 4) · **Owner:** DevOps
@@ -232,18 +235,18 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   3. Shared Loki, single tenant, projects separated by labels.
   4. Other: _______________
 - **Recommended action:** answer from checklist steps (a) and (c). The design proposal (source bindings) works for all three.
-- [Answer]:
+- [Answer]:1
 
 ### G-06 Service identity and approval of read-only access
 - **Tag:** Blocker · **Owner:** DevOps, System Architect · **Due:** TBD (set by PM)
 - **Question:** Which identity/token does the finder use to reach Loki and the database, and who approves read-only access?
 - **Why this matters:** C1 and C5; an over-privileged identity turns the finder into a backdoor.
 - **Options:**
-  1. **(Recommended)** A dedicated read-only service identity per project and per source, approved by DevOps and the project's lead (name: ___). Rationale: least privilege; revocable per project.
+  1. **(Recommended)** A dedicated read-only service identity per project and per source, approved by DevOps and the project's lead (name: Yosia Alvin). Rationale: least privilege; revocable per project.
   2. One shared read-only service identity for all projects.
   3. Users' own credentials passed through (not possible for BA/QA under T-002).
   4. Other: _______________
-- [Answer]: 1, each project has different leads
+- [Answer]: 1
 
 ### G-07 Project isolation with a service identity
 - **Tag:** Blocker · **Owner:** System Architect · **Due:** TBD (set by PM)
@@ -263,7 +266,7 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   1. Developers and DevOps only (same as Grafana).
   2. DevOps only.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ---
 
@@ -277,7 +280,7 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   1. **(Recommended)** Developers list, for the pilot project only, the tables they actually open for the 24 sampled requests.
   2. DevOps provides the full schema for the pilot project.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### D-02 Read-replica
 - **Tag:** Can-defer (verify in Stage 4) · **Owner:** DevOps
@@ -287,17 +290,17 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   1. No read-replica (current working assumption).
   2. Read-replica exists for: ___.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### D-03 Limits on the primary database and their approver
 - **Tag:** Can-defer (verify in Stage 4); **blocks enabling the database source** · **Owner:** DevOps
 - **Question:** Who approves database query limits (timeout, row cap, time range, concurrency), and when are values set?
 - **Why this matters:** Protects UAT/RC testers from slow queries if there is no replica.
 - **Options:**
-  1. **(Recommended)** Stage 4 proposes values; DevOps (and the database owner, name: ___) approves before the database source is enabled.
+  1. **(Recommended)** Stage 4 proposes values; DevOps (and the database owner, name: Hadi Septian) approves before the database source is enabled.
   2. Values given now: timeout ___, row cap ___, max range ___, concurrency ___.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ---
 
@@ -312,7 +315,7 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   2. Direct pod-log reading for logs not shipped to Loki (which: ___).
   3. Both.
   4. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### K-02 Short-lived pods
 - **Tag:** Can-defer (verify in Stage 4) · **Owner:** DevOps
@@ -322,7 +325,7 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   1. **(Recommended)** Rely on Loki retention (period: TBD).
   2. Direct reading only for running pods; accept the gap.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ---
 
@@ -346,7 +349,7 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   1. All inside log lines (working assumption AS-06).
   2. Some are labels: ___.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### M-03 Owner of the business-term dictionary
 - **Tag:** Blocker · **Owner:** PM · **Due:** TBD (set by PM)
@@ -397,7 +400,7 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   1. **(Recommended)** Show matching lines from each service in the same window, grouped by service and labelled "not linked by correlation_id"; link by a shared identifier (e.g. CIF, request ID) only when present.
   2. Show single-service results only.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### SRC-01 Missing source documents
 - **Tag:** Can-defer · **Owner:** BA, PM
@@ -474,7 +477,7 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   1. **(Recommended)** Share links inside the finder that re-check the viewer's access; Grafana deeplink shown only to Developer/DevOps roles.
   2. No sharing in the MVP.
   3. Other: _______________
-- [Answer]:
+- [Answer]:2
 
 ### O-03 Escalation path
 - **Tag:** Can-defer · **Owner:** BA, PM
@@ -508,8 +511,8 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
   1. **(Recommended)** Mask in all views by default: tokens and document content fully hidden; CIF, account numbers and hashcards partially masked (pattern TBD); the identifier the user searched for may be shown in full to that user.
   2. Mask everything fully.
   3. No masking for UAT/RC (only if the data is confirmed synthetic).
-  4. Other: _______________
-- [Answer]: 1, but again it should be parameterizable and may be toggle-able if the user has the rights
+  4. Other: option 1, but again it should be parameterizable and may be toggle-able if the user has the rights
+- [Answer]: 4
 
 ### SEC-03 "Copy raw": masked or unmasked, per role
 - **Tag:** Blocker · **Owner:** System Architect, PM · **Due:** TBD (set by PM)
@@ -528,7 +531,7 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
 - **Options:**
   1. **(Recommended)** Audit user, time, project, environment, filters or sentence (masked), result count, raw-view opens, copy and share actions, escalations; readable by PM and System Architect; retention set by compliance (period TBD).
   2. Audit searches only.
-  3. Other: no need for audit logging for now
+  3. Other:
 - [Answer]: 1
 
 ---
@@ -570,10 +573,10 @@ AI-DLC Inception, Stage 2. Status: **All Blockers answered 2026-11-25 (PM/BA in 
 - **Question:** What separates "partly met" from "no change"?
 - **Why this matters:** The roll-out decision rule needs numbers.
 - **Options:**
-  1. **(Recommended)** Set before the pilot starts, after the baseline is counted: "met" ≥ 65% reduction and under 2 minutes; "partly met" and "no change" thresholds: ___.
+  1. **(Recommended)** Set before the pilot starts, after the baseline is counted: "met" ≥ 65% reduction and under 2 minutes; "partly met" and "no change" thresholds: partly met 35%-64%, no change: 0%-34%.
   2. Decide after the pilot.
   3. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ---
 
@@ -601,7 +604,7 @@ Source: `reference-docs-review.md` (Ideation PDF, Presenter PDF, Workshop PPTX, 
   2. Use the `cluster` label only.
   3. Use the payload `project_name` only.
   4. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### M-09 Linking requests by X-Request-Id or traceparent
 - **Tag:** Can-defer (verify in Stage 4) · **Owner:** System Architect, Developers
@@ -612,7 +615,7 @@ Source: `reference-docs-review.md` (Ideation PDF, Presenter PDF, Workshop PPTX, 
   2. No; link only by `correlation_id` or a shared business identifier.
   3. Developers fix `correlation_id` population instead (outside the finder's scope).
   4. Other: _______________
-- [Answer]:
+- [Answer]:1
 
 ### M-10 Requests without identifier or time
 - **Tag:** Blocker · **Owner:** BA, PM · **Due:** TBD (set by PM)
@@ -667,3 +670,90 @@ Source: `reference-docs-review.md` (Ideation PDF, Presenter PDF, Workshop PPTX, 
   2. In scope: show a logged response for an endpoint as an example.
   3. Other: _______________
 - [Answer]:1
+
+---
+
+## 12. Added 2026-11-25 after Blocker review
+
+Source: review of all answers in this file after S-02, G-06 and SEC-04 were fixed. Existing questions are not renumbered. `C-01` turns audit note N-002 into a question.
+
+### C-01 Default unmask and "true raw" rights
+- **Tag:** Blocker · **Owner:** System Architect, PM · **Due:** TBD (set by PM) · **Linked to:** `SEC-02`, `SEC-03`, `SEC-05`, audit note N-002
+- **Question:** The `SEC-02`, `SEC-03` and `SEC-05` answers make masking on by default but toggleable "if the user has the rights", and allow a "true raw" copy. Who can hold the right to unmask views and copy true raw data?
+- **Why this matters:** Stage 3 acceptance criteria need to know who can hold this right. Team decision T-002 rejected giving BA/QA direct raw access, and C5 forbids broader raw access than intended.
+- **Options:**
+  1. **(Recommended)** No one has the right by default; the access manager (DevOps half of Project Admin, `M-04`) grants it per user, per project and per environment; only Developer/DevOps users are eligible in the MVP; every unmask and true-raw copy is audited (`SEC-04`). Rationale: least privilege, consistent with T-002 and C5.
+  2. Developer and DevOps users have the right by default in projects they belong to; BA/QA/FE/Mobile never.
+  3. Any user, including BA/QA, can be granted the right by the Project Admin, with audit. Note: weakens T-002; the team must confirm.
+  4. Other: _______________
+- [Answer]:3
+
+### C-02 Confirm the BCAS approver
+- **Tag:** Can-defer; **needed before read-only access is requested for the Loki spike** · **Owner:** PM
+- **Question:** `G-06` names Bernhard Praditya as the approver, and the brief lists Bernhard Praditya as a Business Analyst of The Investor's Team. The answer also says each project has different leads. Is Bernhard Praditya the BCAS project lead who approves read-only access?
+- **Why this matters:** Read-only access for the Loki spike needs the right approver for the pilot project, and the approver must be recorded per project.
+- **Options:**
+  1. **(Recommended)** Yes, Bernhard Praditya is the BCAS project lead who approves read-only access together with DevOps; the approver is stored per project in the finder's project settings.
+  2. A different BCAS lead approves (name: Yosia Alvin).
+  3. Other: _______________
+- [Answer]:2
+
+### C-03 Masked raw-log text sample timing
+- **Tag:** Blocker · **Owner:** PM, DevOps · **Due:** TBD (set by PM) · **Linked to:** `SRC-01`
+- **Question:** The `SRC-01` answer (option 1) asked for the 24 requests and one masked log sample before Stage 3. The 24 requests are now in the Ideation PDF, but the log sample is only a screenshot (Ideation p.17; `reference-docs-review.md` §6 N1). When must a masked text sample be provided?
+- **Why this matters:** Parser acceptance criteria and parser tests need real log lines; waiting for the sample before Stage 3 may delay Stage 3.
+- **Options:**
+  1. **(Recommended)** Start Stage 3 with the screenshot as the source for parser acceptance criteria; a masked text export of a few raw lines plus the full label list is required before the parser unit is built (Stage 5 / Construction); owner DevOps or a Developer. Rationale: Stage 3 states behavior, not parsing code.
+  2. Keep the `SRC-01` answer: provide the masked text sample before Stage 3 starts.
+  3. Other: _______________
+- [Answer]:1
+
+### C-04 Is UAT/RC data real client data or synthetic?
+- **Tag:** Can-defer · **Owner:** PM · **Linked to:** `SEC-02`
+- **Question:** The second half of the `SEC-02` question was not answered. Is UAT/RC data real client data or synthetic?
+- **Why this matters:** Masking is on by default either way, so this does not block Stage 3, but it sets how strict the masking acceptance criteria and default patterns must be. The PDFs contain values that look real.
+- **Options:**
+  1. **(Recommended)** Treat UAT/RC data as real client data for the MVP.
+  2. Confirmed synthetic (who confirmed: Yosia Alvin).
+  3. Mixed or unknown; treat as real.
+  4. Other: _______________
+- [Answer]:2
+
+---
+
+## 13. Added 2026-11-25 after section 12 review
+
+Source: review of the section 12 answers (C-01 to C-04) and of the Can-defer answers filled in on 2026-11-25. Existing questions are not renumbered. Decisions are logged in `audit.md` (entry "Section 12 answers, Can-defer answers, deck added").
+
+> **C-06 not raised.** A conflict between `G-06` and `C-02` was expected, but the `G-06` option 1 text already names Yosia Alvin, which matches the `C-02` answer (option 2, Yosia Alvin). Yosia Alvin is recorded as the BCAS approver (audit A-060, supersedes A-057). The ID C-06 is not used, so the other IDs in this section match earlier references.
+
+### C-05 Unmask / true-raw rights for BA/QA vs team decision T-002
+- **Tag:** Blocker · **Owner:** PM, System Architect · **Due:** TBD (set by PM) · **Linked to:** `C-01`, `SEC-02`, `SEC-03`, `SEC-05`, `SEC-04`, T-002, C5, contradiction X-004
+- **Question:** `C-01` option 3 lets the Project Admin grant the unmask and true-raw right to any user, including BA/QA. Team decision T-002 rejected direct raw access for BA/QA, and C5 says the finder must not become a backdoor with broader raw access than intended. Which reading stands?
+- **Why this matters:** Stage 3 acceptance criteria for masking, "Copy raw" and access grants depend on it. If both are kept without a clear boundary, the requirements contradict a team decision that was marked "do not reopen without strong reason".
+- **Options:**
+  1. **(Recommended)** Both stand. T-002 covers direct Grafana / database / k9s access only. Inside the finder, the Project Admin may grant the unmask / true-raw right to any user (including BA/QA) per user, per project and per environment; the right is off by default and every use is audited (`SEC-04`). Rationale: keeps the `C-01` answer while staying within C5, because access is granted explicitly and recorded.
+  2. T-002 stands as written: BA/QA cannot be granted the unmask / true-raw right; `C-01` changes to option 1.
+  3. `C-01` stands and T-002 is reopened and replaced (the team must re-decide T-002).
+  4. Other: _______________
+- [Answer]:1
+
+### C-07 "No sharing in the MVP" vs the escalation link
+- **Tag:** Can-defer · **Owner:** BA, PM · **Linked to:** `O-02`, `O-03`, `MET-03`, contradiction X-006
+- **Question:** `O-02` = option 2 (no sharing in the MVP), but `O-03` = option 1, where "Ask an engineer" produces a link with the search filters to paste into the team chat. Is that escalation link allowed?
+- **Why this matters:** The escalation link is a form of sharing. Stage 3 needs one rule for links, and escalations are counted in the pilot (`MET-03`).
+- **Options:**
+  1. **(Recommended)** The escalation link is allowed. It re-checks the viewer's access when opened and is the only link in the MVP; general result sharing is out of the MVP. Rationale: keeps the escalation flow measurable without adding a general sharing feature.
+  2. No links at all; "Ask an engineer" copies the filters as text.
+  3. Other: _______________
+- [Answer]:1
+
+### C-08 Source of the G-04 answer (Loki reached without authentication)
+- **Tag:** Can-defer; **blocks the Loki spike** · **Owner:** DevOps (Hadi Septian), System Architect · **Linked to:** `G-04`, `G-05`, `G-06`, `G-07`, risk RK-002
+- **Question:** `G-04` = option 2 (directly to Loki without authentication, network-restricted only). This was planned as a Stage 4 verification using the checklist in `stage2-actors-constraints-assumptions.md` §6. Who verified it, and how (steps a–d)?
+- **Why this matters:** If true, there is no per-project credential at Loki, so Loki isolation under `G-06` / `G-07` relies on one Loki per project (`G-05`) plus the finder's own server-side checks. Anyone with a network route to Loki can query it today (new risk RK-002). The Loki connector design and the spike depend on whether this is a verified fact or an assumption.
+- **Options:**
+  1. **(Recommended)** Verified by DevOps with the §6 checklist; record the date and the result of each step (a–d) here. Rationale: turns the answer into a fact the design can rely on.
+  2. Not yet verified; treat as a working assumption until the Loki spike.
+  3. Other: _______________
+- [Answer]:2

@@ -14,12 +14,12 @@ Security: like every file in `aidlc-docs/`, this file uses placeholders (`<CIF>`
 
 ## Resume here
 
-- **Current stage:** Stage 2 Discover. All Blockers in `aidlc-docs/inception/stage2-questions.md` are answered (PM/BA in commit `5806546`, System Architect after it). Decisions A-015 to A-055 are in `audit.md`. **Stage 2 is not approved yet.**
-- **Next step:** user says "approve Stage 2" → Stage 3 Specify (`.kiro/specs/simplified-log-finder/requirements.md`).
-- **Open before approval:** PM sets due dates for every Blocker and the pilot project name (S-02); leftover "no need for audit logging" text in SEC-04 (answer recorded as option 1, note N-001).
-- **Open for Stage 3:** notes N-002 (default unmask rights), N-003 (removing local accounts). 14 Can-defer questions open; G-04 blocks the Loki spike.
-- **Risk:** RK-001 accepted (SEC-06 option 3): repository must stay private to the team.
-- **Key files:** `aidlc-docs/aidlc-state.md`, `aidlc-docs/audit.md`, `aidlc-docs/inception/reference-docs-review.md`, `aidlc-docs/inception/stage2-actors-constraints-assumptions.md`, `aidlc-docs/inception/stage2-questions.md`.
+- **Current stage:** Stage 4 Design. Stage 3 was approved 2026-11-25 (A-085); the six A-084 behaviors were accepted by approval (A-086). The Stage 4 decision file `.kiro/specs/simplified-log-finder/_decisions-design.md` is drafted (DD-01..DD-26: 17 Blockers, 9 Can-defer; verification checklist V-01..V-11 with owners). **It is awaiting answers.** No `design.md`, `tasks.md` or application code exists yet.
+- **Next step:** owners answer `_decisions-design.md` (Blockers first; "use recommendations for section N" is allowed), then the user says **"decisions filled"** → Kiro logs the answers in `audit.md` and generates `.kiro/specs/simplified-log-finder/design.md`. DD-01 decides whether `design.md` waits for the Loki spike or treats V-01..V-11 as explicit assumptions.
+- **Carried to Stage 4 (now in the decision file):** `requirements.md` section "Open Items Carried to Stage 4" (OI-01..OI-13): Loki access unverified (C-08/G-04, **blocks the Loki spike**, RK-002), Loki retention (K-02), default windows and caps (M-06), per-search target (N-02), audit retention (SEC-04), MET-04 gaps (N-008), FE/Mobile Grafana access (U-01), DB table list (D-01), masked raw-log text sample before the parser is built (C-03).
+- **Deck:** `Simplified_Log_Finder_Inception_Update_Nov_2026.pptx` (repository root) is completed at the Human Review Gate. All inputs, sources, owners and retrospective counts are in `aidlc-docs/inception/deck-update-inputs.md`; **update that tracker at the end of each stage** (A-077).
+- **Risks:** RK-001 accepted and lowered (data synthetic; repository stays private). RK-002 open (Loki reachable without authentication; unverified working assumption per C-08 = 2). No DB read-replica confirmed (A4).
+- **Key files:** `aidlc-docs/aidlc-state.md`, `aidlc-docs/audit.md`, `aidlc-docs/inception/deck-update-inputs.md`, `aidlc-docs/inception/reference-docs-review.md`, `aidlc-docs/inception/stage2-actors-constraints-assumptions.md`, `aidlc-docs/inception/stage2-questions.md`.
 
 ## Conversation log
 
@@ -182,4 +182,143 @@ git commit -m "Stage 2: System Architect answers and project state"
 git push
 
 When you're ready, say "approve Stage 2" and I'll start Stage 3 (requirements).
+```
+
+### Turn 6: user prompt (2026-11-25)
+
+```text
+resume AIDLC from #[[file:c:\Project\simplified-log-finder\aidlc-docs\session-handoff.md]] . what's the status now and what i need to do to continue?
+```
+
+### Turn 6: Kiro response (2026-11-25)
+
+```text
+You're at Stage 2 Discover. Every Blocker question is answered, but Stage 2 isn't approved yet. This laptop is in sync with origin/main (latest commit e359e03, the System Architect answers) and has no uncommitted changes.
+
+What's left before you approve Stage 2:
+1. S-02 pilot project name (PM). The answer is option 1, but the name blank is empty. Stage 3 needs it, because identifiers, dictionary terms and the ping baseline come from that project.
+2. SEC-04 leftover text (whoever edited it). Option 3 still reads "no need for audit logging for now" while the answer is 1. Delete that text so the file doesn't contradict itself.
+3. G-06 lead names. "Each project has different leads" works: I'll make the approving lead a per-project setting in Stage 3. You only need the pilot project's lead name once S-02 is named.
+
+Due dates: the brief (§1.7) only requires an owner and due date for Blockers that are still unanswered. Since all Blockers are answered, the "TBD (set by PM)" due dates no longer block approval.
+
+Can wait until Stage 4: 14 Can-defer questions, including G-04 (Loki access path), which must be answered before the Loki spike starts.
+
+To continue:
+- Fix items 1 and 2 in stage2-questions.md, commit and push.
+- Say "approve Stage 2". I'll then write the Stage 3 requirements with acceptance criteria traced to the 24 real requests.
+- If the pilot name isn't ready yet, you can still approve and I'll carry S-02 as an open item owned by the PM.
+```
+
+### Turn 7: user prompt (2026-11-25)
+
+```text
+item 1 & 2 fixed. can you check first if there's anything else to clarify?
+```
+
+### Turn 7: Kiro response (2026-11-25)
+
+```text
+Your fixes are in: S-02 is BCAS, G-06 names Bernhard Praditya, and the leftover SEC-04 text is gone. I reread every answer and found two more Blockers and two smaller points. I added them as section 12 of stage2-questions.md.
+
+Blockers (needed before Stage 3):
+- C-01 Who can turn masking off or copy true raw data. SEC-02, SEC-03 and SEC-05 say this depends on "the rights the user has", but no one has said who holds those rights. The recommended option is that nobody has them by default, DevOps grants them per user and project, only Developers and DevOps are eligible, and every use is audited. Giving them to BA/QA would reopen the team's earlier decision not to give BA/QA raw access (T-002).
+- C-03 When the masked log sample is due. In SRC-01 you asked for a masked text sample before Stage 3, but we only have the screenshot. The recommended option is to start Stage 3 with the screenshot and require the text sample before the parser is built.
+
+Smaller points (can wait):
+- C-02 Is Bernhard Praditya the BCAS lead? The brief lists him as a BA on this team. Needed before requesting read-only access for the Loki spike.
+- C-04 Is UAT/RC data real client data or synthetic? SEC-02 asked this and it wasn't answered. The recommended option is to treat it as real.
+
+Carried into later stages, no answer needed now: the audit retention period (SEC-04), whether FE/Mobile developers have Grafana access today (U-01), and Loki access (G-04) before the spike.
+
+Due dates: since every original Blocker is answered, they no longer need due dates. Only C-01 and C-03 do, if they stay open.
+
+Next: answer C-01 and C-03 (or say "use the recommendations"), then say "approve Stage 2".
+```
+
+### Turn 8: user prompt (2026-11-25)
+
+```text
+i already answered the "question" part.
+
+please check.
+
+also i add #[[file:c:\Project\simplified-log-finder\Simplified_Log_Finder_Inception_Update_Nov_2026.pptx]] . i need to complete the deck with our result in inception phase. please make sure the data required to complete is saved to your audit, so you can also help to complete the deck later.
+```
+
+### Turn 8: Kiro response (2026-11-25)
+
+```text
+I checked section 12 and the Can-defer answers you also filled in. Two answers conflict with earlier ones and one needs a source. They are in section 13 of stage2-questions.md.
+
+Conflicts:
+- C-05 (Blocker): C-01 option 3 lets BA/QA be granted unmask and true-raw rights, but team decision T-002 rejected raw access for BA/QA. Recommended reading so both stand: T-002 covers direct Grafana/DB/k9s access only; inside the finder the Project Admin may grant the right per user, project and environment, off by default, every use audited.
+- C-07: O-02 says no sharing in the MVP, but the O-03 escalation produces a link to paste into team chat. Is that link allowed?
+
+Needs a source:
+- C-08: G-04 says Loki is reached directly without authentication. This was meant to be checked by DevOps in Stage 4. Who checked it, and how? If true, project isolation for Loki relies on one Loki per project plus the finder's own checks, and anyone on that network can query Loki today (new risk RK-002).
+
+No conflict on the approver: G-06 already names Yosia Alvin, the same as C-02, so Yosia Alvin is recorded as the BCAS approver (no C-06 question).
+
+Recorded without questions: C-03 (Stage 3 starts with the screenshot; masked text sample needed before the parser is built), C-04 (UAT/RC data synthetic, confirmed by Yosia Alvin; masking stays on by default; RK-001 lowered), and the Can-defer answers, including database owner Hadi Septian (D-03) and the pilot thresholds (MET-04: partly met 35-64%, no change 0-34%). Still blank: the Loki retention period (K-02).
+
+The deck: I read all 10 slides and notes. deck-update-inputs.md maps every placeholder to the current value, its source decision and what is still missing; audit.md points to it. Drafts that no longer match your decisions: slide 7 says SSO (you chose local accounts) and lists Grafana Cloud as an assumption; slide 5's open rows now have answers; slide 10's risks change (LLM hosting decided, Loki without authentication, no read-replica). Slides 6, 8, 9 and the slide 4 retrospective numbers can be filled only after Stages 3-5 and the pilot baseline; the tracker is updated at each stage.
+
+Next: answer section 13 (C-05 blocks Stage 3), then say "approve Stage 2".
+```
+
+### Turn 9: user prompt (2026-11-25)
+
+```text
+already answered. approve stage 2.
+```
+
+### Turn 9: Kiro response (2026-11-25)
+
+```text
+Stage 2 is approved and logged (C-05, C-07 and C-08 recorded; contradictions X-004 and X-006 closed). Stage 3 is drafted in requirements.md and waits for your approval.
+
+What's in it:
+- Personas as product roles: BA and QA (primary searchers), FE/Mobile developers as searchers, Developer (escalation), Project Admin split into a BA part (dictionary, mapping) and a DevOps part (access, sources), and PM (pilot metrics).
+- 31 requirements, each with a user story, testable EARS acceptance criteria, a Given/When/Then example from a real chat where one applies, and a traceability line to the chats, constraints and Stage 2 decision IDs. 27 are functional, 4 non-functional. 28 trace to at least one of the 24 real chats.
+- A matrix mapping all 24 sampled chats to requirements. Only the "example endpoint response" ask is out of scope (O-04).
+- Out-of-scope list, open items for Stage 4 (unverified Loki access C-08, time windows, result caps, Loki and audit retention, per-search target), and the Stage 3 self-check.
+
+Please confirm these behaviors, which I added but nobody decided in Stage 2:
+- Sessions time out after a period of inactivity (Requirement 1.4).
+- Passwords stored salted and hashed (1.5).
+- Removing an account ends that user's open sessions (2.2).
+- Masking switches back on for every new search, even for users with the unmask right (20.5).
+- Pilot times reported as median and 90th percentile (27.4).
+- If a pilot result fits none of the MET-04 outcomes (for example pings -65% but lookups still 2 minutes or more), it is reported as "unclassified" and the PM decides (27.7).
+
+Next: review requirements.md. Say "approve Stage 3" (and confirm or change the six behaviors above), and I'll prepare the Stage 4 design decisions file. The deck tracker now has slide 6 (personas, story counts, example story) filled in.
+```
+
+### Turn 10: user prompt (2026-11-25)
+
+```text
+approve Stage 3
+```
+
+### Turn 10: Kiro response (2026-11-25)
+
+```text
+Stage 3 is approved and logged. The six behaviors I proposed (session timeout, password hashing, sessions ending on account removal, masking back on per search, median/p90 reporting, "unclassified" pilot outcome) are recorded as accepted because you approved without changes. You can still change them through DD-17, DD-18 and DD-23. requirements.md now shows "Approved".
+
+Stage 4 starts with a design decision file, _decisions-design.md, in the spec folder. It has three parts:
+- Already decided: everything from Stages 2 and 3 that the design builds on, so it isn't asked again.
+- Verifications V-01 to V-11: facts the technical team checks, with owner and what each blocks. The most urgent is V-01 (how Loki is reached and authenticated, DevOps), which blocks the Loki spike.
+- Decisions DD-01 to DD-26: 17 Blockers and 9 Can-defer, each with options, one recommendation, an owner role and the requirements it affects. Every number in them is a proposal and stays a parameter.
+
+Blockers grouped by topic:
+- Timing: DD-01 (approve design.md with the verifications as explicit assumptions; the spike results amend it later).
+- Architecture: DD-02 components, DD-03 frontend-backend interface, DD-04 Loki query construction.
+- Natural language: DD-07 internal model serving, DD-08 validating its output.
+- Parsing and masking: DD-11 parser rules, DD-12 where masking runs.
+- Data and access: DD-15 finder data store, DD-16 audit tamper evidence, DD-18 sessions, DD-19 grants model, DD-20 where credentials live.
+- Runtime: DD-21 deployment on the internal server.
+- Quality: DD-24 test layers, DD-25 correctness properties, DD-26 what design.md contains.
+
+Next: the owners answer the Blockers (option number, own text, or "use recommendations" for a group). Then say "decisions filled" and I'll generate design.md.
 ```
