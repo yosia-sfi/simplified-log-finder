@@ -8,7 +8,7 @@
 - **Target Architecture**: `design.md` drafted 2026-11-26: Go modular monolith + separate inference VM, PostgreSQL, Docker Compose on the internal server, REST/JSON + OpenAPI + Pact. Decided in Stage 2: hybrid thin layer over existing sources, input/output-agnostic, approach decided per source (G-01); hosted on an internal Soluix server/VM on the UAT/RC network (H-01); internal/local LLM producing structured filters only (L-01, L-03); deterministic simplified view (L-04); local accounts (H-03).
 - **Tech Stack (H-04, to confirm with Developers)**: Backend Go + Echo. Frontend TypeScript, React, Vite, TanStack Router, TanStack Query, TanStack Virtual, Tailwind, shadcn/ui, lucide-react. Contract testing with PactFlow in backend, frontend and CI/CD.
 - **Active Spec**: simplified-log-finder
-- **Deck to complete**: `Simplified_Log_Finder_Inception_Update_Nov_2026.pptx` (repository root), inputs tracked in `aidlc-docs/inception/deck-update-inputs.md`; update the tracker at the end of each stage; complete the deck at the Human Review Gate (A-077)
+- **Deck**: template `Simplified_Log_Finder_Inception_Update_Nov_2026.pptx` (unchanged); newest filled copy `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.pptx` (A-139, 2026-11-26; older `_filled.pptx` is stale); inputs in `aidlc-docs/inception/deck-update-inputs.md`; refresh after gate approval
 - **Session handoff**: `aidlc-docs/session-handoff.md` (verbatim prompts/responses and "Resume here"; commit and push before switching laptops)
 
 ## Reference Documents (available since 2026-11-25, commit `ac124f7`)
@@ -27,8 +27,8 @@
 | 2 Discover | Requirements clarification (`stage2-questions.md` = requirements decision file) | **Approved 2026-11-25** (A-078) |
 | 3 Specify | Phase 1 Requirements → `.kiro/specs/simplified-log-finder/requirements.md` | **Approved 2026-11-25** (A-085; A-084 behaviors accepted by approval, A-086) |
 | 4 Design | Phase 2 Design → `_decisions-design.md`, then `design.md` | **Approved 2026-11-26** (A-116) |
-| 5 Plan | Phase 3 Tasks / units of work | **In progress**: `_decisions-tasks.md` drafted 2026-11-26, awaiting answers |
-| Human Review Gate | Full package approval before Construction | Pending |
+| 5 Plan | Phase 3 Tasks / units of work | **Approved 2026-11-26** (A-136) |
+| Human Review Gate | Full package approval before Construction | **Awaiting approval**: `inception/human-review-gate.md` (A-138) |
 
 ## Phase Progress
 - [x] Phase 0: Reverse Engineering (skipped: greenfield)
@@ -54,14 +54,14 @@
     - Follow-ups carried into design.md: N-013 (DD-11 rules registry constraints and editor role), N-014 (DD-18 idle timeout 30 min is a proposal)
   - [x] 2c. design.md generated (2026-11-26, A-114) and approved (A-116; D4-01..D4-07 accepted, A-117)
   - [ ] 2d. Stage 4 technical verifications done: checklist V-01..V-11 in `_decisions-design.md` section 1 (Loki access path, Loki version/API, identifiers in lines, env-to-label mapping, X-Request-Id/traceparent, pod logs in Loki, Loki retention, DB engine/tables, FE/Mobile Grafana access, masked raw-log sample, Grafana MCP/Assistant). DB read-replica already confirmed absent (D-02); timing per DD-01
-- [ ] Phase 3 / Stage 5: Tasks (Plan)
+- [x] Phase 3 / Stage 5: Tasks (Plan) (approved 2026-11-26, A-136)
   - [x] 3a. _decisions-tasks.md created (2026-11-26: TD-01..TD-13, 7 Blockers; units U1–U6 proposed)
-  - [ ] 3b. _decisions-tasks.md completed by user
-  - [ ] 3c. tasks.md generated and approved
-- [ ] Human Review Gate
+  - [x] 3b. _decisions-tasks.md completed by user (13 of 13, A-121 to A-133)
+  - [x] 3c. tasks.md generated (2026-11-26, A-134; 6 waves, 15 tasks) and approved (A-136; D5-01..D5-06 accepted, A-137)
+- [ ] Human Review Gate (package prepared 2026-11-26: `aidlc-docs/inception/human-review-gate.md`; awaiting approval)
 - [ ] Construction (not started; no application code during Inception)
 
 ## Current Status
-**Phase**: Stage 5 Plan
-**Status**: `_decisions-tasks.md` awaiting answers (Blockers TD-01, 02, 06, 07, 08, 12, 13; mostly PM). Then "task decisions filled" → `tasks.md`. Deck filled 2026-11-26 as `Simplified_Log_Finder_Inception_Update_Nov_2026_filled.pptx` (A-120); re-run after Stage 5 approval
-**Last Updated**: 2026-11-26 (Stage 4 approved; Stage 5 decision file drafted)
+**Phase**: Human Review Gate
+**Status**: Awaiting approval of the full inception package (`inception/human-review-gate.md`). Team to give human-effort hours and confidence (1–5). Approval accepts deferred due dates (N-018). Construction blocked until approved
+**Last Updated**: 2026-11-26 (Stage 5 approved; gate prepared)

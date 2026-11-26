@@ -14,11 +14,11 @@ Security: like every file in `aidlc-docs/`, this file uses placeholders (`<CIF>`
 
 ## Resume here
 
-- **Current stage:** Stage 5 Plan. Stage 4 approved 2026-11-26 (A-116; D4-01..D4-07 accepted, A-117). `.kiro/specs/simplified-log-finder/_decisions-tasks.md` (TD-01..TD-13, proposed units U1–U6) is **awaiting answers**.
-- **Next step:** owners answer the Blockers TD-01, TD-02, TD-06, TD-07, TD-08, TD-12, TD-13 (mostly PM: owners per unit, dates, due dates for open items). Then the user says **"task decisions filled"** → Kiro writes `tasks.md` (waves of parallel groups) → "approve Stage 5" → Human Review Gate.
-- **Deck:** filled 2026-11-26 (A-120) as `Simplified_Log_Finder_Inception_Update_Nov_2026_filled.pptx`; the original is unchanged. Open in the deck: presenter names/date, days and confidence (slide 4), unit owners and dates (slide 8), baseline numbers and chart (slide 9), screenshots. Not yet checked in PowerPoint (N-017). Re-run after Stage 5 approval.
-- **Still open:** V-01 Loki access (gates U2, RK-002); V-10 masked log sample (gates U3); stack confirmation (H-04, gates U1); retention values.
-- **Key files:** `aidlc-docs/aidlc-state.md`, `aidlc-docs/audit.md`, `.kiro/specs/simplified-log-finder/requirements.md`, `design.md`, `_decisions-tasks.md`, `aidlc-docs/inception/deck-update-inputs.md`.
+- **Current stage:** **Human Review Gate**, awaiting approval. All five stages are approved (Stage 5 on 2026-11-26, A-136; D5-01..D5-06 accepted, A-137). The gate package is `aidlc-docs/inception/human-review-gate.md` (deliverables, §1.7 check, self-check, unconfirmed assumptions, open blockers, retrospective).
+- **Next step:** the user says **"approve the gate"** (with the team's human-effort hours and confidence 1–5 if available), "approve the gate, but …", or "not yet: …". Approval accepts the deferred due dates (TD-13, N-018). After approval: Construction Wave 1 (U1) once Developers confirm the stack (H-04).
+- **Deck:** newest version is `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.pptx` (A-139, built 2026-11-26 after Stage 5 approval). The older `_filled.pptx` is stale and was locked by PowerPoint; delete or replace it after closing PowerPoint. Do not commit the `~$` lock file. Open in the deck: presenter names/date, confidence, unit owners/dates, baseline numbers and chart, screenshots. Refresh after gate approval.
+- **Still open:** V-01 Loki access (gates Wave 2, RK-002); V-10 masked log sample (gates Wave 3); H-04 stack (gates Wave 1); retention values; inference VM; D5-02 deploy controls.
+- **Key files:** `aidlc-docs/inception/human-review-gate.md`, `aidlc-docs/aidlc-state.md`, `aidlc-docs/audit.md`, `.kiro/specs/simplified-log-finder/requirements.md`, `design.md`, `tasks.md`.
 
 ## Conversation log
 
@@ -560,4 +560,83 @@ The deck is filled. I wrote a copy, Simplified_Log_Finder_Inception_Update_Nov_2
 Filled: slide 1 status; slide 2 mechanism line; slide 3 stage statuses (4 of 5 done) and five real changes; slide 4 numbers (101 gaps raised, 1 correction turn, 20 of 83 recommendations overridden); slide 5 all six decisions with owners; slide 6 story counts (31, 28 traced) and the example story; slide 7 corrected assumptions (local accounts, self-hosted Grafana, unverified Loki access); slide 8 dependencies and gates; slide 9 measurement methods and thresholds; slide 10 lessons, risks and asks; speaker notes on all slides.
 
 Still open: presenter names and date (slide 1); days to approval and confidence (slide 4); unit owners and dates (slide 8, PM answers TD-07 and TD-08); baseline numbers, time-to-log baseline and chart (slide 9); the screenshots; the slide 10 lessons are drafts for the team to confirm. Re-run me after Stage 5 and the baseline count.
+```
+
+
+### Turn 20: user prompt (2026-11-26)
+
+```text
+decision filled. please continue.
+```
+
+### Turn 20: Kiro response (2026-11-26)
+
+```text
+tasks.md is written and waits for your approval. I logged your 13 answers as A-121 to A-133.
+
+The plan has six waves, each delivering one unit with two workers in parallel (backend; frontend plus deploy). 15 coarse tasks cover all 31 requirements:
+1. U1 Foundation and access (starts when the Developers confirm the stack).
+2. U2 Loki spike and manual filters (needs the Loki access check V-01 and approved read-only access).
+3. U3 Simplified and raw view (needs the masked log sample V-10).
+4. U6 Pilot instrumentation and escalation.
+Pilot-start gate: U1, U2, U3 and U6 done, plus the open items closed.
+5. U4 Natural-language search and U5 Database and Kubernetes sources, which join during the pilot.
+6. End-to-end verification and pilot readiness.
+Each unit has testable acceptance criteria and the evidence it must show.
+
+Please check these before approving:
+- Automatic deploy on main (TD-11 = 2) removes the manual approval step. I added controls to confirm (D5-02): a protected main branch; a deploy credential and network route for the CI runner (DevOps); the database source and the RC binding stay disabled by configuration until approved, so a deploy cannot switch them on; a pause switch during the pilot; rollback by previous image tag.
+- You left due dates for the open items to task execution (TD-13). The brief (section 1.7) asks for an owner and a due date for every open blocker, so the plan flags this and you can accept it at the Human Review Gate.
+- Roles only, no names and no dates (TD-07, TD-08), as you answered.
+- Wave order puts U6 before U4 and U5 so the pilot can start after U1, U2, U3 and U6 (TD-02).
+
+Next: review tasks.md, then say "approve Stage 5". The Human Review Gate follows: the full package, self-check, assumptions, open blockers and the retrospective. After approval I can refill the deck (slide 4 overrides become 26 of 96; slide 8 gets the new unit order).
+```
+
+
+### Turn 21: user prompt (2026-11-26)
+
+```text
+approve Stage 5.
+```
+
+### Turn 21: Kiro response (2026-11-26)
+
+```text
+Stage 5 is approved, so all five Inception stages are done. tasks.md is now marked Approved, and the six plan proposals (D5-01 to D5-06), including the controls for automatic deploys, are accepted as written.
+
+Next is the Human Review Gate. The package is in aidlc-docs/inception/human-review-gate.md:
+- The six deliverables and where each lives.
+- The brief's acceptance check (§1.7). Everything passes except one point: the open items have owners but no due dates, because you deferred them to task execution (TD-13). Approving the gate accepts that.
+- Self-check results for the whole package.
+- Unconfirmed assumptions V-01 to V-11 and the stack (H-04).
+- Open blockers that gate each wave, and the open risks.
+- Retrospective: about 2 working days so far; 101 gaps raised before code; 3 of 5 stage drafts approved unchanged; 1 correction turn; 26 of 96 recommendations overridden; plus what worked, what failed and where human judgment was essential.
+
+Two values must come from the team: hours of human effort and a confidence score from 1 to 5.
+
+To finish, reply "approve the gate" (with those two values if you have them), "approve the gate, but ...", or "not yet: ...". The filled deck is now out of date for slides 1, 3, 4, 8 and 10; I can refill it when you ask. The filled deck is open in PowerPoint, so don't commit its ~$ lock file.
+```
+
+
+### Turn 22: user prompt (2026-11-26)
+
+```text
+please update the slide deck with the newest data.
+```
+
+### Turn 22: Kiro response (2026-11-26)
+
+```text
+The deck is updated and saved as Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.pptx. The earlier filled deck was open in PowerPoint, so I couldn't overwrite it. I built the new one from your original template, which is unchanged. After you close PowerPoint you can delete the older file or rename v2 over it. I read the new file back as text and it is a valid file, but I have not opened it in PowerPoint, so please check for text overflow.
+
+What changed since the last version:
+- Slide 1: "5 of 5 stages done · gate pending".
+- Slide 3: title "5 of 5 stages done"; Design and Plan show Done · 26 Nov; the review gate shows "In review"; the changes panel adds the plan (six units, pilot starts after U1 to U3 and U6).
+- Slide 4: 101 gaps raised, 1 correction turn, about 2 days so far, and 26 of 96 recommendations overridden.
+- Slide 8: the wave order (U1, U2, U3, U6, then U4 and U5), the gates, and that owners and dates are set by the PM at task execution.
+- Slide 10: lessons from the gate retrospective, the automatic-deploy risk, and updated asks.
+- Speaker notes on all ten slides.
+
+Still open in the deck: presenter names and date (slide 1), the confidence score (slide 4, team vote at the gate), unit owners and dates (slide 8), baseline numbers and chart (slide 9), and the screenshots.
 ```

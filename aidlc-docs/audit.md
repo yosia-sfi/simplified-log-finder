@@ -501,3 +501,76 @@ N-012 closed: requirements.md status line updated to Approved 2026-11-25.
 | A-120 | 2026-11-26 | Deck filled now instead of later (supersedes A-118). Filled: slides 1–7 and 10 text, slide 8 gates, slide 9 target/measurement cells and thresholds, speaker notes for all slides. Left open: presenter names and date (slide 1), days to approval and confidence (slide 4), unit owners and dates (slide 8), baseline numbers and chart (slide 9), screenshots (slides 4, 6, 8 box, 9 chart) and slide 10 lessons need team confirmation | User request | User | Done; re-run when Stage 5 and the baseline are available |
 | N-016 | 2026-11-26 | Deck figures used: Clarity 101 (62 Discover + 26 Design + 13 Plan decisions); Rework 1 correction turn; overrides 20 of 83 recommendations (19 of 57 in Stage 2, 1 of 26 in Design); stories 31, 28 traced to real chats | `deck-update-inputs.md` tracker | AI | Recorded; recompute after Stage 5 answers |
 | N-017 | 2026-11-26 | Not verified visually: the deck was edited as XML and re-read as text; it was not opened in PowerPoint, so text overflow is unchecked | Tool limit | AI | Open: user to review in PowerPoint |
+
+## Entry 2026-11-26: Task decisions filled; tasks.md drafted
+
+**User Input**: "decision filled. please continue."
+**AI Response**: Read the 13 answers in `_decisions-tasks.md`, logged them, generated `.kiro/specs/simplified-log-finder/tasks.md` (6 waves, 15 coarse tasks, units U1 to U6) and updated state, tracker and handoff.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-121 | 2026-11-26 | Units U1 to U6 accepted as proposed | TD-01 opt 1 | System Architect, PM | Decided |
+| A-122 | 2026-11-26 | Pilot starts after U1, U2, U3 and U6; U4 and U5 join during the pilot | TD-02 opt 1 | PM, System Architect | Decided |
+| A-123 | 2026-11-26 | Vertical slices inside units | TD-03 opt 1 | Developers | Decided |
+| A-124 | 2026-11-26 | Test-first for pure logic, properties and Pact; tests alongside code for UI and integration | TD-04 opt 1 | QA, Developers | Decided |
+| A-125 | 2026-11-26 | Coarse tasks: 15 tasks | TD-05 opt 2 | Developers | Decided |
+| A-126 | 2026-11-26 | Two parallel workers | TD-06 opt 2 | PM, Developers | Decided |
+| A-127 | 2026-11-26 | Roles only in the plan; the PM assigns names after Inception | TD-07 opt 2 | PM | Decided |
+| A-128 | 2026-11-26 | Relative plan only; dates set at the review gate | TD-08 opt 2 | PM | Decided |
+| A-129 | 2026-11-26 | Deploy to the internal server at the end of each unit with a smoke test; U2 deploys before its review | TD-09 opt 1 | DevOps | Decided |
+| A-130 | 2026-11-26 | Rollback by previous image tag; forward-only backward-compatible migrations; audit never rolled back | TD-10 opt 1 | DevOps | Decided |
+| A-131 | 2026-11-26 | Fully automatic deploy on main (no manual approval step). Controls proposed in D5-02 | TD-11 opt 2 (non-recommended) | DevOps, Developers | Decided; controls pending |
+| A-132 | 2026-11-26 | Definition of Done: acceptance criteria, CI green, E2E, deployed and smoke-tested, log-hygiene test, audit checked, owner and QA review, design amended if needed | TD-12 opt 1 | QA, System Architect | Decided |
+| A-133 | 2026-11-26 | Open-item owners accepted as proposed; due dates decided later at task execution | TD-13 opt 3 (own text) | PM | Decided; deviates from brief 1.7 (flagged) |
+| A-134 | 2026-11-26 | `tasks.md` v0.1 drafted: 6 waves, 15 tasks, all 31 requirements traced | User "please continue" | AI proposal | Awaiting approval |
+| A-135 | 2026-11-26 | AI proposals in tasks.md to confirm: D5-01 (waves are vertical slices split by directory), D5-02 (controls that replace the manual deploy gate), D5-03 (U6 before U4/U5), D5-04 (no dates, roles only), D5-05 (coarse tasks), D5-06 (U2 real-request check in E.1) | tasks.md | AI proposal | **Pending user** |
+| P-009a | 2026-11-26 | P-009 and the Stage 5 decision file resolved: 13 of 13 answered | `_decisions-tasks.md` | Owners | Resolved |
+
+### Notes (additions)
+
+| ID | Date | Note | Status |
+|---|---|---|---|
+| N-018 | 2026-11-26 | TD-13 = 3 leaves open-item due dates unset. Brief section 1.7 says every open blocker needs an owner and a due date. Raise at the Human Review Gate; the user may accept it | Open |
+| N-019 | 2026-11-26 | TD-11 = 2 removes the manual deploy approval. It also overlaps TD-09 (deploy at unit end): automatic deploy on main covers it. Risks: a merge can deploy to the server pilot users use; DB source and RC must not be enabled by a deploy | Open; see D5-02 |
+| N-020 | 2026-11-26 | Overrides in Stage 5 answers: TD-05, TD-06, TD-07, TD-08, TD-11, TD-13 chose non-recommended options (6 of 13). Totals for the deck: 26 of 96 recommendations overridden (20 of 83 before Stage 5) | Recorded in deck tracker |
+
+### Stage log (additions)
+
+| Date | Stage | Event | Artifacts |
+|---|---|---|---|
+| 2026-11-26 | 5 Plan | All 13 task decisions answered; tasks.md v0.1 drafted; awaiting approval | `tasks.md`, `_decisions-tasks.md`, `aidlc-state.md`, `audit.md`, `inception/deck-update-inputs.md`, `session-handoff.md` |
+
+## Entry 2026-11-26: Stage 5 approved; Human Review Gate prepared
+
+**User Input**: "approve Stage 5."
+**AI Response**: Marked `tasks.md` Approved; accepted D5-01..D5-06 as written; prepared `aidlc-docs/inception/human-review-gate.md` (package, §1.7 acceptance check, self-check, unconfirmed assumptions, open blockers, retrospective).
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-136 | 2026-11-26 | Stage 5 Plan approved (`tasks.md` v1.0) | User approval | User | Decided |
+| A-137 | 2026-11-26 | Review items D5-01..D5-06 accepted as written because the user approved without changes (incl. D5-02 controls for automatic deploy) | Approval without objection | User | Decided (can be revisited) |
+| A-138 | 2026-11-26 | Human Review Gate package prepared; Construction blocked until gate approval | Brief §3 Human Review Gate | AI | **Awaiting user** |
+
+### Notes (additions)
+
+| ID | Date | Note | Status |
+|---|---|---|---|
+| N-021 | 2026-11-26 | Retrospective at the gate: Speed ~2 working days so far; Clarity 101; First-pass quality 3 of 5 stage drafts unchanged; Rework 1 correction turn (5 corrections); overrides 26 of 96; Human effort and Confidence to be given by the team | Recorded in `human-review-gate.md` §6 |
+| N-022 | 2026-11-26 | A PowerPoint lock file `~$Simplified_Log_Finder_Inception_Update_Nov_2026_filled.pptx` is in the working tree (the deck is open); do not commit it | Open |
+
+### Stage log (additions)
+
+| Date | Stage | Event | Artifacts |
+|---|---|---|---|
+| 2026-11-26 | 5 Plan | Stage 5 approved | `tasks.md` v1.0 |
+| 2026-11-26 | Gate | Human Review Gate package prepared; awaiting approval | `inception/human-review-gate.md` |
+
+## Entry 2026-11-26: Deck refreshed with the newest data
+
+**User Input**: "please update the slide deck with the newest data."
+**AI Response**: Rebuilt the deck from the original template with Stage 5 and gate data and saved it as `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.pptx`, because the previous filled deck was open in PowerPoint and locked. Original template unchanged; `_filled.pptx` (A-120 version) left as is.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-139 | 2026-11-26 | Deck refreshed (supersedes A-120 content). Changes: slide 1 "5 of 5 stages done · gate pending"; slide 3 title and statuses (Design and Plan Done · 26 Nov, gate In review) plus a plan change; slide 4 overrides 26 of 96, speed ~2 days, clarity 101, rework 1; slide 8 wave order and gates, unit boxes unchanged; slide 10 lessons, risks (auto-deploy risk added, parser/LLM risk moved to notes) and asks; notes refreshed on all slides | User request; `deck-update-inputs.md` | User | Done |
+| N-023 | 2026-11-26 | The newest deck is `..._filled_v2.pptx`. After closing PowerPoint, the user can delete the older `..._filled.pptx` or rename v2 over it. Still open in the deck: presenter names and date (slide 1), confidence score (slide 4), unit owners and dates (slide 8), baseline numbers and chart (slide 9), screenshots (slides 4, 6, 9). Not checked visually in PowerPoint (N-017) | File locked at write time | Open |

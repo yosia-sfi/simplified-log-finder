@@ -250,3 +250,33 @@ Deck filling deferred (A-118): produce `Simplified_Log_Finder_Inception_Update_N
 ## Update 2026-11-26: Deck filled (A-120)
 
 File: `Simplified_Log_Finder_Inception_Update_Nov_2026_filled.pptx` (original unchanged). Still open in the filled deck: slide 1 presenter names and date; slide 4 days to approval and confidence, plus the screenshot; slide 6 screenshot; slide 7 optional diagram picture; slide 8 unit owners and target dates (PM, TD-07/TD-08) and Construction start; slide 9 baseline values, time-to-log baseline method and weekly chart; slide 10 lessons need team confirmation and risk due dates (TD-13). Re-run after Stage 5 approval and after the baseline count. Slide 4 numbers used: Clarity 101, Rework 1, overrides 20 of 83.
+
+## Update 2026-11-26: Stage 5 tasks.md drafted
+
+| Slide | Placeholder | Value now | Source | Status |
+|---|---|---|---|---|
+| 1, 3 | Stage 5 status | "Plan drafted, awaiting approval" (still 4 of 5 done until approval) | A-134 | Ready |
+| 4 | Clarity | 101 (62 + 26 + 13); unchanged | `_decisions-tasks.md` | Ready |
+| 4 | Overrides | 26 of 96 recommendations (20 of 83 + 6 of 13 Stage 5: TD-05, 06, 07, 08, 11, 13) | N-020 | Ready (replaces 20 of 83) |
+| 8 | Unit order and dependencies | Waves: U1, U2, U3, U6, then U4 and U5 together (pilot starts after U1, U2, U3, U6) | tasks.md | Ready |
+| 8 | Owners and target dates | Roles only (TD-07); relative plan, no dates (TD-08); dates at task execution (TD-13) | A-127, A-128, A-133 | Stays "TBD" |
+| 10 | Risk due dates | Left open by the user's answer (TD-13 = 3) | A-133 | Stays open |
+
+Re-run the deck fill after Stage 5 approval: slide 4 overrides become 26 of 96; slide 8 changes the unit order (U6 before U4/U5).
+
+## Update 2026-11-26: Stage 5 approved, gate prepared
+
+| Slide | Placeholder | Value now | Source | Status |
+|---|---|---|---|---|
+| 1 | Inception status | "5 of 5 stages done; review gate pending" | A-136, A-138 | Ready |
+| 3 | Title / statuses | "Inception progress: 5 of 5 stages done"; Plan Done · 26 Nov; review gate "Awaiting approval" | A-136 | Ready |
+| 4 | Overrides | 26 of 96 | N-020 | Ready |
+| 4 | Days / confidence | Speed ~2 working days so far; confidence from team vote at the gate | N-021 | Waiting for gate |
+| 8 | Unit order | U1, U2, U3, U6 (pilot gate), then U4 and U5; roles only, no dates | `tasks.md` | Ready |
+| 10 | Lessons | Use `human-review-gate.md` §6 (worked, failed, human judgment) | N-021 | Ready (team to confirm) |
+
+Refill the deck when the user asks (previous fill A-120 is now out of date for slides 1, 3, 4, 8 and 10).
+
+## Update 2026-11-26: Deck refreshed (A-139)
+
+Newest deck: `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v2.pptx` (the older `_filled.pptx` was open in PowerPoint, so it could not be overwritten). Values used: 5 of 5 stages done, gate in review; clarity 101; rework 1; overrides 26 of 96; speed ~2 days (gate pending); wave order U1, U2, U3, U6, then U4 + U5. Still open: presenter names and date, confidence score (gate vote), unit owners and dates (task execution), baseline numbers and chart, screenshots.

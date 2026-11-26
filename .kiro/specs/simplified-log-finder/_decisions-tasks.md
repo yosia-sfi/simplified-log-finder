@@ -1,8 +1,8 @@
-# Decisions: Tasks / Plan (Stage 5)
+﻿# Decisions: Tasks / Plan (Stage 5)
 
 > **Instructions:** Review each decision point below. AI recommendations are provided for guidance. Fill in your decisions in the "Answer" sections, then confirm when ready to proceed.
 
-AI-DLC Inception, Stage 5 (Plan). Created 2026-11-26, after Stage 4 approval (audit A-116). Status: **awaiting answers**. `tasks.md` (the implementation plan with units of work) is generated only after the Blocker decisions are answered.
+AI-DLC Inception, Stage 5 (Plan). Created 2026-11-26, after Stage 4 approval (audit A-116). Status: **all 13 answered (2026-11-26); `tasks.md` generated 2026-11-26 (audit A-134)**.
 
 **How to answer.** On each `**Answer:**` line write an option number, your own text, or an owner and due date if someone else must answer. You can also say "use recommendations for all except TD-xx: option 2". When done, say **"task decisions filled"**.
 
@@ -62,7 +62,7 @@ flowchart LR
 3. **Split U3 into "parser and views" and "masking and unmask":** smaller units; security work reviewed on its own.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### TD-02 MVP slice and pilot start
 
@@ -78,7 +78,7 @@ flowchart LR
 3. **Pilot starts after U1–U3 without instrumentation:** earliest start; no pilot data for the first weeks.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### TD-03 Slice style inside units
 
@@ -93,7 +93,7 @@ flowchart LR
 2. **Horizontal layers (backend first, then UI):** fewer context switches; later feedback.
 3. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### TD-04 Test timing
 
@@ -109,7 +109,7 @@ flowchart LR
 3. **Tests after implementation in each Bolt:** fastest coding; weakest evidence.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ## 2. Granularity and parallel work
 
@@ -126,7 +126,7 @@ flowchart LR
 2. **Coarse: 10–15 tasks:** less overhead; each task is large.
 3. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**2
 
 ### TD-06 Parallel workers
 
@@ -142,7 +142,7 @@ flowchart LR
 3. **One worker (sequential):** no file conflicts; slowest.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**2
 
 ## 3. Owners and dates
 
@@ -159,7 +159,7 @@ flowchart LR
 2. **PM assigns after Inception; tasks.md shows roles only:** faster now; slide 8 incomplete.
 3. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**2
 
 ### TD-08 Construction start and target dates
 
@@ -174,7 +174,7 @@ flowchart LR
 2. **Relative plan only (e.g. "U2 two weeks after U1"); dates set at the review gate:** no commitment yet.
 3. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**2
 
 ## 4. Deployment, rollback, CI/CD
 
@@ -191,7 +191,7 @@ flowchart LR
 2. **Deploy once before the pilot:** less work; network surprises found late.
 3. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### TD-10 Rollback granularity
 
@@ -206,7 +206,7 @@ flowchart LR
 2. **Full rollback including database restore from backup:** simplest to reason about; loses audit entries since the backup.
 3. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ### TD-11 CI/CD maturity
 
@@ -222,7 +222,7 @@ flowchart LR
 3. **Manual builds and deploys:** least setup; no contract gate.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**2
 
 ## 5. Definition of Done
 
@@ -240,7 +240,7 @@ flowchart LR
 3. **Tests green and code reviewed only:** lightest; weakest evidence.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:**1
 
 ## 6. Open decisions to carry into the plan
 
@@ -268,9 +268,9 @@ flowchart LR
 **Options:**
 1. **Accept the proposed owners; PM fills in the due dates — Recommended**
 2. **Change owners (write them in the table) and fill in due dates**
-3. Other (please specify): _______________________
+3. Other (please specify): Accept the proposed owners, but due date decided later at task execution.
 
-**Answer:**
+**Answer:**3
 
 ---
 
