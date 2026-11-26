@@ -512,7 +512,7 @@ These are checks, not technology choices. `design.md` lists every row as an expl
 3. **Option 1 plus a nightly smoke test against BCAS UAT Loki with the read-only identity:** catches drift in real labels; needs network access from CI.
 4. Other (please specify): _______________________
 
-**Answer:**
+**Answer:** 1
 
 ### DD-25 Correctness properties (property-based tests)
 
