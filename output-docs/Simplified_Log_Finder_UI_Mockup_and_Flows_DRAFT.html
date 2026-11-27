@@ -1,0 +1,638 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Simplified Log Finder: UI mockup and flows (DRAFT)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--ink:#1d2433;--mute:#667085;--line:#e3e7ee;--bg:#f5f6fa;--card:#fff;--acc:#6d4aff;--acc2:#efeaff;--ok:#16a06a;--okbg:#e5f6ee;--warn:#c47a00;--warnbg:#fff4de;--bad:#c0392b;--badbg:#fdeceb;--mask:#2b2f3a}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 "Segoe UI",system-ui,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+header.top{background:#fff;border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:20}
+header.top h1{font-size:18px;margin:0}
+.badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em}
+.b-draft{background:var(--warnbg);color:var(--warn)}
+.b-ok{background:var(--okbg);color:var(--ok)}
+.b-bad{background:var(--badbg);color:var(--bad)}
+.b-acc{background:var(--acc2);color:var(--acc)}
+.b-mute{background:#eef0f4;color:var(--mute)}
+nav.tabs{display:flex;gap:4px;padding:0 28px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:55px;z-index:19;overflow-x:auto}
+nav.tabs button{border:0;background:none;padding:12px 16px;font:600 14px inherit;color:var(--mute);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+nav.tabs button.on{color:var(--acc);border-color:var(--acc)}
+main{padding:24px 28px;max-width:1500px;margin:auto}
+section.tab{display:none}section.tab.on{display:block}
+h2{font-size:22px;margin:4px 0 6px}h3{font-size:16px;margin:22px 0 8px}
+p.lead{color:var(--mute);max-width:900px;margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}th{color:var(--mute);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+code,.mono{font-family:Consolas,"Cascadia Mono",monospace;font-size:12.5px}
+.note{background:var(--warnbg);border:1px solid #f3dcae;border-radius:10px;padding:10px 14px;color:#6b4a00;font-size:13px}
+.req{font-size:11px;color:var(--mute)}
+/* mock controls */
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.ctrl label{font-size:12px;color:var(--mute);font-weight:600}
+select,input,textarea{font:inherit;border:1px solid #cfd5e0;border-radius:8px;padding:7px 10px;background:#fff;color:var(--ink)}
+textarea{width:100%;resize:vertical}
+button.btn{border:1px solid #cfd5e0;background:#fff;border-radius:8px;padding:7px 14px;font:600 13px inherit;cursor:pointer}
+button.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+button.btn.sm{padding:3px 10px;font-size:12px}
+button.btn:disabled{opacity:.45;cursor:not-allowed}
+/* browser frame */
+.frame{border:1px solid #c9cfdb;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 8px 28px rgba(20,30,60,.09)}
+.bar{background:#e9ecf3;padding:8px 12px;display:flex;gap:8px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;background:#c3c9d6}
+.url{flex:1;background:#fff;border-radius:6px;padding:3px 12px;font-size:12px;color:var(--mute)}
+.app{display:grid;grid-template-columns:190px 1fr;min-height:640px}
+.side{background:#171b2b;color:#c9cfe6;padding:16px 10px}
+.side .logo{font-weight:800;color:#fff;padding:4px 10px 14px;font-size:15px}
+.side a{display:block;padding:9px 12px;border-radius:8px;color:#c9cfe6;cursor:pointer;font-size:13.5px}
+.side a.on{background:#2a3050;color:#fff}.side a:hover{background:#232843}
+.side .sec{font-size:10px;letter-spacing:.1em;color:#7e86a8;padding:14px 12px 4px}
+.content{padding:18px 22px;background:#fafbfd}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid #cfd5e0;border-radius:8px;overflow:hidden}
+.seg span{padding:5px 14px;font-size:13px;font-weight:600;cursor:pointer;background:#fff;color:var(--mute)}
+.seg span.on{background:var(--acc);color:#fff}
+.seg span.off{background:#f1f2f6;color:#b4b9c8;cursor:not-allowed;text-decoration:line-through}
+.sp{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--acc2);color:#3a2a99;border:1px solid #d7ccff;border-radius:999px;padding:4px 6px 4px 12px;font-size:13px}
+.chip b{font-weight:700}.chip i{font-style:normal;font-size:11px;color:var(--warn);background:var(--warnbg);border-radius:999px;padding:0 7px}
+.chip u{text-decoration:none;cursor:pointer;color:#7b6bd0;padding:0 5px;border-radius:50%}
+.chip u:hover{background:#d7ccff}
+.msg{border-radius:10px;padding:10px 14px;margin:10px 0;font-size:13.5px}
+.m-info{background:#eef4ff;border:1px solid #cfe0ff}.m-warn{background:var(--warnbg);border:1px solid #f3dcae}.m-bad{background:var(--badbg);border:1px solid #f4c7c3}.m-ok{background:var(--okbg);border:1px solid #bfe6d3}
+.summary{display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding:10px 14px;background:#fff;border:1px solid var(--line);border-radius:10px;margin:10px 0;font-size:13px}
+.summary b{color:var(--ink)}
+.grp{margin:14px 0 6px;font-size:12px;font-weight:700;color:var(--mute);letter-spacing:.05em;text-transform:uppercase;display:flex;gap:8px;align-items:center}
+.line{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:6px 0;cursor:pointer}
+.line:hover{border-color:#bfb0ff}.line.sel{border-color:var(--acc);box-shadow:0 0 0 2px #e0d8ff}
+.line .hd{display:flex;gap:10px;align-items:center;font-size:12.5px;color:var(--mute);flex-wrap:wrap}
+.lvl{font-weight:700;border-radius:4px;padding:0 6px;font-size:11px}
+.l-info{background:#e5f6ee;color:#0e7a50}.l-err{background:#fdeceb;color:#b3261e}.l-warn{background:#fff4de;color:#a05c00}
+.line .tx{margin-top:4px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:3px 12px;font-size:13px}.kv div:nth-child(odd){color:var(--mute)}
+pre.raw{background:#12151f;color:#d6dbef;border-radius:10px;padding:14px;overflow:auto;font:12.5px/1.55 Consolas,monospace;margin:8px 0}
+.mk{background:var(--mask);color:var(--mask);border-radius:3px;user-select:none}
+.mk-text{color:#f0b7b0}
+.detail{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.state-pill{font-size:12px;border-radius:999px;padding:2px 10px;font-weight:700}
+.sp-m{background:var(--okbg);color:var(--ok)}.sp-u{background:var(--badbg);color:var(--bad)}
+.hide{display:none!important}
+.login{max-width:360px;margin:50px auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px}
+.login input{width:100%;margin:6px 0 12px}
+.diagram{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px}
+svg text{font-family:"Segoe UI",Arial,sans-serif}
+.legend span{display:inline-flex;align-items:center;gap:6px;margin-right:16px;font-size:12px;color:var(--mute)}
+.legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
+.stat{font-size:30px;font-weight:800;color:var(--acc)}
+.bar2{height:10px;background:#eef0f4;border-radius:5px;overflow:hidden}.bar2>div{height:100%;background:var(--acc)}
+ol.steps{margin:6px 0 0 18px;padding:0}ol.steps li{margin:4px 0}
+@media (max-width:900px){.g2,.g3{grid-template-columns:1fr}.app{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Simplified Log Finder: UI mockup and flows</h1>
+  <span class="badge b-draft">DRAFT</span>
+  <span class="badge b-mute">from Inception package v1.0 (gate approved 2026-11-26)</span>
+  <span class="sp" style="flex:1"></span>
+  <span class="req">All data below is synthetic. Layout and wording are proposals, not final UI.</span>
+</header>
+<nav class="tabs" id="tabs">
+  <button data-t="overview" class="on">1. Overview</button>
+  <button data-t="mock">2. UI mockup (clickable)</button>
+  <button data-t="biz">3. Business flow</button>
+  <button data-t="tech">4. Technical flow</button>
+  <button data-t="map">5. Screen-to-requirement map</button>
+</nav>
+<main>
+
+<!-- ============ OVERVIEW ============ -->
+<section class="tab on" id="t-overview">
+  <h2>What we want to build</h2>
+  <p class="lead">A web page where a BA, QA or FE/Mobile developer types a request the way they write it in chat, checks the filters the Finder understood, and gets a readable log from Loki (and, later, the database) without pinging an engineer. It sits in front of the existing sources; Grafana, the database and k9s stay as they are for engineers. Pilot: BCAS, UAT first, then RC. Production is out of scope.</p>
+  <div class="grid g3">
+    <div class="card"><div class="stat">24 / 24</div>sampled chat requests were the same ask: pull a log.</div>
+    <div class="card"><div class="stat">&lt; 2 min</div>target time for a requester to reach a readable log.</div>
+    <div class="card"><div class="stat">−65%</div>target drop in engineer log-request pings.</div>
+  </div>
+  <h3>Design rules that shape every screen</h3>
+  <div class="grid g2">
+    <div class="card"><ol class="steps">
+      <li><b>Filters are always visible as editable chips.</b> A sentence only fills in chips; nothing runs until the user confirms (Req 6, 10).</li>
+      <li><b>Every search has a bounded time window.</b> Vague times ("tadi") are proposed and confirmed first (Req 7, 9).</li>
+      <li><b>Times are WIB on screen, UTC to the sources</b>; the raw view keeps the original timestamps (Req 8).</li>
+      <li><b>The simplified view is parsed by rules, not by an LLM</b> (Req 15).</li>
+      <li><b>Raw view is one click away</b> and keeps every field (Req 17).</li></ol></div>
+    <div class="card"><ol class="steps">
+      <li><b>Masked by default</b> in every view and copy; unmask and True_Raw only for users with the right, per project and environment, always audited (Req 19, 20).</li>
+      <li><b>The internal LLM sees only the sentence</b>, the project dictionary and identifier types; never log content (Req 10.3).</li>
+      <li><b>Clear "nothing found" vs "source failed"</b>, with a way to widen the window or ask an engineer (Req 14).</li>
+      <li><b>The only shareable link is the Escalation_Link</b>, which re-checks the viewer's access (Req 25).</li>
+      <li><b>Every search and sensitive action is audited</b> (Req 26).</li></ol></div>
+  </div>
+  <h3>Who uses which screen</h3>
+  <div class="card"><table>
+    <tr><th>Role</th><th>Does</th><th>Screens</th></tr>
+    <tr><td>BA, QA, FE/Mobile developer (P1 to P3)</td><td>Search, read, copy, ask an engineer</td><td>Sign in, Search, Results, Raw view, History</td></tr>
+    <tr><td>Developer (P4)</td><td>Opens Escalation_Links; keeps Grafana, DB, k9s</td><td>Escalation link</td></tr>
+    <tr><td>Project Admin, business (P5a, a BA)</td><td>Dictionary, identifier mapping, simplified-view fields</td><td>Admin: Business config</td></tr>
+    <tr><td>Project Admin, access (P5b, DevOps)</td><td>Accounts, grants, unmask right, sources, masking rules, limits</td><td>Admin: Access and sources</td></tr>
+    <tr><td>Project Manager (P6), System Architect</td><td>Pilot metrics, audit log</td><td>Metrics and audit</td></tr>
+  </table></div>
+  <h3>How to use this file</h3>
+  <div class="note">Tab 2 is a clickable mockup: switch the <b>role</b> and the <b>scenario</b> at the top to see how screens change. Tabs 3 and 4 hold the business and technical flows as diagrams (scroll sideways if wide). Tab 5 links each screen to the requirement it comes from. Open points that affect the UI are listed there too.</div>
+</section>
+
+<!-- ============ MOCKUP ============ -->
+<section class="tab" id="t-mock">
+  <h2>UI mockup</h2>
+  <p class="lead">Click the left menu and the buttons. Use the controls to change who is signed in and which situation the screen shows.</p>
+  <div class="card ctrl">
+    <label>Signed in as</label>
+    <select id="role">
+      <option value="searcher">QA Engineer (searcher)</option>
+      <option value="unmasker">BA with Unmask_Right (BCAS UAT only)</option>
+      <option value="bizadmin">BA as Project Admin (business)</option>
+      <option value="accessadmin">DevOps as Project Admin (access)</option>
+      <option value="pm">Project Manager</option>
+      <option value="dev">Developer (opens escalation links)</option>
+    </select>
+    <label>Search scenario</label>
+    <select id="scen">
+      <option value="found">Found: lines from two services</option>
+      <option value="vague">Vague time: needs confirmation</option>
+      <option value="nothing">Nothing found</option>
+      <option value="partial">Partial: one source failed</option>
+      <option value="nonl">NL unavailable: manual filters only</option>
+      <option value="noid">No identifier and no time</option>
+    </select>
+    <button class="btn sm" id="resetbtn">Reset mockup</button>
+  </div>
+
+  <div class="frame">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">https://finder.soluix.internal/</div></div>
+
+    <!-- login -->
+    <div id="p-login" class="page hide" style="background:#fafbfd;padding:20px">
+      <div class="login">
+        <div style="font-weight:800;font-size:18px">Simplified Log Finder</div>
+        <div class="req" style="margin-bottom:14px">Local account. No single sign-on in the MVP.</div>
+        <label class="req">Username</label><input type="text" value="qa.engineer">
+        <label class="req">Password</label><input type="password" value="••••••••••">
+        <button class="btn pri" style="width:100%" id="dologin">Sign in</button>
+        <div class="msg m-bad hide" id="loginerr" style="margin-top:12px">Invalid username or password.</div>
+        <div class="req" style="margin-top:12px">Wrong password: the same generic message for every account, with an increasing delay after repeated failures. Session ends after 30 min idle (proposal).</div>
+      </div>
+    </div>
+
+    <!-- app -->
+    <div id="app" class="app">
+      <div class="side">
+        <div class="logo">Log Finder</div>
+        <a data-p="search" class="on">Search</a>
+        <a data-p="history" data-roles="searcher unmasker bizadmin accessadmin dev">My search history</a>
+        <div class="sec" data-roles="bizadmin accessadmin">ADMIN</div>
+        <a data-p="adminbiz" data-roles="bizadmin">Business config</a>
+        <a data-p="adminacc" data-roles="accessadmin">Access and sources</a>
+        <div class="sec" data-roles="pm">PILOT</div>
+        <a data-p="metrics" data-roles="pm">Metrics</a>
+        <a data-p="audit" data-roles="pm">Audit log</a>
+        <div class="sec">&nbsp;</div>
+        <a id="signout">Sign out</a>
+      </div>
+      <div class="content">
+        <div class="topbar">
+          <b>Project</b>
+          <select id="proj"><option>BCAS</option></select>
+          <span class="seg" id="envseg"><span class="on" data-env="UAT">UAT</span><span data-env="RC">RC</span><span class="off" title="Production is out of scope">PROD</span></span>
+          <span class="sp"></span>
+          <span class="req">Times in WIB (UTC+07:00)</span>
+          <span class="badge b-acc" id="whoami">QA Engineer</span>
+        </div>
+
+        <!-- SEARCH PAGE -->
+        <div id="p-search" class="page">
+          <div class="card">
+            <b>Describe what you need</b> <span class="req">(like in chat; the Finder only fills in the filters below)</span>
+            <textarea id="nl" rows="2"></textarea>
+            <div class="tools">
+              <button class="btn pri" id="understand">Understand</button>
+              <button class="btn" id="clearbtn">Clear</button>
+              <span class="req" id="nlnote">Only your sentence, the project's term list and identifier types go to the internal LLM. Log content never does.</span>
+            </div>
+            <details id="manual"><summary style="cursor:pointer;font-weight:600;color:var(--acc)">Or set filters manually</summary>
+              <div class="grid g3" style="margin-top:10px">
+                <div><div class="req">Time window (WIB)</div><input style="width:100%" value="today 15:00 to 15:05"></div>
+                <div><div class="req">Identifier type</div><select style="width:100%"><option>CIF</option><option>Account number (norek)</option><option>Hashcard</option><option>Program ID</option><option>License ID</option><option>Request ID</option><option>Endpoint path</option></select></div>
+                <div><div class="req">Value(s), one or more</div><input style="width:100%" placeholder="e.g. 00012345, 00067890"></div>
+                <div><div class="req">Service or business feature</div><select style="width:100%"><option>ganti rek sumber</option><option>buka blokir</option><option>penutupan kartu</option></select></div>
+                <div><div class="req">Error code or message text</div><input style="width:100%" placeholder="optional"></div>
+                <div style="align-self:end"><button class="btn" id="addchips">Add as chips</button></div>
+              </div>
+            </details>
+          </div>
+
+          <div id="chipzone" class="hide">
+            <div class="chips" id="chips"></div>
+            <div id="chipmsgs"></div>
+            <div class="tools">
+              <button class="btn pri" id="runsearch">Confirm and search</button>
+              <span class="req" id="limits">Window up to the project maximum; results capped per project.</span>
+            </div>
+          </div>
+          <div id="guidance" class="hide"></div>
+          <div id="results" class="hide"></div>
+        </div>
+
+        <!-- HISTORY -->
+        <div id="p-history" class="page hide">
+          <h3 style="margin-top:0">My search history</h3>
+          <div class="req">Visible to you only. Reopening a search shows its chips again; it runs only after you confirm.</div>
+          <div class="card" style="margin-top:10px"><table>
+            <tr><th>When (WIB)</th><th>Env</th><th>Filters</th><th>Mode</th><th></th></tr>
+            <tr><td>today 14:12</td><td>RC</td><td>hashcard ••••a91c · feature "ganti sof" · 14:12:10 ±5 min</td><td>natural language</td><td><button class="btn sm reopen">Reopen</button></td></tr>
+            <tr><td>today 11:23</td><td>UAT</td><td>account no ••••5521 · today 11:22 to 11:23</td><td>natural language</td><td><button class="btn sm reopen">Reopen</button></td></tr>
+            <tr><td>yesterday 16:04</td><td>UAT</td><td>CIF ••••4567 · "ganti rek sumber" · 16:04:44 ±5 min</td><td>manual</td><td><button class="btn sm reopen">Reopen</button></td></tr>
+          </table></div>
+        </div>
+
+        <!-- ESCALATION LINK -->
+        <div id="p-esc" class="page hide">
+          <h3 style="margin-top:0">Escalation <span class="badge b-acc">opened from link</span></h3>
+          <div class="msg m-info">Raised by <b>mobile.dev</b> at today 15:32 WIB · BCAS · UAT · 0 lines found. Shown under <b>your</b> access and masking rights.</div>
+          <div class="chips"><span class="chip"><b>Time</b> today 15:20 to 15:40 WIB</span><span class="chip"><b>Endpoint</b> /api/registration/…/generate-key</span><span class="chip"><b>Env</b> UAT</span></div>
+          <div class="msg m-warn">Nothing found in Loki for this window. Because you are a Developer you can also check Grafana, the database or k9s directly; the Finder does not replace them.</div>
+          <div class="tools"><button class="btn">Widen window</button><button class="btn pri" id="denybtn">Simulate: viewer without access</button></div>
+          <div class="msg m-bad hide" id="denied"><b>Access denied.</b> You are not a member of BCAS UAT. No search details or counts are shown. The attempt is recorded in the audit log.</div>
+        </div>
+
+        <!-- ADMIN BIZ -->
+        <div id="p-adminbiz" class="page hide">
+          <h3 style="margin-top:0">Business config <span class="badge b-mute">BCAS</span></h3>
+          <div class="seg" id="bizseg"><span class="on" data-s="dict">Term dictionary</span><span data-s="ids">Identifiers</span><span data-s="flds">Simplified view fields</span></div>
+          <div id="biz-dict" class="card" style="margin-top:12px"><div class="req">Each entry maps a business term (and synonyms) to services, modules, endpoints or message patterns. New or changed entries stay "unconfirmed" until a Developer confirms (Req 11).</div>
+            <table><tr><th>Term</th><th>Synonyms</th><th>Maps to</th><th>Status</th><th>Changed</th></tr>
+            <tr><td>ganti rek sumber</td><td>ubah rekening sumber</td><td>account-service · /change-source-account</td><td><span class="badge b-ok">confirmed</span></td><td>BA · 2026-12-02</td></tr>
+            <tr><td>buka blokir</td><td>unblock</td><td>card-service · /unblock</td><td><span class="badge b-ok">confirmed</span></td><td>BA · 2026-12-02</td></tr>
+            <tr><td>penutupan kartu</td><td>tutup kartu, close card</td><td>card-service · /close</td><td><span class="badge b-warn" style="background:var(--warnbg);color:var(--warn)">unconfirmed</span></td><td>BA · today</td></tr></table>
+            <div class="tools"><button class="btn sm">Add term</button><span class="req">Terms searchers used that were not found appear here as "missing term" reports.</span></div></div>
+          <div id="biz-ids" class="card hide" style="margin-top:12px"><div class="req">Where each identifier appears in logs or database (Req 12). Pilot types: CIF, account number, hashcard, program ID, license ID, request ID, endpoint path.</div>
+            <table><tr><th>Type</th><th>Synonyms</th><th>Allowed pattern</th><th>Log field(s)</th><th>DB column(s)</th></tr>
+            <tr><td>CIF</td><td>cif, nasabah</td><td class="mono">[0-9]{8,12}</td><td class="mono">log_data.cif</td><td class="mono">customer.cif</td></tr>
+            <tr><td>Account number</td><td>norek, rek</td><td class="mono">[0-9]{10,16}</td><td class="mono">log_data.account_no</td><td class="mono">account.account_no</td></tr>
+            <tr><td>Hashcard</td><td>hash</td><td class="mono">[a-f0-9]{64}</td><td class="mono">log_data.hashcard</td><td>not mapped</td></tr></table></div>
+          <div id="biz-flds" class="card hide" style="margin-top:12px"><div class="req">Fields shown in the simplified view (Req 16). Masking applies to every field.</div>
+            <table><tr><th>Show</th><th>Field</th></tr>
+            <tr><td>☑</td><td>time (WIB)</td></tr><tr><td>☑</td><td>environment</td></tr><tr><td>☑</td><td class="mono">project_name</td></tr><tr><td>☑</td><td class="mono">project_module</td></tr><tr><td>☑</td><td class="mono">module_version</td></tr><tr><td>☑</td><td class="mono">correlation_id</td></tr><tr><td>☑</td><td class="mono">log_data (parsed, masked)</td></tr><tr><td>☐</td><td class="mono">X-Request-Id (add if the project needs it)</td></tr></table></div>
+        </div>
+
+        <!-- ADMIN ACCESS -->
+        <div id="p-adminacc" class="page hide">
+          <h3 style="margin-top:0">Access and sources <span class="badge b-mute">BCAS</span></h3>
+          <div class="seg" id="accseg"><span class="on" data-s="grants">Accounts and grants</span><span data-s="bind">Sources</span><span data-s="mask">Masking rules</span><span data-s="params">Limits</span></div>
+          <div id="acc-grants" class="card" style="margin-top:12px"><div class="req">No one has Unmask_Right by default. A grant is for one user, one project and one environment (Req 20). Every grant and revoke is audited.</div>
+            <table><tr><th>User</th><th>Role</th><th>UAT</th><th>RC</th><th>Unmask_Right</th></tr>
+            <tr><td>qa.engineer</td><td>Searcher</td><td>☑</td><td>☑</td><td>none</td></tr>
+            <tr><td>ba.user</td><td>Searcher</td><td>☑</td><td>☐</td><td><span class="badge b-bad">UAT only</span> <button class="btn sm">Revoke</button></td></tr>
+            <tr><td>mobile.dev</td><td>Searcher</td><td>☑</td><td>☑</td><td>none <button class="btn sm">Grant…</button></td></tr>
+            <tr><td>dev.backend</td><td>Developer</td><td>☑</td><td>☑</td><td>none</td></tr></table>
+            <div class="tools"><button class="btn sm">Add account</button><button class="btn sm">Disable account</button></div></div>
+          <div id="acc-bind" class="card hide" style="margin-top:12px"><div class="req">Secrets are held on the server and never shown here. Database stays disabled until DevOps and the database owner approve the limits (Req 23.3).</div>
+            <table><tr><th>Source</th><th>Env</th><th>Endpoint</th><th>Approval</th><th>State</th></tr>
+            <tr><td>Loki</td><td>UAT</td><td class="mono">https://loki-uat.…</td><td>DevOps · Yosia Alvin</td><td><span class="badge b-ok">enabled</span></td></tr>
+            <tr><td>Loki</td><td>RC</td><td class="mono">https://loki-rc.…</td><td>DevOps · Yosia Alvin</td><td><span class="badge b-ok">enabled</span></td></tr>
+            <tr><td>Kubernetes pod logs (via Loki)</td><td>UAT</td><td>same Loki</td><td>DevOps to confirm coverage</td><td><span class="badge b-mute">not yet available</span></td></tr>
+            <tr><td>Database</td><td>UAT</td><td class="mono">read-only user</td><td>limits not approved</td><td><span class="badge b-bad">disabled</span></td></tr></table></div>
+          <div id="acc-mask" class="card hide" style="margin-top:12px"><div class="req">Default: tokens and document bodies fully hidden; CIF, account number and hashcard partially masked (proposal: keep last 4). The value you searched for is shown in full to you only (Req 19).</div>
+            <table><tr><th>On</th><th>Pattern name</th><th>Applies to</th><th>Effect</th></tr>
+            <tr><td>☑</td><td>Authorization token</td><td>keys: authorization, token</td><td>hide fully</td></tr>
+            <tr><td>☑</td><td>Document body (base64)</td><td>keys: document, file</td><td>hide fully</td></tr>
+            <tr><td>☑</td><td>CIF</td><td>identifier CIF</td><td>keep last 4</td></tr>
+            <tr><td>☑</td><td>Account number</td><td>identifier norek</td><td>keep last 4</td></tr></table></div>
+          <div id="acc-params" class="card hide" style="margin-top:12px"><div class="req">Proposed defaults, to be validated in the Loki spike.</div>
+            <table><tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Exact-time window</td><td>± 5 min</td></tr><tr><td>Approximate-time window</td><td>± 30 min</td></tr><tr><td>Maximum range</td><td>24 h (never beyond Loki retention)</td></tr><tr><td>Result cap</td><td>500 lines</td></tr><tr><td>Loki timeout / concurrency</td><td>30 s / 2 per source</td></tr></table></div>
+        </div>
+
+        <!-- METRICS -->
+        <div id="p-metrics" class="page hide">
+          <h3 style="margin-top:0">Pilot metrics <span class="badge b-mute">BCAS · weekly</span></h3>
+          <div class="grid g3">
+            <div class="card"><div class="req">SEARCHES THIS WEEK</div><div class="stat">[ 128 ]</div><div class="req">sample number</div></div>
+            <div class="card"><div class="req">SELF-SERVED / ESCALATED</div><div class="stat">[ 104 / 24 ]</div><div class="req">self-served = result opened and no "Ask an engineer"</div></div>
+            <div class="card"><div class="req">TIME TO READABLE LOG</div><div class="stat">[ 74 s ]</div><div class="req">median · 90th percentile [ 160 s ]</div></div>
+          </div>
+          <div class="card" style="margin-top:14px"><b>Ping reduction against baseline</b>
+            <div class="req">PM enters weekly ping counts counted outside the Finder (chat export, keyword tagging, BA review).</div>
+            <div class="grid g2" style="margin-top:8px"><div>Baseline per week <input style="width:90px" value="[ 60 ]"> pings</div><div>This week <input style="width:90px" value="[ 21 ]"> pings</div></div>
+            <div style="margin:10px 0 4px">Reduction <b>[ 65% ]</b></div><div class="bar2"><div style="width:65%"></div></div>
+            <div style="margin-top:10px"><span class="badge b-ok">met</span> at ≥ 65% reduction and under 2 min. 35–64% = partly met · 0–34% = no change. Outside these rules = "unclassified: PM decision needed".</div></div>
+          <div class="card" style="margin-top:14px"><b>Share of natural-language searches</b> <span class="stat" style="font-size:20px">[ 71% ]</span> <button class="btn sm" style="float:right">Download CSV</button></div>
+        </div>
+
+        <!-- AUDIT -->
+        <div id="p-audit" class="page hide">
+          <h3 style="margin-top:0">Audit log <span class="badge b-mute">read-only · append-only</span></h3>
+          <div class="tools"><select><option>All actions</option><option>Search</option><option>Raw view open</option><option>Copy</option><option>Unmask / True_Raw</option><option>Escalation</option><option>Access denied</option><option>Config or grant change</option></select><input placeholder="User"><button class="btn sm">Filter</button></div>
+          <div class="card"><table>
+            <tr><th>Time (WIB)</th><th>User</th><th>Project / Env</th><th>Action</th><th>Detail (masked)</th></tr>
+            <tr><td>15:00:41</td><td>qa.engineer</td><td>BCAS / RC</td><td>search</td><td>natural language · CIF ••••4567 · 4 lines</td></tr>
+            <tr><td>15:01:20</td><td>qa.engineer</td><td>BCAS / RC</td><td>raw view open</td><td>result ref r-8841</td></tr>
+            <tr><td>15:01:33</td><td>qa.engineer</td><td>BCAS / RC</td><td>copy · raw masked</td><td>result ref r-8841</td></tr>
+            <tr><td>15:12:08</td><td>ba.user</td><td>BCAS / UAT</td><td>unmask on</td><td>result ref r-8870</td></tr>
+            <tr><td>15:32:15</td><td>mobile.dev</td><td>BCAS / UAT</td><td>escalation</td><td>0 lines · link e-512</td></tr>
+            <tr><td>15:40:02</td><td>unknown.user</td><td>BCAS / UAT</td><td>access denied</td><td>escalation link e-512</td></tr></table></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="req" style="margin-top:8px">Requirement links are on tab 5. Open UI-relevant points: exact masking patterns (partial keep rule), whether FE/Mobile developers need project-specific guidance, retention message values, and the final Raw_View layout once a masked log sample exists (V-10).</div>
+</section>
+
+<!-- ============ BUSINESS FLOW ============ -->
+<section class="tab" id="t-biz">
+  <h2>Business flow</h2>
+  <p class="lead">Who does what, from "I need a log" to a readable log, a copy for a ticket or client, or an escalation. Read left to right.</p>
+  <h3 style="margin-top:0">Today versus with the Finder</h3>
+  <div class="grid g2">
+    <div class="card"><b>Today (from the 24 sampled chats)</b><ol class="steps">
+      <li>BA/QA/developer posts a request in team chat ("minta log … jam … CIF …").</li>
+      <li>An engineer stops work, opens Grafana, the database or k9s.</li>
+      <li>The engineer finds and pastes the log, often asked again for the same thing.</li>
+      <li>The requester reads or forwards the log to the client.</li></ol></div>
+    <div class="card"><b>With the Finder</b><ol class="steps">
+      <li>The requester signs in and types the same sentence, or sets filters.</li>
+      <li>The Finder shows editable chips; the requester confirms the time window.</li>
+      <li>The Finder queries Loki read-only and shows a masked, readable log.</li>
+      <li>The requester copies it, or asks an engineer with one link when stuck.</li></ol></div>
+  </div>
+  <h3>Swimlane</h3>
+  <div class="legend"><span><i style="background:#efeaff;border:1px solid #bfb0ff"></i>Requester step</span><span><i style="background:#e5f6ee;border:1px solid #9fd8bd"></i>Finder (system) step</span><span><i style="background:#fff4de;border:1px solid #f0cf90"></i>Engineer step</span><span><i style="background:#eef0f4;border:1px solid #c7ccd8"></i>Admin / PM step</span></div>
+  <div class="diagram"><svg xmlns="http://www.w3.org/2000/svg" width="1950" height="528" viewBox="0 0 1950 528"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#5b6478"/></marker></defs><rect x="0" y="14" width="1950" height="126" fill="#efeaff" fill-opacity="0.35" stroke="#d9deea"/><rect x="0" y="14" width="136" height="126" fill="#efeaff" stroke="#d9deea"/><text x="12" y="75" font-size="13" font-weight="700" fill="#1d2433">Requester</text><text x="12" y="91" font-size="10.5" fill="#667085">BA / QA / FE-Mobile dev</text><rect x="0" y="140" width="1950" height="126" fill="#e5f6ee" fill-opacity="0.35" stroke="#d9deea"/><rect x="0" y="140" width="136" height="126" fill="#e5f6ee" stroke="#d9deea"/><text x="12" y="201" font-size="13" font-weight="700" fill="#1d2433">Finder</text><text x="12" y="217" font-size="10.5" fill="#667085">the system</text><rect x="0" y="266" width="1950" height="126" fill="#fff4de" fill-opacity="0.35" stroke="#d9deea"/><rect x="0" y="266" width="136" height="126" fill="#fff4de" stroke="#d9deea"/><text x="12" y="327" font-size="13" font-weight="700" fill="#1d2433">Engineer</text><text x="12" y="343" font-size="10.5" fill="#667085">Developer (P4)</text><rect x="0" y="392" width="1950" height="126" fill="#eef0f4" fill-opacity="0.35" stroke="#d9deea"/><rect x="0" y="392" width="136" height="126" fill="#eef0f4" stroke="#d9deea"/><text x="12" y="453" font-size="13" font-weight="700" fill="#1d2433">Admins and PM</text><text x="12" y="469" font-size="10.5" fill="#667085">config, access, pilot</text><path d="M312.0,77.0 H344.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M417.0,114.0 V166.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M490.0,203.0 H508.0 V77.0 H522.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M595.0,114.0 V166.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M668.0,203.0 H686.0 V77.0 H700.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M773.0,114.0 V166.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M846.0,203.0 H878.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M1024.0,203.0 H1056.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M1202.0,203.0 H1220.0 V77.0 H1234.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="1224.0" y="140.0" font-size="10.5" fill="#5b6478" text-anchor="middle">yes</text><path d="M1129.0,166.0 V114.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="1135.0" y="140.0" font-size="10.5" fill="#5b6478" text-anchor="middle">no</text><path d="M1380.0,77.0 H1412.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M1558.0,77.0 H1590.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="1574.0" y="71.0" font-size="10.5" fill="#5b6478" text-anchor="middle">not solved</text><path d="M1663.0,114.0 V292.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M1736.0,329.0 H1768.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M951.0,240.0 V418.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="957.0" y="329.0" font-size="10.5" fill="#5b6478" text-anchor="middle">every action</text><path d="M1024.0,455.0 H1768.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="1396.0" y="449.0" font-size="10.5" fill="#5b6478" text-anchor="middle">weekly</text><path d="M312.0,455.0 H330.0 V203.0 H344.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="334.0" y="329.0" font-size="10.5" fill="#5b6478" text-anchor="middle">grants, terms</text><path d="M1129.0,40.0 V24.0 H773.0 V40.0" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="951.0" y="21.0" font-size="10.5" fill="#5b6478" text-anchor="middle">edit and re-run</text><rect x="166.0" y="418.0" width="146" height="74" rx="10" fill="#eef0f4" stroke="#c7ccd8" stroke-width="1.4"/><text x="239.0" y="437.7" text-anchor="middle" font-size="11" fill="#1d2433">Set up once per project:</text><text x="239.0" y="451.7" text-anchor="middle" font-size="11" fill="#1d2433">accounts, grants, term</text><text x="239.0" y="465.7" text-anchor="middle" font-size="11" fill="#1d2433">dictionary, identifier</text><text x="239.0" y="479.7" text-anchor="middle" font-size="11" fill="#1d2433">mapping</text><rect x="166.0" y="40.0" width="146" height="74" rx="30" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.4"/><text x="239.0" y="73.7" text-anchor="middle" font-size="11" fill="#1d2433">Needs a log: bug, check</text><text x="239.0" y="87.7" text-anchor="middle" font-size="11" fill="#1d2433">or client question</text><rect x="344.0" y="40.0" width="146" height="74" rx="10" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.4"/><text x="417.0" y="73.7" text-anchor="middle" font-size="11" fill="#1d2433">Sign in with local</text><text x="417.0" y="87.7" text-anchor="middle" font-size="11" fill="#1d2433">account</text><rect x="344.0" y="166.0" width="146" height="74" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="417.0" y="199.7" text-anchor="middle" font-size="11" fill="#1d2433">Check access to project</text><text x="417.0" y="213.7" text-anchor="middle" font-size="11" fill="#1d2433">and environment</text><rect x="522.0" y="40.0" width="146" height="74" rx="10" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.4"/><text x="595.0" y="73.7" text-anchor="middle" font-size="11" fill="#1d2433">Type a sentence, or set</text><text x="595.0" y="87.7" text-anchor="middle" font-size="11" fill="#1d2433">filters</text><rect x="522.0" y="166.0" width="146" height="74" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="595.0" y="192.7" text-anchor="middle" font-size="11" fill="#1d2433">Turn input into filter</text><text x="595.0" y="206.7" text-anchor="middle" font-size="11" fill="#1d2433">chips (rules + internal</text><text x="595.0" y="220.7" text-anchor="middle" font-size="11" fill="#1d2433">LLM, sentence only)</text><rect x="700.0" y="40.0" width="146" height="74" rx="10" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.4"/><text x="773.0" y="73.7" text-anchor="middle" font-size="11" fill="#1d2433">Review chips; confirm</text><text x="773.0" y="87.7" text-anchor="middle" font-size="11" fill="#1d2433">the time window</text><rect x="700.0" y="166.0" width="146" height="74" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="773.0" y="199.7" text-anchor="middle" font-size="11" fill="#1d2433">Run predefined read-only</text><text x="773.0" y="213.7" text-anchor="middle" font-size="11" fill="#1d2433">query on Loki (UTC)</text><rect x="878.0" y="166.0" width="146" height="74" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="951.0" y="199.7" text-anchor="middle" font-size="11" fill="#1d2433">Parse by rules, mask,</text><text x="951.0" y="213.7" text-anchor="middle" font-size="11" fill="#1d2433">group by service</text><polygon points="1129.0,166.0 1202.0,203.0 1129.0,240.0 1056.0,203.0" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="1129.0" y="207.0" text-anchor="middle" font-size="12" fill="#1d2433" font-weight="700">Lines found?</text><rect x="1056.0" y="40.0" width="146" height="74" rx="10" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.4"/><text x="1129.0" y="73.7" text-anchor="middle" font-size="11" fill="#1d2433">Widen window or fix</text><text x="1129.0" y="87.7" text-anchor="middle" font-size="11" fill="#1d2433">chips</text><rect x="1234.0" y="40.0" width="146" height="74" rx="10" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.4"/><text x="1307.0" y="73.7" text-anchor="middle" font-size="11" fill="#1d2433">Read simplified view;</text><text x="1307.0" y="87.7" text-anchor="middle" font-size="11" fill="#1d2433">open raw if needed</text><rect x="1412.0" y="40.0" width="146" height="74" rx="10" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.4"/><text x="1485.0" y="66.7" text-anchor="middle" font-size="11" fill="#1d2433">Copy simplified or raw</text><text x="1485.0" y="80.7" text-anchor="middle" font-size="11" fill="#1d2433">(masked) to ticket or</text><text x="1485.0" y="94.7" text-anchor="middle" font-size="11" fill="#1d2433">client</text><rect x="1590.0" y="40.0" width="146" height="74" rx="10" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.4"/><text x="1663.0" y="66.7" text-anchor="middle" font-size="11" fill="#1d2433">Not solved: Ask an</text><text x="1663.0" y="80.7" text-anchor="middle" font-size="11" fill="#1d2433">engineer, paste link in</text><text x="1663.0" y="94.7" text-anchor="middle" font-size="11" fill="#1d2433">chat</text><rect x="1590.0" y="292.0" width="146" height="74" rx="10" fill="#fff4de" stroke="#f0cf90" stroke-width="1.4"/><text x="1663.0" y="325.7" text-anchor="middle" font-size="11" fill="#1d2433">Open link, sign in;</text><text x="1663.0" y="339.7" text-anchor="middle" font-size="11" fill="#1d2433">Finder re-checks access</text><rect x="1768.0" y="292.0" width="146" height="74" rx="10" fill="#fff4de" stroke="#f0cf90" stroke-width="1.4"/><text x="1841.0" y="318.7" text-anchor="middle" font-size="11" fill="#1d2433">Same search under own</text><text x="1841.0" y="332.7" text-anchor="middle" font-size="11" fill="#1d2433">rights; Grafana, DB or k9s</text><text x="1841.0" y="346.7" text-anchor="middle" font-size="11" fill="#1d2433">if needed; reply in chat</text><rect x="878.0" y="418.0" width="146" height="74" rx="10" fill="#eef0f4" stroke="#c7ccd8" stroke-width="1.4"/><text x="951.0" y="444.7" text-anchor="middle" font-size="11" fill="#1d2433">Audit entry for every</text><text x="951.0" y="458.7" text-anchor="middle" font-size="11" fill="#1d2433">search, raw open, copy,</text><text x="951.0" y="472.7" text-anchor="middle" font-size="11" fill="#1d2433">unmask</text><rect x="1768.0" y="418.0" width="146" height="74" rx="10" fill="#eef0f4" stroke="#c7ccd8" stroke-width="1.4"/><text x="1841.0" y="444.7" text-anchor="middle" font-size="11" fill="#1d2433">PM reads weekly pilot</text><text x="1841.0" y="458.7" text-anchor="middle" font-size="11" fill="#1d2433">metrics and the audit</text><text x="1841.0" y="472.7" text-anchor="middle" font-size="11" fill="#1d2433">log</text></svg></div>
+  <h3>What the Finder does at each decision</h3>
+  <div class="card"><table>
+    <tr><th>Situation</th><th>What the user sees</th><th>Req</th></tr>
+    <tr><td>No identifier and no time</td><td>Guidance naming what is missing, plus own search history to reopen</td><td>13</td></tr>
+    <tr><td>Vague time ("tadi")</td><td>A proposed window on a chip; nothing runs until confirmed</td><td>9</td></tr>
+    <tr><td>Window too large</td><td>Refused, with the project's maximum range</td><td>7.4</td></tr>
+    <tr><td>Too many matches</td><td>First lines up to the cap, plus a hint how to narrow</td><td>7.5</td></tr>
+    <tr><td>Nothing found</td><td>"Nothing found" with filters, window and sources; widen or ask an engineer</td><td>14.2</td></tr>
+    <tr><td>A source failed</td><td>Results from other sources marked partial; failed source named</td><td>14.3</td></tr>
+    <tr><td>Lines of one flow without correlation_id</td><td>Grouped by service, labelled "not linked by correlation_id"</td><td>24</td></tr>
+    <tr><td>User wants full values</td><td>Only with Unmask_Right: toggle and True_Raw appear; every use audited</td><td>20</td></tr>
+  </table></div>
+</section>
+
+<!-- ============ TECH FLOW ============ -->
+<section class="tab" id="t-tech">
+  <h2>Technical flow</h2>
+  <p class="lead">One Go (Echo) service in a modular monolith with a React front end on the same origin, PostgreSQL for the Finder's own data, a separate inference VM for the internal LLM, and read-only connectors to the existing Loki and database. Source: design.md v1.0.</p>
+  <h3 style="margin-top:0">A. Components</h3>
+  <div class="diagram"><svg xmlns="http://www.w3.org/2000/svg" width="1250" height="540" viewBox="0 0 1250 540"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#5b6478"/></marker></defs><rect x="370" y="30" width="460" height="480" rx="14" fill="#f7faf8" stroke="#9fd8bd" stroke-width="1.6" stroke-dasharray="6 4"/><text x="390" y="52" font-size="12.5" font-weight="700" fill="#0e7a50">Finder service (Go + Echo, modular monolith) on the internal Soluix server, Docker Compose</text><rect x="20" y="190" width="180" height="150" rx="10" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.4"/><text x="110.0" y="239.8" text-anchor="middle" font-size="11.5" fill="#1d2433">Browser: React SPA served</text><text x="110.0" y="254.3" text-anchor="middle" font-size="11.5" fill="#1d2433">by the Go binary. Filters,</text><text x="110.0" y="268.8" text-anchor="middle" font-size="11.5" fill="#1d2433">sentence box, chips,</text><text x="110.0" y="283.3" text-anchor="middle" font-size="11.5" fill="#1d2433">Simplified and Raw views,</text><text x="110.0" y="297.8" text-anchor="middle" font-size="11.5" fill="#1d2433">admin pages</text><rect x="235" y="240" width="100" height="52" rx="10" fill="#eef0f4" stroke="#c7ccd8" stroke-width="1.4"/><text x="285.0" y="255.7" text-anchor="middle" font-size="11" fill="#1d2433">Reverse proxy,</text><text x="285.0" y="269.7" text-anchor="middle" font-size="11" fill="#1d2433">TLS (internal</text><text x="285.0" y="283.7" text-anchor="middle" font-size="11" fill="#1d2433">CA)</text><rect x="395" y="80" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="460.0" y="105.0" text-anchor="middle" font-size="10.5" fill="#1d2433">api: REST/JSON,</text><text x="460.0" y="118.5" text-anchor="middle" font-size="10.5" fill="#1d2433">OpenAPI, error</text><text x="460.0" y="132.0" text-anchor="middle" font-size="10.5" fill="#1d2433">envelope</text><rect x="535" y="80" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="600.0" y="105.0" text-anchor="middle" font-size="10.5" fill="#1d2433">access: sessions,</text><text x="600.0" y="118.5" text-anchor="middle" font-size="10.5" fill="#1d2433">CSRF, grants, one</text><text x="600.0" y="132.0" text-anchor="middle" font-size="10.5" fill="#1d2433">authorize()</text><rect x="675" y="80" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="740.0" y="105.0" text-anchor="middle" font-size="10.5" fill="#1d2433">config: projects,</text><text x="740.0" y="118.5" text-anchor="middle" font-size="10.5" fill="#1d2433">bindings, dictionary,</text><text x="740.0" y="132.0" text-anchor="middle" font-size="10.5" fill="#1d2433">mapping, rules</text><rect x="395" y="180" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="460.0" y="205.0" text-anchor="middle" font-size="10.5" fill="#1d2433">query: filter</text><text x="460.0" y="218.5" text-anchor="middle" font-size="10.5" fill="#1d2433">validation,</text><text x="460.0" y="232.0" text-anchor="middle" font-size="10.5" fill="#1d2433">templates, UTC window</text><rect x="535" y="180" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="600.0" y="211.8" text-anchor="middle" font-size="10.5" fill="#1d2433">audit: append-only,</text><text x="600.0" y="225.2" text-anchor="middle" font-size="10.5" fill="#1d2433">hash chain</text><rect x="675" y="180" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="740.0" y="205.0" text-anchor="middle" font-size="10.5" fill="#1d2433">nl: rules</text><text x="740.0" y="218.5" text-anchor="middle" font-size="10.5" fill="#1d2433">pre-processor + LLM</text><text x="740.0" y="232.0" text-anchor="middle" font-size="10.5" fill="#1d2433">client + validator</text><rect x="395" y="280" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="460.0" y="305.0" text-anchor="middle" font-size="10.5" fill="#1d2433">parser: rule sets,</text><text x="460.0" y="318.5" text-anchor="middle" font-size="10.5" fill="#1d2433">deterministic</text><text x="460.0" y="332.0" text-anchor="middle" font-size="10.5" fill="#1d2433">simplified view</text><rect x="535" y="280" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="600.0" y="305.0" text-anchor="middle" font-size="10.5" fill="#1d2433">metrics: pilot</text><text x="600.0" y="318.5" text-anchor="middle" font-size="10.5" fill="#1d2433">events, weekly</text><text x="600.0" y="332.0" text-anchor="middle" font-size="10.5" fill="#1d2433">aggregates</text><rect x="675" y="280" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="740.0" y="311.8" text-anchor="middle" font-size="10.5" fill="#1d2433">connector/loki:</text><text x="740.0" y="325.2" text-anchor="middle" font-size="10.5" fill="#1d2433">read-only HTTP API</text><rect x="395" y="380" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="460.0" y="405.0" text-anchor="middle" font-size="10.5" fill="#1d2433">masking: one choke</text><text x="460.0" y="418.5" text-anchor="middle" font-size="10.5" fill="#1d2433">point for every view</text><text x="460.0" y="432.0" text-anchor="middle" font-size="10.5" fill="#1d2433">and copy</text><rect x="535" y="380" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="600.0" y="411.8" text-anchor="middle" font-size="10.5" fill="#1d2433">escalation:</text><text x="600.0" y="425.2" text-anchor="middle" font-size="10.5" fill="#1d2433">Escalation_Link</text><rect x="675" y="380" width="130" height="70" rx="10" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.4"/><text x="740.0" y="411.8" text-anchor="middle" font-size="10.5" fill="#1d2433">connector/db:</text><text x="740.0" y="425.2" text-anchor="middle" font-size="10.5" fill="#1d2433">read-only, limits</text><rect x="900" y="70" width="190" height="80" rx="10" fill="#fff4de" stroke="#f0cf90" stroke-width="1.4"/><text x="995.0" y="99.3" text-anchor="middle" font-size="11.5" fill="#1d2433">PostgreSQL (finder schema):</text><text x="995.0" y="113.8" text-anchor="middle" font-size="11.5" fill="#1d2433">accounts, grants, config,</text><text x="995.0" y="128.3" text-anchor="middle" font-size="11.5" fill="#1d2433">audit, metrics</text><rect x="900" y="175" width="190" height="80" rx="10" fill="#ffffff" stroke="#9aa3b5" stroke-width="1.4"/><text x="995.0" y="197.1" text-anchor="middle" font-size="11.5" fill="#1d2433">Inference server on a</text><text x="995.0" y="211.6" text-anchor="middle" font-size="11.5" fill="#1d2433">separate internal VM:</text><text x="995.0" y="226.1" text-anchor="middle" font-size="11.5" fill="#1d2433">self-hosted open-weights</text><text x="995.0" y="240.6" text-anchor="middle" font-size="11.5" fill="#1d2433">model</text><rect x="900" y="285" width="190" height="70" rx="10" fill="#ffffff" stroke="#9aa3b5" stroke-width="1.4"/><text x="995.0" y="316.6" text-anchor="middle" font-size="11.5" fill="#1d2433">Project Loki (one per</text><text x="995.0" y="331.1" text-anchor="middle" font-size="11.5" fill="#1d2433">project), read-only</text><rect x="900" y="385" width="190" height="70" rx="10" fill="#ffffff" stroke="#9aa3b5" stroke-width="1.4"/><text x="995.0" y="416.6" text-anchor="middle" font-size="11.5" fill="#1d2433">Project database,</text><text x="995.0" y="431.1" text-anchor="middle" font-size="11.5" fill="#1d2433">read-only, no read-replica</text><rect x="1115" y="285" width="120" height="70" rx="10" fill="#ffffff" stroke="#9aa3b5" stroke-width="1.4"/><text x="1175.0" y="310.0" text-anchor="middle" font-size="10.5" fill="#1d2433">Kubernetes pod</text><text x="1175.0" y="323.5" text-anchor="middle" font-size="10.5" fill="#1d2433">logs via Fluent</text><text x="1175.0" y="337.0" text-anchor="middle" font-size="10.5" fill="#1d2433">Bit</text><path d="M200,265 H235" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M335,265 H355 V115 H395" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><path d="M830,110 H900" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="865" y="102" font-size="10.5" fill="#5b6478" text-anchor="middle">SQL</text><path d="M830,215 H900" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="865" y="207" font-size="10.5" fill="#5b6478" text-anchor="middle">sentence + term list</text><path d="M830,320 H900" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="865" y="312" font-size="10.5" fill="#5b6478" text-anchor="middle">HTTP, read-only</text><path d="M830,420 H900" fill="none" stroke="#5b6478" stroke-width="1.4" marker-end="url(#ar)"/><text x="865" y="412" font-size="10.5" fill="#5b6478" text-anchor="middle">SQL, read-only</text><path d="M1115,320 H1090" fill="none" stroke="#5b6478" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="1102" y="278" font-size="10" fill="#5b6478" text-anchor="middle">logs shipped</text><text x="20" y="372" font-size="11" fill="#5b6478">Grafana, database tools and k9s stay in place for engineers.</text><text x="20" y="388" font-size="11" fill="#5b6478">The Finder does not call Grafana in the MVP.</text><text x="395" y="498" font-size="10.5" fill="#667085">Every handler that touches a project calls access.authorize first. Results leave the service only through masking.</text></svg></div>
+  <div class="req">Assumptions still to verify before the related unit starts: Loki reachable without authentication (V-01, unverified), one Loki per project, pod logs already in Loki (V-06), no database read-replica (confirmed).</div>
+  <h3>B. Happy path: sentence to readable log</h3>
+  <div class="diagram"><svg xmlns="http://www.w3.org/2000/svg" width="1760" height="1006" viewBox="0 0 1760 1006"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#5b6478"/></marker></defs><line x1="115.0" y1="44" x2="115.0" y2="986" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="54.0" y="14" width="122" height="32" rx="8" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.3"/><text x="115.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">QA Engineer</text><line x1="285.0" y1="44" x2="285.0" y2="986" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="224.0" y="14" width="122" height="32" rx="8" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.3"/><text x="285.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">React SPA</text><line x1="455.0" y1="44" x2="455.0" y2="986" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="394.0" y="14" width="122" height="32" rx="8" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.3"/><text x="455.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">Finder api</text><line x1="625.0" y1="44" x2="625.0" y2="986" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="564.0" y="14" width="122" height="32" rx="8" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.3"/><text x="625.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">access</text><line x1="795.0" y1="44" x2="795.0" y2="986" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="734.0" y="14" width="122" height="32" rx="8" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.3"/><text x="795.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">nl</text><line x1="965.0" y1="44" x2="965.0" y2="986" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="904.0" y="14" width="122" height="32" rx="8" fill="#ffffff" stroke="#9aa3b5" stroke-width="1.3"/><text x="965.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">Inference server</text><line x1="1135.0" y1="44" x2="1135.0" y2="986" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="1074.0" y="14" width="122" height="32" rx="8" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.3"/><text x="1135.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">query + connector</text><line x1="1305.0" y1="44" x2="1305.0" y2="986" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="1244.0" y="14" width="122" height="32" rx="8" fill="#ffffff" stroke="#9aa3b5" stroke-width="1.3"/><text x="1305.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">Project Loki</text><line x1="1475.0" y1="44" x2="1475.0" y2="986" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="1414.0" y="14" width="122" height="32" rx="8" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.3"/><text x="1475.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">parser + masking</text><line x1="1645.0" y1="44" x2="1645.0" y2="986" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="1584.0" y="14" width="122" height="32" rx="8" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.3"/><text x="1645.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">audit + metrics</text><line x1="117.0" y1="68.4" x2="282.0" y2="68.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="200.0" y="63.4" font-size="11" text-anchor="middle" fill="#1d2433">types sentence</text><line x1="287.0" y1="102.4" x2="452.0" y2="102.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="370.0" y="97.4" font-size="11" text-anchor="middle" fill="#1d2433">POST nl/translate</text><line x1="457.0" y1="136.4" x2="622.0" y2="136.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="540.0" y="131.4" font-size="11" text-anchor="middle" fill="#1d2433">authorize(search)</text><line x1="623.0" y1="170.4" x2="458.0" y2="170.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="540.0" y="165.4" font-size="11" text-anchor="middle" fill="#1d2433">allowed</text><line x1="457.0" y1="204.4" x2="792.0" y2="204.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="625.0" y="199.4" font-size="11" text-anchor="middle" fill="#1d2433">translate(sentence)</text><path d="M795.0,230.4 h26 v14 h-26" fill="none" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="827.0" y="239.4" font-size="11" fill="#1d2433">rules: CIF, time, env, term</text><line x1="797.0" y1="272.4" x2="962.0" y2="272.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="880.0" y="267.4" font-size="11" text-anchor="middle" fill="#1d2433">sentence + term list</text><rect x="745.0" y="292.4" width="270.0" height="22" rx="4" fill="#fff4de" stroke="#f0cf90"/><text x="880.0" y="307.4" font-size="10.5" text-anchor="middle" fill="#6b4a00">no log content ever goes to the LLM</text><line x1="963.0" y1="340.4" x2="798.0" y2="340.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="880.0" y="335.4" font-size="11" text-anchor="middle" fill="#1d2433">JSON filter set</text><path d="M795.0,366.4 h26 v14 h-26" fill="none" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="827.0" y="375.4" font-size="11" fill="#1d2433">validate against project vocabulary</text><line x1="793.0" y1="408.4" x2="458.0" y2="408.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="625.0" y="403.4" font-size="11" text-anchor="middle" fill="#1d2433">filter set (unconfirmed)</text><line x1="453.0" y1="442.4" x2="288.0" y2="442.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="370.0" y="437.4" font-size="11" text-anchor="middle" fill="#1d2433">chips</text><line x1="117.0" y1="476.4" x2="282.0" y2="476.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="200.0" y="471.4" font-size="11" text-anchor="middle" fill="#1d2433">edits chips, confirms</text><line x1="287.0" y1="510.4" x2="452.0" y2="510.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="370.0" y="505.4" font-size="11" text-anchor="middle" fill="#1d2433">POST searches {confirmed}</text><line x1="457.0" y1="544.4" x2="622.0" y2="544.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="540.0" y="539.4" font-size="11" text-anchor="middle" fill="#1d2433">authorize again</text><line x1="457.0" y1="578.4" x2="1132.0" y2="578.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="795.0" y="573.4" font-size="11" text-anchor="middle" fill="#1d2433">validate, window WIB to UTC</text><path d="M1135.0,604.4 h26 v14 h-26" fill="none" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="1167.0" y="613.4" font-size="11" fill="#1d2433">render template, escape values</text><line x1="1137.0" y1="646.4" x2="1302.0" y2="646.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="1220.0" y="641.4" font-size="11" text-anchor="middle" fill="#1d2433">query_range (cap + 1)</text><line x1="1303.0" y1="680.4" x2="1138.0" y2="680.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="1220.0" y="675.4" font-size="11" text-anchor="middle" fill="#1d2433">streams</text><line x1="1133.0" y1="714.4" x2="458.0" y2="714.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="795.0" y="709.4" font-size="11" text-anchor="middle" fill="#1d2433">raw lines</text><line x1="457.0" y1="748.4" x2="1472.0" y2="748.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="965.0" y="743.4" font-size="11" text-anchor="middle" fill="#1d2433">parse with rule set</text><path d="M1475.0,774.4 h26 v14 h-26" fill="none" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="1507.0" y="783.4" font-size="11" fill="#1d2433">mask (searched CIF in full to you)</text><line x1="1473.0" y1="816.4" x2="458.0" y2="816.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="965.0" y="811.4" font-size="11" text-anchor="middle" fill="#1d2433">masked result</text><line x1="457.0" y1="850.4" x2="1642.0" y2="850.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="1050.0" y="845.4" font-size="11" text-anchor="middle" fill="#1d2433">audit + metric (mode)</text><line x1="453.0" y1="884.4" x2="288.0" y2="884.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="370.0" y="879.4" font-size="11" text-anchor="middle" fill="#1d2433">lines, count, window in WIB</text><line x1="117.0" y1="918.4" x2="282.0" y2="918.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="200.0" y="913.4" font-size="11" text-anchor="middle" fill="#1d2433">opens simplified view</text><line x1="287.0" y1="952.4" x2="452.0" y2="952.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="370.0" y="947.4" font-size="11" text-anchor="middle" fill="#1d2433">metric: view_open</text></svg></div>
+  <h3>C. Ask an engineer</h3>
+  <div class="diagram"><svg xmlns="http://www.w3.org/2000/svg" width="1200" height="666" viewBox="0 0 1200 666"><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#5b6478"/></marker></defs><line x1="125.0" y1="44" x2="125.0" y2="646" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="64.0" y="14" width="122" height="32" rx="8" fill="#efeaff" stroke="#bfb0ff" stroke-width="1.3"/><text x="125.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">Mobile developer</text><line x1="315.0" y1="44" x2="315.0" y2="646" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="254.0" y="14" width="122" height="32" rx="8" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.3"/><text x="315.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">Finder api</text><line x1="505.0" y1="44" x2="505.0" y2="646" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="444.0" y="14" width="122" height="32" rx="8" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.3"/><text x="505.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">access</text><line x1="695.0" y1="44" x2="695.0" y2="646" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="634.0" y="14" width="122" height="32" rx="8" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.3"/><text x="695.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">escalation</text><line x1="885.0" y1="44" x2="885.0" y2="646" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="824.0" y="14" width="122" height="32" rx="8" fill="#e5f6ee" stroke="#9fd8bd" stroke-width="1.3"/><text x="885.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">audit + metrics</text><line x1="1075.0" y1="44" x2="1075.0" y2="646" stroke="#c0c7d6" stroke-dasharray="4 4"/><rect x="1014.0" y="14" width="122" height="32" rx="8" fill="#fff4de" stroke="#f0cf90" stroke-width="1.3"/><text x="1075.0" y="33.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1d2433">Developer (P4)</text><line x1="127.0" y1="68.4" x2="312.0" y2="68.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="220.0" y="63.4" font-size="11" text-anchor="middle" fill="#1d2433">POST escalations {search_id}</text><line x1="317.0" y1="102.4" x2="502.0" y2="102.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="410.0" y="97.4" font-size="11" text-anchor="middle" fill="#1d2433">authorize</text><line x1="317.0" y1="136.4" x2="692.0" y2="136.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="505.0" y="131.4" font-size="11" text-anchor="middle" fill="#1d2433">record escalation</text><line x1="693.0" y1="170.4" x2="318.0" y2="170.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="505.0" y="165.4" font-size="11" text-anchor="middle" fill="#1d2433">link /e/id</text><line x1="317.0" y1="204.4" x2="882.0" y2="204.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="600.0" y="199.4" font-size="11" text-anchor="middle" fill="#1d2433">audit + metric</text><line x1="313.0" y1="238.4" x2="128.0" y2="238.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="220.0" y="233.4" font-size="11" text-anchor="middle" fill="#1d2433">Escalation_Link</text><rect x="75.0" y="258.4" width="1050.0" height="22" rx="4" fill="#fff4de" stroke="#f0cf90"/><text x="600.0" y="273.4" font-size="10.5" text-anchor="middle" fill="#6b4a00">pasted into the team chat</text><line x1="1073.0" y1="306.4" x2="318.0" y2="306.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="695.0" y="301.4" font-size="11" text-anchor="middle" fill="#1d2433">GET escalations/id (signed in)</text><line x1="317.0" y1="340.4" x2="502.0" y2="340.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="410.0" y="335.4" font-size="11" text-anchor="middle" fill="#1d2433">authorize viewer</text><rect x="20" y="360.4" width="1160" height="22" fill="#eef0f4" stroke="#d9deea"/><text x="28" y="375.4" font-size="11" font-weight="700" fill="#5b6478">alt: viewer is a member of the project and environment</text><path d="M315.0,400.4 h26 v14 h-26" fill="none" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="347.0" y="409.4" font-size="11" fill="#1d2433">re-run the filter set</text><path d="M315.0,434.4 h26 v14 h-26" fill="none" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="347.0" y="443.4" font-size="11" fill="#1d2433">mask under the viewer's rights</text><line x1="317.0" y1="476.4" x2="882.0" y2="476.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="600.0" y="471.4" font-size="11" text-anchor="middle" fill="#1d2433">audit link open</text><line x1="317.0" y1="510.4" x2="1072.0" y2="510.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="695.0" y="505.4" font-size="11" text-anchor="middle" fill="#1d2433">filters + results</text><rect x="20" y="530.4" width="1160" height="22" fill="#eef0f4" stroke="#d9deea"/><text x="28" y="545.4" font-size="11" font-weight="700" fill="#5b6478">else: no membership</text><line x1="317.0" y1="578.4" x2="882.0" y2="578.4" stroke="#5b6478" stroke-width="1.3" marker-end="url(#ar)"/><text x="600.0" y="573.4" font-size="11" text-anchor="middle" fill="#1d2433">audit access denied</text><line x1="317.0" y1="612.4" x2="1072.0" y2="612.4" stroke="#5b6478" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#ar)"/><text x="695.0" y="607.4" font-size="11" text-anchor="middle" fill="#1d2433">403, no content</text></svg></div>
+  <h3>D. Raw view, copy and True_Raw</h3>
+  <div class="card"><ol class="steps">
+    <li>Result opens as masked Simplified_View. "Raw" shows the pretty-printed masked line, original timestamps kept; the open is audited.</li>
+    <li>Copy buttons show whether the copy is masked or unmasked; each copy is recorded with its type (simplified, raw masked, raw unmasked, True_Raw).</li>
+    <li>The masking toggle and True_Raw appear only when an unmask grant exists for this project and environment (<code>GET /results/{id}/true-raw</code> checks the right again).</li>
+    <li>For True_Raw the line is fetched again from Loki using the stored line reference; the audit entry is written <b>before</b> the response; nothing is cached.</li>
+    <li>A new search or a new session switches masking back on.</li></ol></div>
+  <h3>E. UI state to API response</h3>
+  <div class="card"><table>
+    <tr><th>Situation</th><th>API behavior</th><th>Screen</th></tr>
+    <tr><td>No time or vague time not confirmed</td><td>409 <code>confirmation_required</code> / 422 <code>window_required</code></td><td>Chip with proposed window, confirm button</td></tr>
+    <tr><td>Window beyond Max_Range</td><td>422 <code>window_too_large</code> with the limit</td><td>Message with the limit</td></tr>
+    <tr><td>Invalid filter value</td><td>422 <code>invalid_filter</code> with expected format</td><td>Field error, no query</td></tr>
+    <tr><td>LLM unavailable or slow (10 s proposed)</td><td>503 <code>nl_unavailable</code> with rule-based chips</td><td>Banner, manual filters keep working</td></tr>
+    <tr><td>Unknown term in sentence</td><td>Dropped, listed in <code>not_understood[]</code></td><td>Note under chips, other chips kept</td></tr>
+    <tr><td>More matches than cap</td><td><code>more_available: true</code></td><td>"More matches exist, narrow the search"</td></tr>
+    <tr><td>No match</td><td><code>nothing_found: true</code></td><td>Nothing found + widen / ask an engineer</td></tr>
+    <tr><td>One source failed</td><td><code>partial: true</code>, failed source named</td><td>Partial banner</td></tr>
+    <tr><td>All sources failed</td><td>Outage recorded</td><td>"Ask an engineer through the usual team chat"</td></tr>
+    <tr><td>Database busy</td><td>429 <code>source_busy</code></td><td>"Try again later"</td></tr>
+    <tr><td>Line cannot be parsed</td><td>Raw line returned</td><td>Raw view with "could not be simplified"</td></tr>
+    <tr><td>No access / no unmask right</td><td>403 with no content or counts; audited</td><td>Access denied, toggle hidden</td></tr>
+  </table></div>
+  <h3>F. Main API surface (all under <code>/api/v1</code>, JSON)</h3>
+  <div class="card"><table>
+    <tr><th>Call</th><th>Purpose</th></tr>
+    <tr><td><code>POST /session</code>, <code>GET /session</code>, <code>DELETE /session</code></td><td>Sign in, current user and granted projects, sign out (session cookie + CSRF token)</td></tr>
+    <tr><td><code>POST /projects/{p}/nl/translate</code></td><td>Sentence to unconfirmed filter set</td></tr>
+    <tr><td><code>POST /projects/{p}/filters/validate</code></td><td>Validate manual filters</td></tr>
+    <tr><td><code>POST /projects/{p}/searches</code></td><td>Run a confirmed search (<code>confirmed: true</code> required)</td></tr>
+    <tr><td><code>GET /results/{id}/raw</code>, <code>GET /results/{id}/true-raw</code>, <code>POST /results/{id}/copies</code></td><td>Raw view, True_Raw (needs unmask right), record and return copy text</td></tr>
+    <tr><td><code>POST /escalations</code>, <code>GET /escalations/{id}</code></td><td>Create and open Escalation_Link</td></tr>
+    <tr><td><code>/admin/users</code>, <code>/admin/projects/{p}/grants|bindings|dictionary|identifiers|config/{kind}</code></td><td>Admin screens</td></tr>
+    <tr><td><code>GET /audit</code>, <code>GET /metrics/projects/{p}/weekly</code>, <code>PUT /metrics/projects/{p}/pings</code></td><td>Audit and pilot metrics</td></tr>
+  </table></div>
+</section>
+
+<!-- ============ MAP ============ -->
+<section class="tab" id="t-map">
+  <h2>Screen-to-requirement map</h2>
+  <div class="card"><table>
+    <tr><th>Screen / element</th><th>Requirements</th><th>Notes</th></tr>
+    <tr><td>Sign in</td><td>1</td><td>Local accounts, generic error, idle timeout</td></tr>
+    <tr><td>Project selector, environment switch</td><td>3, 4</td><td>Only granted environments are clickable; production is not offered</td></tr>
+    <tr><td>Sentence box, "Understand"</td><td>10</td><td>Internal LLM, filter set only, nothing runs before confirmation</td></tr>
+    <tr><td>Manual filters, chips</td><td>6, 12, 7, 8, 9</td><td>Multiple values per identifier; window chip; WIB</td></tr>
+    <tr><td>Term dictionary (admin), "unconfirmed mapping" label</td><td>11</td><td>Dictionary owned by a BA, confirmed by a Developer</td></tr>
+    <tr><td>Results summary, grouping, "nothing found", partial</td><td>14, 24, 7.5</td><td>Counts, window in WIB, sources searched</td></tr>
+    <tr><td>Simplified view</td><td>15, 16</td><td>Parsed by rules; fields set per project</td></tr>
+    <tr><td>Raw view, copy buttons, mask state</td><td>17, 18, 19</td><td>Masked by default; copies audited</td></tr>
+    <tr><td>Unmask toggle, True_Raw</td><td>20</td><td>Only with the right; audited</td></tr>
+    <tr><td>Ask an engineer, Escalation link page</td><td>25</td><td>Only shareable link; re-checks access</td></tr>
+    <tr><td>History and "no identifier, no time" guidance</td><td>13</td><td>Own history only</td></tr>
+    <tr><td>Admin: accounts, grants, sources, masking, limits</td><td>2, 3, 5, 19, 20, 21 to 23</td><td>DB disabled until limits approved</td></tr>
+    <tr><td>Metrics and audit</td><td>26, 27</td><td>PM and System Architect only</td></tr>
+  </table></div>
+  <h3>What this mockup does not decide</h3>
+  <div class="card"><ul>
+    <li>Final visual design, wording (Indonesian vs English labels) and responsive behavior.</li>
+    <li>Raw and simplified view details until a masked log sample exists (V-10).</li>
+    <li>Database lookup screen: shown only as an enabled or disabled source; the template picker is not designed (D-03 pending).</li>
+    <li>Grafana Assistant and image input: deferred, not in the MVP.</li>
+    <li>Parameter values (windows, caps, timeouts) are proposals until the Loki spike.</li>
+  </ul></div>
+</section>
+</main>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  // main tabs
+  $$('#tabs button').forEach(function(b){b.onclick=function(){
+    $$('#tabs button').forEach(function(x){x.classList.toggle('on',x===b)});
+    $$('section.tab').forEach(function(s){s.classList.toggle('on',s.id==='t-'+b.dataset.t)});
+    window.scrollTo(0,0);}});
+
+  var state={env:'UAT',page:'search',chips:[],sel:null,view:'simplified',masked:true};
+  var roleNames={searcher:'QA Engineer',unmasker:'BA (Unmask_Right: BCAS UAT)',bizadmin:'BA, Project Admin',accessadmin:'DevOps, Project Admin',pm:'Project Manager',dev:'Developer'};
+  var sentence={
+    found:'<CIF> di jam 15:00:33 ini ya, minta tolong ambilin log ganti rek sumber di RC',
+    vague:'tadi sore ada error ganti rek sumber di UAT, cif <CIF>',
+    nothing:'H2H error lagi jam 9.58, connection timeout',
+    partial:'minta log ganti rek sumber jam 15:00:33 cif <CIF> di UAT',
+    nonl:'<CIF> jam 15:00:33 ganti rek sumber',
+    noid:'minta log lagi ya'
+  };
+  var chipsFor={
+    found:[['Time','today 15:00:33 ±5 min WIB'],['Env','RC'],['CIF','00012345'],['Feature','ganti rek sumber']],
+    vague:[['Time','today 13:00 to 17:00 WIB (proposed, please confirm)','warn'],['Env','UAT'],['CIF','00012345'],['Feature','ganti rek sumber']],
+    nothing:[['Time','today 09:28 to 10:28 WIB'],['Env','UAT'],['Text','connection timeout'],['Text','H2H','unconfirmed mapping']],
+    partial:[['Time','today 15:00:33 ±5 min WIB'],['Env','UAT'],['CIF','00012345'],['Feature','ganti rek sumber']],
+    nonl:[['Time','today 15:00:33 ±5 min WIB'],['Env','UAT'],['CIF','00012345'],['Feature','ganti rek sumber']],
+    noid:[]
+  };
+  function role(){return $('#role').value}
+  function scen(){return $('#scen').value}
+  function applyRole(){
+    var r=role();
+    $$('[data-roles]').forEach(function(e){e.classList.toggle('hide',e.dataset.roles.split(' ').indexOf(r)<0)});
+    $('#whoami').textContent=roleNames[r];
+    var defaultPage={pm:'metrics',bizadmin:'adminbiz',accessadmin:'adminacc',dev:'esc'}[r]||'search';
+    show(defaultPage);
+    resetSearch();
+  }
+  function show(p){
+    state.page=p;
+    $$('.page').forEach(function(x){ if(x.id==='p-login')return; x.classList.add('hide')});
+    var el=$('#p-'+p); if(el) el.classList.remove('hide');
+    $$('.side a[data-p]').forEach(function(a){a.classList.toggle('on',a.dataset.p===p)});
+    $('#envseg').classList.toggle('hide',['search','history','esc'].indexOf(p)<0 && p!=='search');
+  }
+  $$('.side a[data-p]').forEach(function(a){a.onclick=function(){show(a.dataset.p)}});
+  $('#signout').onclick=function(){$('#app').classList.add('hide');$('#p-login').classList.remove('hide')};
+  $('#dologin').onclick=function(){$('#p-login').classList.add('hide');$('#app').classList.remove('hide')};
+  $$('#envseg span').forEach(function(s){s.onclick=function(){
+    if(s.classList.contains('off'))return;
+    state.env=s.dataset.env;$$('#envseg span').forEach(function(x){x.classList.toggle('on',x===s)});
+    if(role()==='unmasker'||true){renderResults();}
+  }});
+  function seg(id,prefix){ $$(id+' span').forEach(function(s){s.onclick=function(){
+    $$(id+' span').forEach(function(x){x.classList.toggle('on',x===s)});
+    $$('[id^="'+prefix+'"]').forEach(function(d){d.classList.toggle('hide',d.id!==prefix+s.dataset.s)});}});}
+  seg('#bizseg','biz-');seg('#accseg','acc-');
+  $('#denybtn').onclick=function(){$('#denied').classList.toggle('hide')};
+  $$('.reopen').forEach(function(b){b.onclick=function(){show('search');$('#nl').value='[reopened search]';loadChips('found')}});
+
+  // search
+  function resetSearch(){
+    var s=scen();
+    $('#nl').value=sentence[s];
+    $('#chipzone').classList.add('hide');$('#results').classList.add('hide');$('#guidance').classList.add('hide');
+    state.sel=null;state.view='simplified';state.masked=true;
+    $('#nlnote').innerHTML=(s==='nonl')?'<span style="color:var(--bad)">The language helper is unavailable. Manual filters still work; basic chips below come from simple rules.</span>':'Only your sentence, the project\'s term list and identifier types go to the internal LLM. Log content never does.';
+    $('#understand').disabled=(s==='nonl')?false:false;
+  }
+  function renderChips(){
+    var h='';state.chips.forEach(function(c,i){
+      h+='<span class="chip"><b>'+c[0]+'</b> '+c[1]+(c[2]?' <i>'+(c[2]==='warn'?'confirm':c[2])+'</i>':'')+' <u data-i="'+i+'" title="Remove or edit">✎</u><u data-x="'+i+'" title="Remove">×</u></span>';});
+    $('#chips').innerHTML=h;
+    $$('#chips u[data-x]').forEach(function(u){u.onclick=function(){state.chips.splice(+u.dataset.x,1);renderChips()}});
+    $$('#chips u[data-i]').forEach(function(u){u.onclick=function(){var c=state.chips[+u.dataset.i];var v=prompt('Edit '+c[0],c[1]);if(v){c[1]=v;c[2]=null;renderChips()}}});
+    var m='',s=scen();
+    if(s==='vague')m+='<div class="msg m-warn"><b>Time needs confirmation.</b> "tadi sore" is vague. The Finder proposes today 13:00 to 17:00 WIB. Edit the chip or confirm; no query runs until you do (Req 9).</div>';
+    if(s==='nothing')m+='<div class="msg m-info"><b>Not understood:</b> "lagi". <b>H2H</b> is not in the BCAS term list: shown as free text. <a href="#" onclick="return false">Report missing term to the BA</a></div>';
+    if(s==='nonl')m+='<div class="msg m-warn"><b>Language helper unavailable.</b> Chips were filled by simple rules (time, environment, CIF, known terms). Check them, or use manual filters.</div>';
+    $('#chipmsgs').innerHTML=m;
+    $('#limits').textContent='Window up to 24 h (project maximum) · results capped at 500 lines · proposals';
+  }
+  function loadChips(s){
+    state.chips=(chipsFor[s]||[]).map(function(c){return c.slice()});
+    if(s==='noid'){ $('#chipzone').classList.add('hide'); showGuidance(); return;}
+    $('#guidance').classList.add('hide');
+    $('#chipzone').classList.remove('hide');$('#results').classList.add('hide');renderChips();
+  }
+  function showGuidance(){
+    $('#guidance').classList.remove('hide');$('#results').classList.add('hide');
+    $('#guidance').innerHTML='<div class="msg m-warn"><b>Nothing to search yet.</b> Add a CIF, an account number or a time (Req 13). No query was run.</div>'+
+      '<div class="card"><b>Your earlier searches in BCAS</b><table><tr><th>When</th><th>Filters</th><th></th></tr>'+
+      '<tr><td>today 14:12</td><td>hashcard ••••a91c · "ganti sof"</td><td><button class="btn sm" onclick="document.querySelector(\'#scen\').value=\'found\';document.querySelector(\'#resetbtn\').click()">Reopen</button></td></tr>'+
+      '<tr><td>today 11:23</td><td>account no ••••5521</td><td><button class="btn sm">Reopen</button></td></tr></table></div>';
+  }
+  $('#understand').onclick=function(){loadChips(scen())};
+  $('#clearbtn').onclick=function(){$('#nl').value='';$('#chipzone').classList.add('hide');$('#results').classList.add('hide')};
+  $('#addchips').onclick=function(){loadChips(scen()==='noid'?'found':scen())};
+  $('#runsearch').onclick=function(){state.sel=null;state.view='simplified';state.masked=true;renderResults()};
+
+  // results
+  var maskedTxt=function(m,full,part){return m?part:full};
+  function lvl(l){return '<span class="lvl '+(l==='ERROR'?'l-err':l==='WARN'?'l-warn':'l-info')+'">'+l+'</span>'}
+  var lines=[
+    {id:'r-8841',svc:'account-service',t:'15:00:33',l:'INFO',corr:'',ver:'1.8.2',msg:'Change source account requested',data:{action:'CHANGE_SOURCE_ACCOUNT',cif:'00012345',acct:['5500123456','••••3456'],status:'REQUESTED'}},
+    {id:'r-8842',svc:'account-service',t:'15:00:34',l:'ERROR',corr:'',ver:'1.8.2',msg:'Validation failed: source account not eligible',data:{action:'CHANGE_SOURCE_ACCOUNT',cif:'00012345',acct:['5500123456','••••3456'],status:'REJECTED',reason:'ACCOUNT_NOT_ELIGIBLE'}},
+    {id:'r-8843',svc:'notification-service',t:'15:00:35',l:'INFO',corr:'',ver:'2.3.0',msg:'Push notification queued',data:{channel:'PUSH',cif:'00012345',acct:['5500123456','••••3456'],template:'SRC_ACCT_FAILED'}}
+  ];
+  function p(c){return c[0]===c[1]?c[0]:c[1]}
+  function renderResults(){
+    var s=scen(),R=$('#results'),env=state.env;
+    if(s==='found'||s==='partial'||s==='nonl'||s==='vague'||s==='noid'){
+      var partial=(s==='partial');
+      var h='<div class="summary"><span><b>3 lines</b> found</span><span>Window <b>14:55:33 to 15:05:33 WIB</b></span><span>Env <b>'+env+'</b></span><span>Sources <b>Loki</b>'+(partial?' · <span class="badge b-bad">database failed</span>':'')+'</span><span class="sp"></span><button class="btn sm" id="adjust">Adjust chips</button> <button class="btn sm" id="ask">Ask an engineer</button></div>';
+      if(partial)h+='<div class="msg m-warn"><b>Partial result.</b> The database source timed out; Loki results are shown. This is not "nothing found". Try again later or ask an engineer.</div>';
+      h+='<div class="chips"><span class="chip"><b>Time</b> 15:00:33 ±5 min WIB</span><span class="chip"><b>Env</b> '+env+'</span><span class="chip"><b>CIF</b> 00012345</span><span class="chip"><b>Feature</b> ganti rek sumber</span></div>';
+      h+='<div class="msg m-info" style="font-size:12.5px">Lines below are <b>not linked by correlation_id</b> (it is empty), so they are grouped by service.</div>';
+      var cur='';
+      lines.forEach(function(L,i){
+        if(L.svc!==cur){cur=L.svc;h+='<div class="grp">'+cur+' <span class="badge b-mute">not linked by correlation_id</span></div>';}
+        h+='<div class="line'+(state.sel===i?' sel':'')+'" data-i="'+i+'"><div class="hd"><b style="color:var(--ink)">'+L.t+' WIB</b>'+lvl(L.l)+'<span>'+env+'</span><span>'+L.svc+' '+L.ver+'</span><span>matched CIF <b>00012345</b></span></div><div class="tx">'+L.msg+'</div></div>';
+      });
+      h+='<div id="detail"></div>';
+      R.innerHTML=h;R.classList.remove('hide');$('#guidance').classList.add('hide');
+      $$('#results .line').forEach(function(d){d.onclick=function(){state.sel=+d.dataset.i;state.view='simplified';state.masked=true;renderResults();}});
+      $('#adjust').onclick=function(){R.classList.add('hide');};
+      $('#ask').onclick=ask;
+      if(state.sel!==null)renderDetail();
+    } else if(s==='nothing'){
+      R.innerHTML='<div class="summary"><span><b>0 lines</b></span><span>Window <b>09:28 to 10:28 WIB</b></span><span>Env <b>'+env+'</b></span><span>Sources <b>Loki</b></span></div>'+
+        '<div class="msg m-info"><b>Nothing found</b> for "connection timeout" in UAT, Loki, 09:28 to 10:28 WIB. The source answered; there were no matching lines.</div>'+
+        '<div class="tools"><button class="btn">Widen window to 08:58 to 10:58</button><button class="btn pri" id="ask">Ask an engineer</button></div>';
+      R.classList.remove('hide');$('#ask').onclick=ask;
+    }
+  }
+  function renderDetail(){
+    var L=lines[state.sel],D=$('#detail'),r=role(),canU=(r==='unmasker'&&state.env==='UAT');
+    var m=state.masked, v=state.view;
+    var h='<div class="detail"><div class="tools"><b>'+L.svc+' · '+L.t+' WIB</b><span class="sp"></span>'+
+      '<div class="seg" id="vseg"><span data-v="simplified" class="'+(v==='simplified'?'on':'')+'">Simplified</span><span data-v="raw" class="'+(v!=='simplified'?'on':'')+'">Raw</span></div></div>';
+    if(v==='simplified'){
+      h+='<div class="kv"><div>Time</div><div>'+L.t+' WIB</div><div>Environment</div><div>'+state.env+'</div><div>project_name</div><div>bcas</div><div>project_module</div><div>'+L.svc+'</div><div>module_version</div><div>'+L.ver+'</div><div>correlation_id</div><div>'+(L.corr||'<span class="req">(empty)</span>')+'</div><div>log_data</div><div class="mono">'+JSON.stringify({action:L.data.action,cif:L.data.cif,account_no:(m?L.data.acct[1]:L.data.acct[0])},null,1).replace(/\n/g,'<br>').replace(/ /g,'&nbsp;')+'<br>message: '+L.msg+'</div></div>';
+    } else {
+      var tok=m?'<span class="mk-text">[hidden]</span>':'eyJhbGciOiJSUzI1NiJ9.sample.sig';
+      var cif=L.data.cif, acct=m?L.data.acct[1]:L.data.acct[0];
+      h+='<pre class="raw">{\n  "time_utc": "2026-11-26T08:00:33.412Z",\n  "time_local": "2026-11-26T15:00:33.412+0700",\n  "level": "'+L.l+'",\n  "project_name": "bcas",\n  "project_module": "'+L.svc+'",\n  "module_version": "'+L.ver+'",\n  "correlation_id": "",\n  "headers": { "authorization": "Bearer '+tok+'" },\n  "log_data": { "action": "'+L.data.action+'", "cif": "'+cif+'", "account_no": "'+acct+'" },\n  "message": "'+L.msg+'"\n}</pre>';
+    }
+    h+='<div class="tools"><button class="btn sm cp" data-t="simplified">Copy simplified</button><button class="btn sm cp" data-t="raw">Copy raw</button>'+
+       '<span class="state-pill '+(m?'sp-m':'sp-u')+'">'+(m?'masked':'UNMASKED')+'</span>';
+    if(canU){h+='<span class="sp"></span><label class="req"><input type="checkbox" id="unm" '+(m?'':'checked')+'> Show unmasked (audited)</label> <button class="btn sm" id="tr">True_Raw</button>'}
+    h+='</div><div class="req">The CIF you searched for is shown in full to you only; other identifiers stay masked unless you hold the right. Copies are recorded in the audit log with their type. Masking returns to on for your next search.</div><div id="toast"></div></div>';
+    D.innerHTML=h;
+    $$('#vseg span').forEach(function(s){s.onclick=function(){state.view=s.dataset.v;renderDetail()}});
+    $$('.cp').forEach(function(b){b.onclick=function(){$('#toast').innerHTML='<div class="msg m-ok">Copied '+b.dataset.t+' ('+(state.masked?'masked':'unmasked')+'). Audit entry written.</div>'}});
+    if(canU){$('#unm').onchange=function(){state.masked=!this.checked;renderDetail()};$('#tr').onclick=function(){$('#toast').innerHTML='<div class="msg m-warn">True_Raw fetched again from Loki. Audit entry written before this was shown; nothing is cached.</div>'}}
+    D.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  function ask(){
+    var R=$('#results'),box=document.createElement('div');
+    box.innerHTML='<div class="msg m-ok"><b>Escalation recorded.</b> Paste this link into the team chat: <code>https://finder.soluix.internal/e/e-512</code><br><span class="req">Anyone opening it must sign in and have access to BCAS '+state.env+'. They see the search under their own masking rights.</span></div>';
+    R.insertBefore(box,R.firstChild);
+  }
+  $('#role').onchange=applyRole;
+  $('#scen').onchange=function(){resetSearch();show('search')};
+  $('#resetbtn').onclick=function(){applyRole()};
+  // init
+  show('search');applyRole();
+})();
+</script>
+</body>
+</html>
+

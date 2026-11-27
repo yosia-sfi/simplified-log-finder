@@ -312,3 +312,7 @@ Working deck: `Simplified_Log_Finder_Inception_Update_Nov_2026_filled_v3.pptx` (
 ## Update 2026-11-26: Screenshots added (A-143)
 
 Slide "AI proposes, humans decide": image of `stage2-questions.md` C-01 and C-04 (recommended option vs the human answer). Slide "Every requirement traces back to a real chat": image of `requirements.md` Requirement 10. Both are rendered excerpts with the client name and the approver name masked. The pilot ping chart is not in v3 (slide removed); add it when the baseline count exists.
+
+## Update 2026-11-26: Gate approved (A-144)
+
+Inception closed. For the deck: slide 1 and the progress slide can say "5 of 5 stages done; gate approved" (currently "gate pending" / "In review"). Speed is final at about 2 working days (25 to 26 Nov). The deck still has no human-effort figure or confidence score (N-028). Refresh the status lines when the user asks.

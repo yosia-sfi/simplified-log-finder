@@ -606,3 +606,53 @@ N-012 closed: requirements.md status line updated to Approved 2026-11-25.
 |---|---|---|---|---|---|
 | A-143 | 2026-11-26 | Screenshot placeholders on two slides filled with rendered excerpts (masking: client name and the approver name replaced by blocks; identifiers were already placeholders). The weekly-ping chart placeholder no longer exists in v3 (the baseline slide was removed); no diagram image added to the architecture slide (its diagram is native shapes) | `deck-update-inputs.md` screenshot needs | User | Done |
 | N-027 | 2026-11-26 | Images are not real screenshots; the user may replace them with real captures. Not checked visually in PowerPoint | Tool limit | Open |
+
+## Entry 2026-11-26: Human Review Gate approved
+
+**User Input**: "approve the gate"
+**AI Response**: Recorded the approval; closed Inception; updated state, gate document, deck tracker and handoff.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-144 | 2026-11-26 | Human Review Gate approved without changes. Inception package accepted: requirements.md v1.0 (A-085), design.md v1.0 (A-116), tasks.md v1.0 (A-136) and supporting records. The approval also accepts: due dates for open items deferred to task execution (TD-13, N-018); the D5-02 controls for automatic deploy on main (A-137); the unverified assumptions V-01..V-11 as listed in the gate document | Brief §3 Human Review Gate | User | Decided |
+| A-145 | 2026-11-26 | Construction is unblocked. First step: Wave 1 (U1), which starts when the Developers confirm the stack (H-04). Construction work is out of scope of this Inception run; no application code was written | tasks.md Wave 1 | AI | Ready to start on user request |
+| N-028 | 2026-11-26 | Retrospective values not provided at the gate: human-effort hours and confidence score (1 to 5). Speed final: brief start 2026-11-25 09:18 +0700, gate approved 2026-11-26, about 2 working days. The deck shows the legacy SDLC estimate instead of confidence | Gate reply | Open: team can add the two values later |
+
+### Stage log (additions)
+
+| Date | Stage | Event | Artifacts |
+|---|---|---|---|
+| 2026-11-26 | Gate | Human Review Gate approved; Inception closed | `inception/human-review-gate.md`, `aidlc-state.md` |
+
+## Entry 2026-11-26: Checkpoint before Construction; draft Construction progress deck
+
+**User Input**: "put checkpoint here for now before the actual Construction. The actual Construction will be scheduled in a few days ahead. for now, i need your help to create a new draft slide deck as follows: 1. the slide deck content is for a future presentation about the RESULT PROGRESS of the actual construction phase. 2. since it's for future, feel free to put placeholder info. 3. The theory of construction phase, refer to Reference AI DLC Workshop v3.pptx starting in slide 20. 4. the slide deck must use the same theme as ..._filled_v4.pptx and becoming a continuation update progress of that deck (but just create new deck, don't add slides on the previous ones). 5. put the slide deck draft in output-docs"
+**AI Response**: Recorded the checkpoint (Construction not started, scheduled by the user for a few days later). Built a new 12-slide draft deck from a copy of the v4 package (same theme, master and layouts); v3 and v4 untouched.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-146 | 2026-11-26 | Checkpoint: Inception closed (A-144); Construction is NOT started and is scheduled by the user for a few days later. Nothing to resume until then except H-04 (Developers confirm stack), then Wave 1 (U1) per tasks.md. No application code exists | User request | User | Decided |
+| A-147 | 2026-11-26 | New draft deck `output-docs/Simplified_Log_Finder_Construction_Progress_DRAFT.pptx` (12 slides: title; Construction bolt theory; plan of 6 waves; progress; bolt stats; AI vs human; Verify evidence; gates and risks; demo plan; six retrospective metrics; experience; pilot and Operations). Theory taken from reference deck slides 20 to 32. Facts reused from Inception (waves, gates H-04/V-01/V-10/D-03/D5-02, TD-05/06/07/08/11/13, 101 gaps, 24 of 24 chats, targets). Everything that depends on Construction results is a placeholder in [brackets] | User request | AI | Draft |
+| N-029 | 2026-11-26 | The draft deck was checked by script only (valid XML and relationships, text-fit estimate); not opened in PowerPoint (no renderer here). Unreferenced media from v4 (two images) not carried over. docProps/app.xml still lists the old v4 titles; PowerPoint refreshes it on save | Tool limit | Open |
+
+
+## Entry 2026-11-26: Draft UI mockup and flows
+
+**User Input**: "from the current inception result, can you make a draft of mockup UI and flow (both business flow and technical flow) of the product that we want to make at the end? put the results in output-docs"
+**AI Response**: Built one self-contained HTML file from requirements.md and design.md v1.0: clickable UI mockup, business swimlane, technical flows.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-148 | 2026-11-26 | New draft `output-docs/Simplified_Log_Finder_UI_Mockup_and_Flows_DRAFT.html` (no internet needed). Tabs: overview; clickable mockup (sign in, search with chips, results grouped by service, simplified and raw view, copy with mask state, unmask toggle by role, ask an engineer, escalation link, history, admin business config, admin access and sources, pilot metrics, audit log; six scenarios incl. vague time, nothing found, partial, NL unavailable, no identifier); business swimlane; technical flow (component diagram, happy-path and escalation sequences, raw/copy/True_Raw steps, UI state to API response table, API list); screen-to-requirement map | Req 1 to 27, design.md Architecture, API Contract, Key Flows, Error Handling | AI | Draft |
+| N-030 | 2026-11-26 | Layout, wording and left-menu structure are AI proposals, not decided by the team. All data is synthetic; limit values shown are the design's proposals (exact window +-5 min, approximate +-30 min, max range 24 h, cap 500, partial keep last 4). Not opened in a browser here (no browser or node available): HTML, script and diagrams checked by reading and by generation script only | Tool limit | Open |
+
+
+## Entry 2026-11-26: Side quests do not affect the AI-DLC main flow
+
+**User Input**: "please take note, the slide deck generation and the flow / mockup generation should not impact the next AIDLC process / decision / tasks. it's just a 'side quest' from our 'main quest'"
+**AI Response**: Recorded as a standing rule. A-147 (Construction progress draft deck) and A-148 (UI mockup and flows) are side quests.
+
+| ID | Date | Decision | Rationale / source | Who decided | Status |
+|---|---|---|---|---|---|
+| A-149 | 2026-11-26 | Standing rule: everything in `output-docs/` (decks, UI mockup and flows, and similar) is a side quest. It is not an AI-DLC input. It must not change requirements.md, design.md, tasks.md, any _decisions-*.md, decision IDs, wave order, gates or task status, and must not be used as evidence that a decision was made. If a side quest suggests a change to the spec, raise it as a question to the user; only an explicit user decision logged in the main flow can change the spec. Construction resumes from tasks.md and design.md as approved (A-144), not from the side-quest files | User | User | Decided |
+

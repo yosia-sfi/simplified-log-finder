@@ -28,7 +28,7 @@
 | 3 Specify | Phase 1 Requirements → `.kiro/specs/simplified-log-finder/requirements.md` | **Approved 2026-11-25** (A-085; A-084 behaviors accepted by approval, A-086) |
 | 4 Design | Phase 2 Design → `_decisions-design.md`, then `design.md` | **Approved 2026-11-26** (A-116) |
 | 5 Plan | Phase 3 Tasks / units of work | **Approved 2026-11-26** (A-136) |
-| Human Review Gate | Full package approval before Construction | **Awaiting approval**: `inception/human-review-gate.md` (A-138) |
+| Human Review Gate | Full package approval before Construction | **Approved 2026-11-26** (A-144) |
 
 ## Phase Progress
 - [x] Phase 0: Reverse Engineering (skipped: greenfield)
@@ -58,10 +58,18 @@
   - [x] 3a. _decisions-tasks.md created (2026-11-26: TD-01..TD-13, 7 Blockers; units U1–U6 proposed)
   - [x] 3b. _decisions-tasks.md completed by user (13 of 13, A-121 to A-133)
   - [x] 3c. tasks.md generated (2026-11-26, A-134; 6 waves, 15 tasks) and approved (A-136; D5-01..D5-06 accepted, A-137)
-- [ ] Human Review Gate (package prepared 2026-11-26: `aidlc-docs/inception/human-review-gate.md`; awaiting approval)
-- [ ] Construction (not started; no application code during Inception)
+- [x] Human Review Gate (approved 2026-11-26, A-144; package: `aidlc-docs/inception/human-review-gate.md`)
+- [ ] Construction (not started; unblocked by the gate; Wave 1 (U1) starts when the Developers confirm the stack, H-04; no application code written during Inception)
 
 ## Current Status
-**Phase**: Human Review Gate
-**Status**: Awaiting approval of the full inception package (`inception/human-review-gate.md`). Team to give human-effort hours and confidence (1–5). Approval accepts deferred due dates (N-018). Construction blocked until approved
-**Last Updated**: 2026-11-26 (Stage 5 approved; gate prepared)
+**Phase**: Inception complete; Construction ready to start
+**Status**: Human Review Gate approved 2026-11-26 (A-144). All five stages approved. Next: confirm the stack with the Developers (H-04), then run Wave 1 (U1) per `tasks.md`. Open gates: V-01 Loki access (before Wave 2), V-10 masked log sample (before Wave 3), D-03, retention values; human effort and confidence not yet recorded (N-028)
+**Last Updated**: 2026-11-26 (gate approved)
+
+### Checkpoint 2026-11-26 (before Construction)
+- Construction is scheduled by the user for a few days later; nothing running. Resume at: confirm stack with Developers (H-04), then Wave 1 (U1).
+- Draft deck for the future Construction progress update: `output-docs/Simplified_Log_Finder_Construction_Progress_DRAFT.pptx` (placeholders in [brackets]); decks v3 and v4 are in `output-docs/`.
+- Open: N-028 (human-effort hours, confidence score), N-029 (draft deck not opened in PowerPoint).
+
+### Rule (2026-11-26, A-149): side quests
+- Files in `output-docs/` (Construction progress draft deck, UI mockup and flows, earlier decks) are side quests. They do not change the AI-DLC specs, decisions, gates or tasks. Resume Construction from `tasks.md` and `design.md` only.
